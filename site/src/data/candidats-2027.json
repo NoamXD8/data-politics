@@ -31,14 +31,17 @@
    "famille": "exg",
    "fonction": "Porte-parole de Lutte ouvrière",
    "declaration": "2025-12-08",
-   "bio": "Professeure d'économie-gestion, porte-parole de Lutte ouvrière depuis 2008. Candidate à la présidentielle en 2012, 2017 et 2022."
+   "bio": "Professeure d'économie-gestion, porte-parole de Lutte ouvrière depuis 2008. Candidate à la présidentielle en 2012, 2017 et 2022.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Nathalie_Arthaud_(LO)_19-05-2024_(cropped).jpg"
   },
   {
    "nom": "Anasse Kazib",
    "parti": "Révolution permanente",
    "famille": "exg",
    "fonction": "Cheminot, porte-parole du mouvement",
-   "declaration": "2026-06-01"
+   "declaration": "2026-06-01",
+   "bio": "Cheminot, porte-parole de Révolution permanente depuis 2020.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Anasse_Kazib,_d%C3%A9cembre_2021.jpg"
   },
   {
    "nom": "Selma Labib",
@@ -53,7 +56,8 @@
    "famille": "lfi",
    "fonction": "Fondateur de La France insoumise",
    "declaration": "2026-05-03",
-   "bio": "Ancien sénateur socialiste de l'Essonne, ministre délégué à l'Enseignement professionnel (2000-2002), puis député européen et député des Bouches-du-Rhône (2017-2022). Fondateur du Parti de gauche (2008) et de La France insoumise (2016). Candidat à la présidentielle en 2012, 2017 et 2022."
+   "bio": "Ancien sénateur socialiste de l'Essonne, ministre délégué à l'Enseignement professionnel (2000-2002), puis député européen et député des Bouches-du-Rhône (2017-2022). Fondateur du Parti de gauche (2008) et de La France insoumise (2016). Candidat à la présidentielle en 2012, 2017 et 2022.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Jean-Luc_M%C3%A9lenchon_en_2026.png"
   },
   {
    "nom": "Fabien Roussel",
@@ -61,7 +65,8 @@
    "famille": "pcf",
    "fonction": "Secrétaire national du PCF, maire de Saint-Amand-les-Eaux",
    "declaration": "2026-09-06",
-   "bio": "Secrétaire national du Parti communiste français depuis 2018, ancien député du Nord (2017-2024). Candidat à la présidentielle en 2022."
+   "bio": "Secrétaire national du Parti communiste français depuis 2018, ancien député du Nord (2017-2024). Candidat à la présidentielle en 2022.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Fabien_Roussel.png"
   },
   {
    "nom": "Raphaël Glucksmann",
@@ -69,7 +74,8 @@
    "famille": "ps",
    "fonction": "Député européen, coprésident de Place publique",
    "declaration": "2026-08-23",
-   "bio": "Essayiste, cofondateur de Place publique (2018) et député européen depuis 2019. Tête de liste PS-Place publique aux européennes de 2024. Vainqueur en octobre 2026 de la primaire du camp social-démocrate."
+   "bio": "Essayiste, cofondateur de Place publique (2018) et député européen depuis 2019. Tête de liste PS-Place publique aux européennes de 2024. Vainqueur en octobre 2026 de la primaire du camp social-démocrate.",
+   "photo": "https://commons.wikimedia.org/wiki/File:1720448398743_20240708_GLUCKSMANN_Raphael_FR_006.jpg"
   },
   {
    "nom": "Karim Bouamrane",
@@ -77,7 +83,8 @@
    "famille": "ps",
    "fonction": "Maire de Saint-Ouen-sur-Seine",
    "declaration": "2026-06-09",
-   "bio": "Maire socialiste de Saint-Ouen-sur-Seine (Seine-Saint-Denis) depuis 2020."
+   "bio": "Maire socialiste de Saint-Ouen-sur-Seine (Seine-Saint-Denis) depuis 2020.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Karim_Bouamrane_en_2026.jpg"
   },
   {
    "nom": "Bernard Cazeneuve",
@@ -85,7 +92,8 @@
    "famille": "dvg",
    "fonction": "Ancien Premier ministre, fondateur de La Convention",
    "declaration": "2026-07-16",
-   "bio": "Ancien maire de Cherbourg et député de la Manche, ministre de l'Intérieur (2014-2016) puis Premier ministre (2016-2017). A quitté le Parti socialiste en 2022 et fondé le mouvement La Convention."
+   "bio": "Ancien maire de Cherbourg et député de la Manche, ministre de l'Intérieur (2014-2016) puis Premier ministre (2016-2017). A quitté le Parti socialiste en 2022 et fondé le mouvement La Convention.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Ministru_prezidents_Valdis_Dombrovskis_tiekas_ar_Francijas_Eiropas_lietu_ministru_Bern%C4%81ru_Kazen%C4%93vu_(Bernard_Cazeneuve)_(7985359635)_(cropped).jpg"
   },
   {
    "nom": "Marine Tondelier",
@@ -93,7 +101,8 @@
    "famille": "eco",
    "fonction": "Secrétaire nationale des Écologistes",
    "declaration": "2025-10-22",
-   "bio": "Secrétaire nationale d'EELV, devenu Les Écologistes, depuis 2022. Conseillère municipale d'opposition à Hénin-Beaumont (Pas-de-Calais) depuis 2014."
+   "bio": "Secrétaire nationale d'EELV, devenu Les Écologistes, depuis 2022. Conseillère municipale d'opposition à Hénin-Beaumont (Pas-de-Calais) depuis 2014.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Initial-presidentielle-2027-marine-tondelier.jpg"
   },
   {
    "nom": "Delphine Batho",
@@ -116,7 +125,8 @@
    "famille": "ens",
    "fonction": "Secrétaire général de Renaissance, président du groupe EPR à l'Assemblée",
    "declaration": "2026-05-22",
-   "bio": "Député des Hauts-de-Seine, ministre de l'Éducation nationale (2023-2024) puis Premier ministre de janvier à septembre 2024, le plus jeune de la Ve République."
+   "bio": "Député des Hauts-de-Seine, ministre de l'Éducation nationale (2023-2024) puis Premier ministre de janvier à septembre 2024, le plus jeune de la Ve République.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Gabriel_Attal_2025_redressed_and_cropped.jpg"
   },
   {
    "nom": "Édouard Philippe",
@@ -125,7 +135,8 @@
    "fonction": "Maire du Havre, président d'Horizons",
    "declaration": "2024-09-03",
    "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021).",
-   "groupe": "Droite"
+   "groupe": "Droite",
+   "photo": "https://commons.wikimedia.org/wiki/File:Edouard_Philippe_3x4_crop.jpg"
   },
   {
    "nom": "Olivier Becht",
@@ -141,7 +152,8 @@
    "famille": "dvc",
    "fonction": "Ancien Premier ministre, fondateur de La France humaniste",
    "declaration": "2026-11-20",
-   "bio": "Ministre des Affaires étrangères (2002-2004), de l'Intérieur (2004-2005), puis Premier ministre (2005-2007) sous Jacques Chirac. Fondateur du mouvement La France humaniste."
+   "bio": "Ministre des Affaires étrangères (2002-2004), de l'Intérieur (2004-2005), puis Premier ministre (2005-2007) sous Jacques Chirac. Fondateur du mouvement La France humaniste.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Dominique_de_Villepin_(2010).jpg"
   },
   {
    "nom": "Bruno Retailleau",
@@ -149,7 +161,8 @@
    "famille": "lr",
    "fonction": "Président des Républicains, sénateur de la Vendée",
    "declaration": "2026-04-19",
-   "bio": "Sénateur de la Vendée, président du groupe LR au Sénat (2014-2024), puis ministre de l'Intérieur (2024-2025). Président des Républicains depuis 2025."
+   "bio": "Sénateur de la Vendée, président du groupe LR au Sénat (2014-2024), puis ministre de l'Intérieur (2024-2025). Président des Républicains depuis 2025.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Bruno_Retailleau_-_Ministre_de_l%27Int%C3%A9rieur_fran%C3%A7ais_(3x4_cropped).jpg"
   },
   {
    "nom": "Xavier Bertrand",
@@ -165,7 +178,8 @@
    "famille": "dvd",
    "fonction": "Maire de Cannes, président de l'Association des maires de France",
    "declaration": "2026-03-31",
-   "bio": "Maire de Cannes depuis 2014 et président de l'Association des maires de France depuis 2021. Fondateur du parti Nouvelle Énergie."
+   "bio": "Maire de Cannes depuis 2014 et président de l'Association des maires de France depuis 2021. Fondateur du parti Nouvelle Énergie.",
+   "photo": "https://commons.wikimedia.org/wiki/File:David_Lisnard.jpg"
   },
   {
    "nom": "Gilles Platret",
@@ -190,7 +204,8 @@
    "fonction": "Présidente du groupe RN à l'Assemblée nationale",
    "declaration": "2026-07-07",
    "bio": "Présidente du Front national, devenu Rassemblement national, de 2011 à 2022. Députée du Pas-de-Calais depuis 2017. Candidate à la présidentielle en 2012, 2017 et 2022, qualifiée au second tour en 2017 et 2022.",
-   "note": "Sa candidature dépend d'une décision attendue de la Cour de cassation, à la suite de sa condamnation en appel en juillet 2026."
+   "note": "Sa candidature dépend d'une décision attendue de la Cour de cassation, à la suite de sa condamnation en appel en juillet 2026.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Marine_Le_Pen_2009.jpg"
   },
   {
    "nom": "Florian Philippot",
@@ -206,7 +221,8 @@
    "famille": "rec",
    "fonction": "Président de Reconquête",
    "declaration": "2026-09-17",
-   "bio": "Journaliste et essayiste, fondateur de Reconquête en 2021. Candidat à la présidentielle en 2022."
+   "bio": "Journaliste et essayiste, fondateur de Reconquête en 2021. Candidat à la présidentielle en 2022.",
+   "photo": "https://commons.wikimedia.org/wiki/File:Portrait_d%27%C3%89ric_Zemmour,_avril_2022.jpg"
   },
   {
    "nom": "François Asselineau",
