@@ -23,6 +23,7 @@ python -m pipeline.download      # ~220 Mo, une seule fois
 python -m pipeline.build         # produit data/processed/ (affiche un rapport de contrôle)
 python -m pipeline.sondages      # sondages 2022 (NSPPolls) : évolution, écarts, précision des instituts
 python -m pipeline.reports       # reports de voix entre les deux tours (estimation, ~1 min)
+python -m pipeline.sociologie    # vote × INSEE (voir ci-dessous pour le fichier INSEE)
 cd site && npm run dev           # http://127.0.0.1:3000
 ```
 
@@ -30,6 +31,13 @@ cd site && npm run dev           # http://127.0.0.1:3000
 Le périmètre (types de scrutins, année minimum, nombre de candidats affichés) se règle dans `pipeline/config.py`.
 
 Si tu relances le pipeline, vide le cache du site : `cd site && npm run clean`.
+
+### Données INSEE pour « Vote et sociologie »
+
+Télécharge la **Base du comparateur de territoires** (Parquet ou CSV) sur
+https://www.insee.fr/fr/statistiques/2521169 et place le fichier tel quel (zip accepté) dans `data/raw/insee/`.
+Le script reconnaît l'ancien et le nouveau format de l'INSEE ; s'il ne trouve pas les indicateurs,
+il affiche les codes disponibles : copie ce message pour adapter `pipeline/sociologie.py`.
 
 ## Tester sans les vraies données
 

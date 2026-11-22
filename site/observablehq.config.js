@@ -42,6 +42,7 @@ export default {
     {name: "Candidats 2027", path: "/candidats-2027"},
     {name: "Sondages 2022", path: "/sondages-2022"},
     {name: "Reports de voix", path: "/reports-de-voix"},
+    {name: "Vote et sociologie", path: "/vote-et-sociologie"},
     {name: "Méthodologie", path: "/methodologie"}
   ],
   dynamicPaths: [
