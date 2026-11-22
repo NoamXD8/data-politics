@@ -49,12 +49,18 @@ display(c.bio
 ## Programme
 
 ```js
-const themes = [...new Set((c.programme ?? []).map((p) => p.theme))];
-display(themes.length
-  ? html`<p class="explication">Propositions publiées par le ou la candidat·e, résumées et sourcées.</p>
-    ${themes.map((t) => html`<h3>${t}</h3><ul>${c.programme.filter((p) => p.theme === t).map((p) =>
-      html`<li>${p.proposition}${p.source ? html` <a href="${p.source}" target="_blank" rel="noopener" style="font-size:.8rem">(source)</a>` : ""}</li>`)}</ul>`)}`
-  : html`<p class="explication">Programme pas encore référencé ici.${c.site ? html` Site de campagne : <a href="${c.site}" target="_blank" rel="noopener">${c.site}</a>` : ""}</p>`);
+const propositions = c.programme ?? [];
+display(html`<div style="display:grid;gap:.6rem;max-width:720px">${fiches.themes_programme.map((t) => {
+  const liste = propositions.filter((p) => p.theme === t);
+  return html`<div class="card" style="margin:0;padding:.8rem 1rem">
+    <div style="font-weight:600;margin-bottom:.3rem">${t}</div>
+    ${liste.length
+      ? liste.map((p) => html`<div>${p.proposition}
+          <div style="font-size:.78rem;color:var(--theme-foreground-muted);margin-top:.15rem">${p.type}, ${dateFr(p.date)} · <a href="${p.source}" target="_blank" rel="noopener">source</a></div></div>`)
+      : html`<div style="color:var(--theme-foreground-muted);font-size:.9rem">Pas de proposition publiée trouvée sur ce thème à ce jour.</div>`}
+  </div>`;
+})}</div>
+<p class="explication" style="margin-top:.8rem">${fiches.programme_methode}${c.site ? html` Site de campagne : <a href="${c.site}" target="_blank" rel="noopener">${c.site}</a>` : ""}</p>`);
 ```
 
 ## Résultats aux présidentielles précédentes

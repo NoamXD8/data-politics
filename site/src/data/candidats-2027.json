@@ -32,7 +32,23 @@
    "fonction": "Porte-parole de Lutte ouvrière",
    "declaration": "2025-12-08",
    "bio": "Professeure d'économie-gestion, porte-parole de Lutte ouvrière depuis 2008. Candidate à la présidentielle en 2012, 2017 et 2022.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Nathalie_Arthaud_(LO)_19-05-2024_(cropped).jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Nathalie_Arthaud_(LO)_19-05-2024_(cropped).jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter le Smic à au moins 2 200 € net par mois.",
+     "date": "2026-08-28",
+     "type": "débat télévisé",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Régulariser tous les sans-papiers et garantir la liberté de circulation et d'installation.",
+     "date": "2026-06-01",
+     "type": "brochure de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ]
   },
   {
    "nom": "Anasse Kazib",
@@ -41,14 +57,46 @@
    "fonction": "Cheminot, porte-parole du mouvement",
    "declaration": "2026-06-01",
    "bio": "Cheminot, porte-parole de Révolution permanente depuis 2020.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Anasse_Kazib,_d%C3%A9cembre_2021.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Anasse_Kazib,_d%C3%A9cembre_2021.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter le Smic à 2 000 €.",
+     "date": "2026-06-01",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Retraite à 60 ans, et à 55 ans pour les métiers pénibles, sans condition de durée de cotisation.",
+     "date": "2026-06-01",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Régulariser tous les sans-papiers.",
+     "date": "2026-06-01",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ]
   },
   {
    "nom": "Selma Labib",
    "parti": "NPA-Révolutionnaires",
    "famille": "exg",
    "fonction": "Conductrice de bus, porte-parole du mouvement",
-   "declaration": "2026-06-17"
+   "declaration": "2026-06-17",
+   "programme": [
+    {
+     "theme": "Immigration",
+     "proposition": "Ouvrir les frontières.",
+     "date": "2026-07-14",
+     "type": "interview",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ]
   },
   {
    "nom": "Jean-Luc Mélenchon",
@@ -57,7 +105,44 @@
    "fonction": "Fondateur de La France insoumise",
    "declaration": "2026-05-03",
    "bio": "Ancien sénateur socialiste de l'Essonne, ministre délégué à l'Enseignement professionnel (2000-2002), puis député européen et député des Bouches-du-Rhône (2017-2022). Fondateur du Parti de gauche (2008) et de La France insoumise (2016). Candidat à la présidentielle en 2012, 2017 et 2022.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Jean-Luc_M%C3%A9lenchon_en_2026.png"
+   "photo": "https://commons.wikimedia.org/wiki/File:Jean-Luc_M%C3%A9lenchon_en_2026.png",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter immédiatement le Smic à 1 700 € net et indexer les salaires sur l'inflation.",
+     "date": "2026-11-06",
+     "type": "programme (L'Avenir en commun)",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Abroger la réforme de 2023, revenir d'abord à 62 ans puis viser la retraite à 60 ans.",
+     "date": "2026-11-06",
+     "type": "programme (L'Avenir en commun)",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Garantir le droit du sol intégral à tous les enfants nés en France.",
+     "date": "2026-11-06",
+     "type": "programme (L'Avenir en commun)",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Atteindre 100 % d'énergies renouvelables au plus tard en 2060.",
+     "date": "2026-11-06",
+     "type": "programme (L'Avenir en commun)",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Proposer de nouveaux traités européens plaçant la Banque centrale européenne sous contrôle démocratique.",
+     "date": "2026-11-06",
+     "type": "programme (L'Avenir en commun)",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Fabien Roussel",
@@ -66,7 +151,37 @@
    "fonction": "Secrétaire national du PCF, maire de Saint-Amand-les-Eaux",
    "declaration": "2026-09-06",
    "bio": "Secrétaire national du Parti communiste français depuis 2018, ancien député du Nord (2017-2024). Candidat à la présidentielle en 2022.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Fabien_Roussel.png"
+   "photo": "https://commons.wikimedia.org/wiki/File:Fabien_Roussel.png",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter rapidement le Smic à 1 700 € net.",
+     "date": "2026-08-26",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Aucune pension inférieure au Smic.",
+     "date": "2026-08-26",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Installer 2 millions de pompes à chaleur par an dans les logements.",
+     "date": "2026-08-26",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Opposition à une Europe fédérale où la voix des nations serait perdue.",
+     "date": "2026-08-26",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Raphaël Glucksmann",
@@ -75,7 +190,44 @@
    "fonction": "Député européen, coprésident de Place publique",
    "declaration": "2026-08-23",
    "bio": "Essayiste, cofondateur de Place publique (2018) et député européen depuis 2019. Tête de liste PS-Place publique aux européennes de 2024. Vainqueur en octobre 2026 de la primaire du camp social-démocrate.",
-   "photo": "https://commons.wikimedia.org/wiki/File:1720448398743_20240708_GLUCKSMANN_Raphael_FR_006.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:1720448398743_20240708_GLUCKSMANN_Raphael_FR_006.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter le Smic à 1 600 € net dans les deux ans suivant l'élection.",
+     "date": "2026-03-25",
+     "type": "programme de Place publique",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Abroger la réforme de 2023 et créer un Haut Conseil du pilotage des retraites.",
+     "date": "2026-03-25",
+     "type": "programme de Place publique",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Abroger la loi immigration de 2024.",
+     "date": "2026-03-25",
+     "type": "programme de Place publique",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Lancer un plan d'investissement pluriannuel dans toutes les énergies renouvelables.",
+     "date": "2026-03-25",
+     "type": "programme de Place publique",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Créer un fonds européen de défense de 500 milliards d'euros financé par un emprunt commun.",
+     "date": "2026-03-25",
+     "type": "programme de Place publique",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Karim Bouamrane",
@@ -84,7 +236,16 @@
    "fonction": "Maire de Saint-Ouen-sur-Seine",
    "declaration": "2026-06-09",
    "bio": "Maire socialiste de Saint-Ouen-sur-Seine (Seine-Saint-Denis) depuis 2020.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Karim_Bouamrane_en_2026.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Karim_Bouamrane_en_2026.jpg",
+   "programme": [
+    {
+     "theme": "Immigration",
+     "proposition": "Reconduire les étrangers en situation irrégulière et accueillir dignement ceux qui ont le droit de rester.",
+     "date": "2026-08-02",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ]
   },
   {
    "nom": "Bernard Cazeneuve",
@@ -93,7 +254,23 @@
    "fonction": "Ancien Premier ministre, fondateur de La Convention",
    "declaration": "2026-07-16",
    "bio": "Ancien maire de Cherbourg et député de la Manche, ministre de l'Intérieur (2014-2016) puis Premier ministre (2016-2017). A quitté le Parti socialiste en 2022 et fondé le mouvement La Convention.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Ministru_prezidents_Valdis_Dombrovskis_tiekas_ar_Francijas_Eiropas_lietu_ministru_Bern%C4%81ru_Kazen%C4%93vu_(Bernard_Cazeneuve)_(7985359635)_(cropped).jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Ministru_prezidents_Valdis_Dombrovskis_tiekas_ar_Francijas_Eiropas_lietu_ministru_Bern%C4%81ru_Kazen%C4%93vu_(Bernard_Cazeneuve)_(7985359635)_(cropped).jpg",
+   "programme": [
+    {
+     "theme": "Retraites",
+     "proposition": "Rétablir le départ anticipé pour les salariés exposés à la pénibilité.",
+     "date": "2026-07-15",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Créer une « DATAR du climat » rattachée au Premier ministre pour piloter l'adaptation.",
+     "date": "2026-07-15",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "Marine Tondelier",
@@ -102,7 +279,37 @@
    "fonction": "Secrétaire nationale des Écologistes",
    "declaration": "2025-10-22",
    "bio": "Secrétaire nationale d'EELV, devenu Les Écologistes, depuis 2022. Conseillère municipale d'opposition à Hénin-Beaumont (Pas-de-Calais) depuis 2014.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Initial-presidentielle-2027-marine-tondelier.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Initial-presidentielle-2027-marine-tondelier.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter le salaire minimum à 2 000 € brut par mois dès 2027.",
+     "date": "2026-07-01",
+     "type": "programme des Écologistes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Régulariser travailleurs, étudiants et parents d'enfants scolarisés selon des critères de durée de résidence.",
+     "date": "2026-07-01",
+     "type": "programme des Écologistes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Planifier la sortie du nucléaire en arrêtant les nouveaux programmes EPR2 et SMR.",
+     "date": "2026-07-01",
+     "type": "programme des Écologistes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Créer un commandement militaire européen intégré, placé sous l'autorité du Conseil de l'UE.",
+     "date": "2026-07-01",
+     "type": "programme des Écologistes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Delphine Batho",
@@ -110,7 +317,16 @@
    "famille": "eco",
    "fonction": "Présidente de Génération écologie, députée des Deux-Sèvres",
    "declaration": "2025-11-25",
-   "bio": "Députée des Deux-Sèvres depuis 2007, ministre de l'Écologie (2012-2013). Présidente de Génération écologie depuis 2018."
+   "bio": "Députée des Deux-Sèvres depuis 2007, ministre de l'Écologie (2012-2013). Présidente de Génération écologie depuis 2018.",
+   "programme": [
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Renforcer l'adaptation et la résilience des infrastructures énergétiques critiques.",
+     "date": "2026-06-22",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "Erwan Rohou",
@@ -126,7 +342,44 @@
    "fonction": "Secrétaire général de Renaissance, président du groupe EPR à l'Assemblée",
    "declaration": "2026-05-22",
    "bio": "Député des Hauts-de-Seine, ministre de l'Éducation nationale (2023-2024) puis Premier ministre de janvier à septembre 2024, le plus jeune de la Ve République.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Gabriel_Attal_2025_redressed_and_cropped.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Gabriel_Attal_2025_redressed_and_cropped.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Faire passer le salaire médian d'environ 2 000 à 3 000 € par mois.",
+     "date": "2025-07-21",
+     "type": "programme de Renaissance",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Remplacer l'âge légal par une durée de cotisation (avec décote et surcote) et créer un pilier de capitalisation.",
+     "date": "2026-09-30",
+     "type": "déclarations rapportées par Public Sénat",
+     "source": "https://www.publicsenat.fr/actualites/politique/reculer-ou-avancer-lage-legal-avec-ou-sans-capitalisation-ce-que-proposent-les-principaux-candidats-a-lelection-presidentielle-sur-les-retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Maintenir le droit du sol dans l'Hexagone et arrêter les prestations sociales à l'expiration du titre de séjour.",
+     "date": "2025-05-26",
+     "type": "programme de Renaissance",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Produire en France les trois quarts de l'énergie consommée.",
+     "date": "2025-07-21",
+     "type": "programme de Renaissance",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Instaurer une préférence européenne pour les achats de technologie et de défense (« Buy European Act »).",
+     "date": "2025-07-21",
+     "type": "programme de Renaissance",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Édouard Philippe",
@@ -136,7 +389,44 @@
    "declaration": "2024-09-03",
    "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021).",
    "groupe": "Droite",
-   "photo": "https://commons.wikimedia.org/wiki/File:Edouard_Philippe_3x4_crop.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Edouard_Philippe_3x4_crop.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Encourager le travail supplémentaire : plus de 1 000 € par an pour un salarié au Smic travaillant deux heures de plus par semaine.",
+     "date": "2026-11-18",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Porter l'âge légal à 65 ans en moins de dix ans, 45 ans de cotisation, et généraliser une capitalisation collective.",
+     "date": "2026-09-30",
+     "type": "propositions rapportées par Public Sénat",
+     "source": "https://www.publicsenat.fr/actualites/politique/reculer-ou-avancer-lage-legal-avec-ou-sans-capitalisation-ce-que-proposent-les-principaux-candidats-a-lelection-presidentielle-sur-les-retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Dénoncer l'accord franco-algérien de 1968, instaurer des quotas et diviser par deux l'immigration légale.",
+     "date": "2026-10-08",
+     "type": "propositions de campagne et interview",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Lancer 8 réacteurs EPR supplémentaires en plus des 6 déjà prévus.",
+     "date": "2026-11-12",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Consacrer au moins 1 % de la richesse des pays de l'UE à des équipements de défense fabriqués en Europe.",
+     "date": "2026-11-18",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Olivier Becht",
@@ -153,7 +443,37 @@
    "fonction": "Ancien Premier ministre, fondateur de La France humaniste",
    "declaration": "2026-11-20",
    "bio": "Ministre des Affaires étrangères (2002-2004), de l'Intérieur (2004-2005), puis Premier ministre (2005-2007) sous Jacques Chirac. Fondateur du mouvement La France humaniste.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Dominique_de_Villepin_(2010).jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Dominique_de_Villepin_(2010).jpg",
+   "programme": [
+    {
+     "theme": "Retraites",
+     "proposition": "Réformer les retraites après un an de concertation, vers un système à trois étages obligatoires.",
+     "date": "2026-11-20",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Créer une autorité indépendante de l'information sur les migrations, adossée à l'Insee.",
+     "date": "2026-11-20",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Mettre en place une taxe carbone pour réduire la dépendance aux énergies fossiles.",
+     "date": "2026-06-23",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Accepter une commande publique européenne pilotée par la Commission.",
+     "date": "2026-03-06",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Bruno Retailleau",
@@ -162,7 +482,37 @@
    "fonction": "Président des Républicains, sénateur de la Vendée",
    "declaration": "2026-04-19",
    "bio": "Sénateur de la Vendée, président du groupe LR au Sénat (2014-2024), puis ministre de l'Intérieur (2024-2025). Président des Républicains depuis 2025.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Bruno_Retailleau_-_Ministre_de_l%27Int%C3%A9rieur_fran%C3%A7ais_(3x4_cropped).jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Bruno_Retailleau_-_Ministre_de_l%27Int%C3%A9rieur_fran%C3%A7ais_(3x4_cropped).jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Exonérer totalement de cotisations les heures travaillées au-delà de 1 623 heures par an.",
+     "date": "2025-12-01",
+     "type": "programme des Républicains",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Départ possible dès 63 ans, taux plein à 65 ans, et 25 à 30 % de capitalisation pour les nouveaux entrants.",
+     "date": "2026-10-15",
+     "type": "programme de campagne",
+     "source": "https://www.publicsenat.fr/actualites/politique/reculer-ou-avancer-lage-legal-avec-ou-sans-capitalisation-ce-que-proposent-les-principaux-candidats-a-lelection-presidentielle-sur-les-retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Supprimer le droit du sol par la Constitution et faire fixer par la loi des quotas de visas et de titres de séjour.",
+     "date": "2026-11-12",
+     "type": "programme de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Prolonger l'exploitation des réacteurs nucléaires existants jusqu'à 80 ans.",
+     "date": "2026-05-01",
+     "type": "programme des Républicains",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "Xavier Bertrand",
@@ -170,7 +520,23 @@
    "famille": "dvd",
    "fonction": "Président de la région Hauts-de-France",
    "declaration": "2026-08-27",
-   "bio": "Plusieurs fois ministre (Santé, Travail) sous les présidences de Jacques Chirac et Nicolas Sarkozy, président de la région Hauts-de-France depuis 2016."
+   "bio": "Plusieurs fois ministre (Santé, Travail) sous les présidences de Jacques Chirac et Nicolas Sarkozy, président de la région Hauts-de-France depuis 2016.",
+   "programme": [
+    {
+     "theme": "Retraites",
+     "proposition": "Ajouter une retraite par capitalisation ouverte à tous, en complément de la répartition.",
+     "date": "2025-10-25",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Miser sur la télésurveillance et les drones pour détecter au plus tôt les départs de feu.",
+     "date": "2026-08-03",
+     "type": "interview",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "David Lisnard",
@@ -179,7 +545,44 @@
    "fonction": "Maire de Cannes, président de l'Association des maires de France",
    "declaration": "2026-03-31",
    "bio": "Maire de Cannes depuis 2014 et président de l'Association des maires de France depuis 2021. Fondateur du parti Nouvelle Énergie.",
-   "photo": "https://commons.wikimedia.org/wiki/File:David_Lisnard.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:David_Lisnard.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Augmenter de 20 % la rémunération des enseignants en cinq ans.",
+     "date": "2026-08-20",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Porter l'âge légal à 65 ans et créer une agence publique unique des retraites.",
+     "date": "2026-10-31",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Revenir sur l'accord franco-algérien de 1968 et diviser par huit la délivrance de titres de séjour.",
+     "date": "2026-08-24",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Faire de la France le leader « bas carbone » du G20.",
+     "date": "2026-10-31",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Négocier un traité de démocratisation de l'Europe revoyant la répartition des compétences.",
+     "date": "2026-10-31",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Gilles Platret",
@@ -195,7 +598,44 @@
    "famille": "souv",
    "fonction": "Maire d'Yerres, président de Debout la France",
    "declaration": "2026-09-19",
-   "bio": "Fondateur de Debout la France, longtemps maire d'Yerres et député de l'Essonne. Candidat à la présidentielle en 2012, 2017 et 2022."
+   "bio": "Fondateur de Debout la France, longtemps maire d'Yerres et député de l'Essonne. Candidat à la présidentielle en 2012, 2017 et 2022.",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Augmenter de 8 % les salaires jusqu'à trois Smic grâce à une baisse des cotisations salariales.",
+     "date": "2026-11-18",
+     "type": "programme, d'après L'Hémicycle",
+     "source": "https://lhemicycle.com/theme/pouvoir-achat/"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Réindexer les pensions sur l'inflation et rétablir le cumul emploi-retraite entre 62 et 67 ans.",
+     "date": "2026-11-12",
+     "type": "programme de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Supprimer le droit du sol par référendum, en maintenant la naturalisation.",
+     "date": "2026-03-03",
+     "type": "programme de Debout la France",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Supprimer les aides de l'État à l'éolien et au solaire.",
+     "date": "2026-11-12",
+     "type": "programme de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Ramener la contribution nette de la France au budget européen à 5 milliards d'euros par an.",
+     "date": "2026-10-06",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Marine Le Pen",
@@ -205,7 +645,44 @@
    "declaration": "2026-07-07",
    "bio": "Présidente du Front national, devenu Rassemblement national, de 2011 à 2022. Députée du Pas-de-Calais depuis 2017. Candidate à la présidentielle en 2012, 2017 et 2022, qualifiée au second tour en 2017 et 2022.",
    "note": "Sa candidature dépend d'une décision attendue de la Cour de cassation, à la suite de sa condamnation en appel en juillet 2026.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Marine_Le_Pen_2009.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Marine_Le_Pen_2009.jpg",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Permettre aux entreprises d'augmenter les salaires de 10 % jusqu'à trois Smic, sans cotisations patronales supplémentaires.",
+     "date": "2024-09-06",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Abroger la réforme de 2023 au 1er janvier 2028 : retour à 62 ans, et 60 ans pour les carrières longues.",
+     "date": "2026-11-17",
+     "type": "discours de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Supprimer les dérogations qui empêchent les expulsions et suspendre les régularisations par les préfets.",
+     "date": "2024-06-25",
+     "type": "programme du RN",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Baisser immédiatement le prix de l'électricité de 30 %.",
+     "date": "2024-09-06",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Remplacer la Commission européenne par un secrétariat général.",
+     "date": "2024-09-06",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Florian Philippot",
@@ -213,7 +690,37 @@
    "famille": "souv",
    "fonction": "Président des Patriotes",
    "declaration": "2026-05-09",
-   "bio": "Ancien vice-président du Front national, député européen (2014-2019). Fondateur des Patriotes en 2017."
+   "bio": "Ancien vice-président du Front national, député européen (2014-2019). Fondateur des Patriotes en 2017.",
+   "programme": [
+    {
+     "theme": "Retraites",
+     "proposition": "Baisser l'âge de départ à la retraite.",
+     "date": "2025-09-07",
+     "type": "programme des Patriotes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Rétablir des frontières nationales et dissoudre Frontex.",
+     "date": "2025-09-07",
+     "type": "programme des Patriotes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Quitter le marché européen de l'électricité.",
+     "date": "2025-09-07",
+     "type": "programme des Patriotes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Sortir de l'Union européenne et de l'espace Schengen.",
+     "date": "2025-09-07",
+     "type": "programme des Patriotes",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ]
   },
   {
    "nom": "Éric Zemmour",
@@ -222,7 +729,16 @@
    "fonction": "Président de Reconquête",
    "declaration": "2026-09-17",
    "bio": "Journaliste et essayiste, fondateur de Reconquête en 2021. Candidat à la présidentielle en 2022.",
-   "photo": "https://commons.wikimedia.org/wiki/File:Portrait_d%27%C3%89ric_Zemmour,_avril_2022.jpg"
+   "photo": "https://commons.wikimedia.org/wiki/File:Portrait_d%27%C3%89ric_Zemmour,_avril_2022.jpg",
+   "programme": [
+    {
+     "theme": "Immigration",
+     "proposition": "Réduire de deux millions le nombre d'immigrés présents en France.",
+     "date": "2026-11-10",
+     "type": "déclaration de candidature (TF1)",
+     "source": "https://www.i24news.tv/fr/actu/france/artc-eric-zemmour-officialise-sa-candidature-a-l-election-presidentielle-2027"
+    }
+   ]
   },
   {
    "nom": "François Asselineau",
@@ -230,7 +746,30 @@
    "famille": "div",
    "fonction": "Président de l'UPR",
    "declaration": "2023-08-31",
-   "bio": "Haut fonctionnaire, fondateur de l'Union populaire républicaine en 2007. Candidat à la présidentielle en 2017."
+   "bio": "Haut fonctionnaire, fondateur de l'Union populaire républicaine en 2007. Candidat à la présidentielle en 2017.",
+   "programme": [
+    {
+     "theme": "Immigration",
+     "proposition": "Organiser un référendum national sur l'immigration.",
+     "date": "2026-08-28",
+     "type": "programme de l'UPR",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Organiser un référendum national sur le nucléaire.",
+     "date": "2026-08-28",
+     "type": "programme de l'UPR",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Faire sortir la France de l'Union européenne.",
+     "date": "2026-08-28",
+     "type": "programme de l'UPR",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Jean Lassalle",
@@ -247,7 +786,16 @@
    "famille": "div",
    "fonction": "Essayiste, directrice de la revue L'Audace !",
    "declaration": "2026-10-14",
-   "bio": "Journaliste et essayiste, ancienne directrice de la rédaction de l'hebdomadaire Marianne."
+   "bio": "Journaliste et essayiste, ancienne directrice de la rédaction de l'hebdomadaire Marianne.",
+   "programme": [
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Refuser d'obliger EDF à réserver une partie de la production des futurs EPR2 à d'autres opérateurs.",
+     "date": "2026-10-27",
+     "type": "propositions de campagne",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "Teddy Riner",
@@ -262,7 +810,37 @@
    "parti": "Les Ruches",
    "famille": "div",
    "fonction": "Avocat, fondateur du mouvement",
-   "declaration": "2025-12"
+   "declaration": "2025-12",
+   "programme": [
+    {
+     "theme": "Pouvoir d'achat",
+     "proposition": "Porter le Smic à au moins 1 500 € net.",
+     "date": "2026-05-27",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/emploi-travail"
+    },
+    {
+     "theme": "Retraites",
+     "proposition": "Fusionner les caisses de retraite publiques et privées.",
+     "date": "2026-05-27",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Construire quatorze réacteurs nucléaires EPR2.",
+     "date": "2026-05-27",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Soumettre à référendum la sortie de la France de l'Union européenne.",
+     "date": "2026-05-27",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Francis Lalanne",
@@ -283,7 +861,37 @@
    "parti": "Solution démocratique",
    "famille": "div",
    "fonction": "Politologue, enseignante-chercheuse",
-   "declaration": "2026"
+   "declaration": "2026",
+   "programme": [
+    {
+     "theme": "Retraites",
+     "proposition": "Faire réaliser une enquête sur les bénéficiaires des régimes spéciaux.",
+     "date": "2026-11-05",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/retraites"
+    },
+    {
+     "theme": "Immigration",
+     "proposition": "Soumettre à référendum les grandes décisions migratoires à la demande des citoyens.",
+     "date": "2026-11-05",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    },
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Soumettre à référendum les grandes décisions énergétiques.",
+     "date": "2026-11-05",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    },
+    {
+     "theme": "Europe",
+     "proposition": "Ne ratifier aucun nouveau traité sans le consentement du peuple français.",
+     "date": "2026-11-05",
+     "type": "programme",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ]
   },
   {
    "nom": "Augustin Billetdoux",
@@ -304,7 +912,16 @@
    "parti": "À nous maintenant",
    "famille": "div",
    "fonction": "Ancien chef d'entreprise",
-   "declaration": "2026"
+   "declaration": "2026",
+   "programme": [
+    {
+     "theme": "Immigration",
+     "proposition": "Les migrants économiques déposeraient une demande préalable à l'ambassade, l'accueil pouvant être conditionné à un garant financier.",
+     "date": "2026-11",
+     "type": "propositions de campagne, d'après PresiTracker",
+     "source": "https://presitracker2027.fr/themes/imm"
+    }
+   ]
   },
   {
    "nom": "Benoît Mathieu",
@@ -318,7 +935,16 @@
    "parti": "Équinoxe",
    "famille": "div",
    "fonction": "Ingénieur",
-   "declaration": "2026-06-27"
+   "declaration": "2026-06-27",
+   "programme": [
+    {
+     "theme": "Écologie et énergie",
+     "proposition": "Augmenter progressivement le prix du carbone selon une trajectoire de réduction des émissions fixée démocratiquement.",
+     "date": "2026-11-06",
+     "type": "programme d'Équinoxe",
+     "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ]
   },
   {
    "nom": "Manolo Mlekuz",
@@ -392,5 +1018,13 @@
    "motif": "Non retenu à la primaire du pôle social-démocrate"
   }
  ],
- "regroupement": "Regroupement repris de République 2027, avec deux ajustements de la rédaction : Édouard Philippe classé à droite (et non au centre), Teddy Riner classé au centre (et non en divers) ; leur couleur suit ce classement."
+ "regroupement": "Regroupement repris de République 2027, avec deux ajustements de la rédaction : Édouard Philippe classé à droite (et non au centre), Teddy Riner classé au centre (et non en divers) ; leur couleur suit ce classement.",
+ "themes_programme": [
+  "Pouvoir d'achat",
+  "Retraites",
+  "Immigration",
+  "Écologie et énergie",
+  "Europe"
+ ],
+ "programme_methode": "Même grille de cinq thèmes pour chaque candidature : une proposition représentative par thème, résumée par la rédaction, datée et liée à sa source. Propositions recueillies le 22 novembre 2026, principalement à partir des programmes, discours et interviews recensés par Poligraph (qui cite les sources d'origine), et de Public Sénat pour les retraites. Un thème sans proposition signifie qu'aucune proposition publiée n'a été trouvée à cette date."
 }
