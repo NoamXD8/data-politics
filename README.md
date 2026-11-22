@@ -21,6 +21,7 @@ cd site && npm install && cd ..
 ```bash
 python -m pipeline.download      # ~220 Mo, une seule fois
 python -m pipeline.build         # produit data/processed/ (affiche un rapport de contrôle)
+python -m pipeline.sondages      # sondages 2022 (NSPPolls) : évolution, écarts, précision des instituts
 cd site && npm run dev           # http://127.0.0.1:3000
 ```
 
