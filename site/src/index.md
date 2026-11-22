@@ -4,7 +4,8 @@ toc: false
 ---
 
 ```js
-import {COULEURS, fmtPct, fmtNombre, participation, resultats, court, scrutinParDefaut, normaliser} from "./components/elections.js";
+import {graphiqueParticipation} from "./components/participation.js";
+import {COULEURS, fmtPct, fmtNombre, participation, resultats, scrutinParDefaut, normaliser} from "./components/elections.js";
 
 const elections = FileAttachment("data/elections.json").json();
 const france = FileAttachment("data/france.json").json();
@@ -73,20 +74,16 @@ display(Plot.plot({
 
 ## La participation au fil des scrutins
 
+<p class="explication">Chaque type d'élection est comparé avec lui-même : on vote toujours beaucoup plus à la présidentielle qu'aux européennes.</p>
+
 ```js
-const serie = elections.map((e) => ({scrutin: court(e), participation: participation(france.france[e.id]), selection: e.id === election.id}));
-display(Plot.plot({
-  subtitle: "Votants / inscrits, France entière",
-  width,
-  height: 280,
-  marginBottom: 50,
-  x: {label: null, domain: serie.map((d) => d.scrutin), tickRotate: -30},
-  y: {label: null, domain: [0, 1], tickFormat: (d) => fmtPct(d).replace(",0", ""), grid: true},
-  marks: [
-    Plot.line(serie, {x: "scrutin", y: "participation", stroke: COULEURS.france, strokeWidth: 2}),
-    Plot.dot(serie, {x: "scrutin", y: "participation", fill: COULEURS.france, r: (d) => (d.selection ? 6 : 4), tip: {format: {y: false}, channels: {Participation: (d) => fmtPct(d.participation)}}}),
-    Plot.text(serie.filter((d) => d.selection), {x: "scrutin", y: "participation", text: (d) => fmtPct(d.participation), dy: -14, fill: "currentColor"})
-  ]
+const tour = view(Inputs.radio(new Map([["1er tour", 1], ["2nd tour", 2]]), {value: 1}));
+```
+
+```js
+display(graphiqueParticipation({
+  elections, tour, width, selection: election,
+  series: [{nom: "France", couleur: COULEURS.france, valeurs: france.france}]
 }));
 ```
 

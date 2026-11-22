@@ -23,6 +23,10 @@ ELECTIONS = {
     "2022_pres_t2": ["Candidat A", "Candidat B"],
     "2024_euro_t1": [f"Liste {c}" for c in "ABCDEFGHIJKLMNOP"],  # beaucoup de listes → test « Autres »
     "2024_legi_t1": ["NUA", "NUB", "NUC", "NUD"],
+    "2024_legi_t2": ["NUA", "NUB"],
+    "2022_legi_t1": ["NUA", "NUB", "NUC"],
+    "2019_euro_t1": ["Liste A", "Liste B", "Liste C"],
+    "2017_pres_t2": ["Candidat A", "Candidat B"],
     "2020_muni_t1": ["Liste X"],  # hors périmètre → doit être filtrée
 }
 

@@ -3,7 +3,8 @@ toc: false
 ---
 
 ```js
-import {COULEURS, fmtPct, fmtNombre, participation, resultats, court, scrutinParDefaut} from "../components/elections.js";
+import {graphiqueParticipation} from "../components/participation.js";
+import {COULEURS, fmtPct, fmtNombre, participation, resultats, scrutinParDefaut} from "../components/elections.js";
 
 const dep = FileAttachment(`../data/departements/${observable.params.dep}.json`).json();
 const elections = FileAttachment("../data/elections.json").json();
@@ -86,27 +87,19 @@ display(v ? Plot.plot({
 
 ## La participation au fil des scrutins
 
+<p class="explication">Chaque type d'élection est comparé avec lui-même : on vote toujours beaucoup plus à la présidentielle qu'aux européennes.</p>
+
 ```js
-const serieParticipation = elections.flatMap((e) => [
-  ...(commune.code ? [{scrutin: court(e), qui: commune.nom, p: participation(serieTerritoire[e.id])}] : []),
-  {scrutin: court(e), qui: dep.nom, p: participation(dep.total[e.id])},
-  {scrutin: court(e), qui: "France", p: participation(france.france[e.id])}
-]).filter((d) => d.p != null);
-const series = commune.code ? [commune.nom, dep.nom, "France"] : [dep.nom, "France"];
-const couleurs = commune.code ? [COULEURS.commune, COULEURS.departement, COULEURS.france] : [COULEURS.departement, COULEURS.france];
-display(Plot.plot({
-  subtitle: "Votants / inscrits",
-  width,
-  height: 300,
-  marginBottom: 50,
-  marginRight: 30,
-  x: {label: null, domain: elections.map(court), tickRotate: -30},
-  y: {label: null, domain: [0, 1], tickFormat: (d) => fmtPct(d).replace(",0", ""), grid: true},
-  color: {domain: series, range: couleurs, legend: true},
-  marks: [
-    Plot.line(serieParticipation, {x: "scrutin", y: "p", stroke: "qui", strokeWidth: 2}),
-    Plot.dot(serieParticipation, {x: "scrutin", y: "p", fill: "qui", r: 4, stroke: "var(--theme-background)", strokeWidth: 2}),
-    Plot.tip(serieParticipation, Plot.pointer({x: "scrutin", y: "p", title: (d) => `${d.qui} · ${d.scrutin}\nParticipation : ${fmtPct(d.p)}`}))
+const tour = view(Inputs.radio(new Map([["1er tour", 1], ["2nd tour", 2]]), {value: 1}));
+```
+
+```js
+display(graphiqueParticipation({
+  elections, tour, width, selection: election,
+  series: [
+    ...(commune.code ? [{nom: commune.nom, couleur: COULEURS.commune, valeurs: serieTerritoire}] : []),
+    {nom: dep.nom, couleur: COULEURS.departement, valeurs: dep.total},
+    {nom: "France", couleur: COULEURS.france, valeurs: france.france}
   ]
 }));
 ```
