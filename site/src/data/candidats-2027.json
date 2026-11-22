@@ -1,0 +1,331 @@
+{
+ "maj": "2026-11-22",
+ "liste_officielle": "2027-03-26",
+ "regle": "Toutes les candidatures annoncées publiquement figurent ici, sans tri éditorial. Une candidature n'est officielle qu'après la publication de la liste par le Conseil constitutionnel.",
+ "sources": [
+  {
+   "titre": "République 2027 — Les candidats (vérifié le 15 novembre 2026)",
+   "url": "https://republique2027.fr/candidats"
+  },
+  {
+   "titre": "LCP — Présidentielle 2027 : la liste des candidats déclarés et potentiels (mis à jour le 20 novembre 2026)",
+   "url": "https://lcp.fr/actualites/presidentielle-2027-la-liste-des-candidats-declares-et-potentiels-444932"
+  },
+  {
+   "titre": "presidentielle-france.fr — Candidats déclarés",
+   "url": "https://presidentielle-france.fr/candidats/"
+  },
+  {
+   "titre": "vie-publique.fr — Calendrier de l'élection présidentielle 2027",
+   "url": "https://www.vie-publique.fr/election-presidentielle-2027-regles-du-scrutin-role-du-president"
+  }
+ ],
+ "candidats": [
+  {
+   "nom": "Nathalie Arthaud",
+   "parti": "Lutte ouvrière",
+   "famille": "exg",
+   "fonction": "Porte-parole de Lutte ouvrière",
+   "declaration": "2025-12-08",
+   "bio": "Professeure d'économie-gestion, porte-parole de Lutte ouvrière depuis 2008. Candidate à la présidentielle en 2012, 2017 et 2022."
+  },
+  {
+   "nom": "Anasse Kazib",
+   "parti": "Révolution permanente",
+   "famille": "exg",
+   "fonction": "Cheminot, porte-parole du mouvement",
+   "declaration": "2026-06-01"
+  },
+  {
+   "nom": "Selma Labib",
+   "parti": "NPA-Révolutionnaires",
+   "famille": "exg",
+   "fonction": "Conductrice de bus, porte-parole du mouvement",
+   "declaration": "2026-06-17"
+  },
+  {
+   "nom": "Jean-Luc Mélenchon",
+   "parti": "La France insoumise",
+   "famille": "lfi",
+   "fonction": "Fondateur de La France insoumise",
+   "declaration": "2026-05-03",
+   "bio": "Ancien sénateur socialiste de l'Essonne, ministre délégué à l'Enseignement professionnel (2000-2002), puis député européen et député des Bouches-du-Rhône (2017-2022). Fondateur du Parti de gauche (2008) et de La France insoumise (2016). Candidat à la présidentielle en 2012, 2017 et 2022."
+  },
+  {
+   "nom": "Fabien Roussel",
+   "parti": "Parti communiste français",
+   "famille": "pcf",
+   "fonction": "Secrétaire national du PCF, maire de Saint-Amand-les-Eaux",
+   "declaration": "2026-09-06",
+   "bio": "Secrétaire national du Parti communiste français depuis 2018, ancien député du Nord (2017-2024). Candidat à la présidentielle en 2022."
+  },
+  {
+   "nom": "François Ruffin",
+   "parti": "Debout !",
+   "famille": "dvg",
+   "fonction": "Député de la Somme, fondateur du mouvement",
+   "declaration": "2026-01-26",
+   "bio": "Journaliste, fondateur du journal Fakir et réalisateur du documentaire « Merci patron ! ». Député de la Somme depuis 2017, d'abord élu avec La France insoumise, qu'il a quittée en 2024."
+  },
+  {
+   "nom": "Raphaël Glucksmann",
+   "parti": "Place publique",
+   "famille": "ps",
+   "fonction": "Député européen, coprésident de Place publique",
+   "declaration": "2026-08-23",
+   "bio": "Essayiste, cofondateur de Place publique (2018) et député européen depuis 2019. Tête de liste PS-Place publique aux européennes de 2024. Vainqueur en octobre 2026 de la primaire du camp social-démocrate."
+  },
+  {
+   "nom": "Karim Bouamrane",
+   "parti": "Parti socialiste",
+   "famille": "ps",
+   "fonction": "Maire de Saint-Ouen-sur-Seine",
+   "declaration": "2026-06-09",
+   "bio": "Maire socialiste de Saint-Ouen-sur-Seine (Seine-Saint-Denis) depuis 2020."
+  },
+  {
+   "nom": "Bernard Cazeneuve",
+   "parti": "La Convention",
+   "famille": "dvg",
+   "fonction": "Ancien Premier ministre, fondateur de La Convention",
+   "declaration": "2026-07-16",
+   "bio": "Ancien maire de Cherbourg et député de la Manche, ministre de l'Intérieur (2014-2016) puis Premier ministre (2016-2017). A quitté le Parti socialiste en 2022 et fondé le mouvement La Convention."
+  },
+  {
+   "nom": "Marine Tondelier",
+   "parti": "Les Écologistes",
+   "famille": "eco",
+   "fonction": "Secrétaire nationale des Écologistes",
+   "declaration": "2025-10-22",
+   "bio": "Secrétaire nationale d'EELV, devenu Les Écologistes, depuis 2022. Conseillère municipale d'opposition à Hénin-Beaumont (Pas-de-Calais) depuis 2014."
+  },
+  {
+   "nom": "Delphine Batho",
+   "parti": "Génération écologie",
+   "famille": "eco",
+   "fonction": "Présidente de Génération écologie, députée des Deux-Sèvres",
+   "declaration": "2025-11-25",
+   "bio": "Députée des Deux-Sèvres depuis 2007, ministre de l'Écologie (2012-2013). Présidente de Génération écologie depuis 2018."
+  },
+  {
+   "nom": "Erwan Rohou",
+   "parti": "Mouvement écologiste indépendant",
+   "famille": "eco",
+   "fonction": "Ingénieur, membre du bureau national du MEI",
+   "declaration": "2026-08"
+  },
+  {
+   "nom": "Gabriel Attal",
+   "parti": "Renaissance",
+   "famille": "ens",
+   "fonction": "Secrétaire général de Renaissance, président du groupe EPR à l'Assemblée",
+   "declaration": "2026-05-22",
+   "bio": "Député des Hauts-de-Seine, ministre de l'Éducation nationale (2023-2024) puis Premier ministre de janvier à septembre 2024, le plus jeune de la Ve République."
+  },
+  {
+   "nom": "Édouard Philippe",
+   "parti": "Horizons",
+   "famille": "ens",
+   "fonction": "Maire du Havre, président d'Horizons",
+   "declaration": "2024-09-03",
+   "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021)."
+  },
+  {
+   "nom": "Olivier Becht",
+   "parti": "Apparenté Renaissance",
+   "famille": "ens",
+   "fonction": "Député du Haut-Rhin",
+   "declaration": "2026-09-24",
+   "bio": "Député du Haut-Rhin depuis 2017, ministre délégué au Commerce extérieur (2022-2024)."
+  },
+  {
+   "nom": "Dominique de Villepin",
+   "parti": "La France humaniste",
+   "famille": "dvc",
+   "fonction": "Ancien Premier ministre, fondateur de La France humaniste",
+   "declaration": "2026-11-20",
+   "bio": "Ministre des Affaires étrangères (2002-2004), de l'Intérieur (2004-2005), puis Premier ministre (2005-2007) sous Jacques Chirac. Fondateur du mouvement La France humaniste."
+  },
+  {
+   "nom": "Bruno Retailleau",
+   "parti": "Les Républicains",
+   "famille": "lr",
+   "fonction": "Président des Républicains, sénateur de la Vendée",
+   "declaration": "2026-04-19",
+   "bio": "Sénateur de la Vendée, président du groupe LR au Sénat (2014-2024), puis ministre de l'Intérieur (2024-2025). Président des Républicains depuis 2025."
+  },
+  {
+   "nom": "Xavier Bertrand",
+   "parti": "Nous France",
+   "famille": "dvd",
+   "fonction": "Président de la région Hauts-de-France",
+   "declaration": "2026-08-27",
+   "bio": "Plusieurs fois ministre (Santé, Travail) sous les présidences de Jacques Chirac et Nicolas Sarkozy, président de la région Hauts-de-France depuis 2016."
+  },
+  {
+   "nom": "David Lisnard",
+   "parti": "Nouvelle Énergie",
+   "famille": "dvd",
+   "fonction": "Maire de Cannes, président de l'Association des maires de France",
+   "declaration": "2026-03-31",
+   "bio": "Maire de Cannes depuis 2014 et président de l'Association des maires de France depuis 2021. Fondateur du parti Nouvelle Énergie."
+  },
+  {
+   "nom": "Gilles Platret",
+   "parti": "Divers droite",
+   "famille": "dvd",
+   "fonction": "Maire de Chalon-sur-Saône",
+   "declaration": "2026-10-08",
+   "bio": "Maire de Chalon-sur-Saône (Saône-et-Loire) depuis 2014."
+  },
+  {
+   "nom": "Nicolas Dupont-Aignan",
+   "parti": "Debout la France",
+   "famille": "souv",
+   "fonction": "Maire d'Yerres, président de Debout la France",
+   "declaration": "2026-09-19",
+   "bio": "Fondateur de Debout la France, longtemps maire d'Yerres et député de l'Essonne. Candidat à la présidentielle en 2012, 2017 et 2022."
+  },
+  {
+   "nom": "Marine Le Pen",
+   "parti": "Rassemblement national",
+   "famille": "rn",
+   "fonction": "Présidente du groupe RN à l'Assemblée nationale",
+   "declaration": "2026-07-07",
+   "bio": "Présidente du Front national, devenu Rassemblement national, de 2011 à 2022. Députée du Pas-de-Calais depuis 2017. Candidate à la présidentielle en 2012, 2017 et 2022, qualifiée au second tour en 2017 et 2022.",
+   "note": "Sa candidature dépend d'une décision attendue de la Cour de cassation, à la suite de sa condamnation en appel en juillet 2026."
+  },
+  {
+   "nom": "Florian Philippot",
+   "parti": "Les Patriotes",
+   "famille": "souv",
+   "fonction": "Président des Patriotes",
+   "declaration": "2026-05-09",
+   "bio": "Ancien vice-président du Front national, député européen (2014-2019). Fondateur des Patriotes en 2017."
+  },
+  {
+   "nom": "Éric Zemmour",
+   "parti": "Reconquête",
+   "famille": "rec",
+   "fonction": "Président de Reconquête",
+   "declaration": "2026-09-17",
+   "bio": "Journaliste et essayiste, fondateur de Reconquête en 2021. Candidat à la présidentielle en 2022."
+  },
+  {
+   "nom": "François Asselineau",
+   "parti": "Union populaire républicaine",
+   "famille": "div",
+   "fonction": "Président de l'UPR",
+   "declaration": "2023-08-31",
+   "bio": "Haut fonctionnaire, fondateur de l'Union populaire républicaine en 2007. Candidat à la présidentielle en 2017."
+  },
+  {
+   "nom": "Jean Lassalle",
+   "parti": "Résistons !",
+   "famille": "div",
+   "fonction": "Ancien député des Pyrénées-Atlantiques",
+   "declaration": "",
+   "bio": "Député des Pyrénées-Atlantiques de 2002 à 2022. Candidat à la présidentielle en 2017 et 2022.",
+   "note": "Candidature annoncée sous condition."
+  },
+  {
+   "nom": "Natacha Polony",
+   "parti": "Nous sommes la France",
+   "famille": "div",
+   "fonction": "Essayiste, directrice de la revue L'Audace !",
+   "declaration": "2026-10-14",
+   "bio": "Journaliste et essayiste, ancienne directrice de la rédaction de l'hebdomadaire Marianne."
+  },
+  {
+   "nom": "Teddy Riner",
+   "parti": "Sans étiquette",
+   "famille": "div",
+   "fonction": "Judoka, cinq fois champion olympique",
+   "declaration": "2026-11-09"
+  },
+  {
+   "nom": "Juan Branco",
+   "parti": "Les Ruches",
+   "famille": "div",
+   "fonction": "Avocat, fondateur du mouvement",
+   "declaration": "2025-12"
+  },
+  {
+   "nom": "Francis Lalanne",
+   "parti": "France Libre",
+   "famille": "div",
+   "fonction": "Chanteur",
+   "declaration": "2026-08-19"
+  },
+  {
+   "nom": "Mira Markovic",
+   "parti": "Parti animaliste",
+   "famille": "div",
+   "fonction": "Cofondatrice du Parti animaliste",
+   "declaration": "2026-10-02"
+  },
+  {
+   "nom": "Clara Egger",
+   "parti": "Solution démocratique",
+   "famille": "div",
+   "fonction": "Politologue, enseignante-chercheuse",
+   "declaration": "2026"
+  },
+  {
+   "nom": "Augustin Billetdoux",
+   "parti": "Sans étiquette",
+   "famille": "div",
+   "fonction": "Romancier, dramaturge",
+   "declaration": "2025-09"
+  },
+  {
+   "nom": "Sylvain Durif",
+   "parti": "Elvita",
+   "famille": "div",
+   "fonction": "Vidéaste",
+   "declaration": "2026-08-23"
+  },
+  {
+   "nom": "Jean-François Legendre",
+   "parti": "À nous maintenant",
+   "famille": "div",
+   "fonction": "Ancien chef d'entreprise",
+   "declaration": "2026"
+  },
+  {
+   "nom": "Benoît Mathieu",
+   "parti": "Sans étiquette",
+   "famille": "div",
+   "fonction": "Ingénieur, candidat citoyen",
+   "declaration": "2026-03-30"
+  },
+  {
+   "nom": "Antoine Mikolajczak",
+   "parti": "Équinoxe",
+   "famille": "div",
+   "fonction": "Ingénieur",
+   "declaration": "2026-06-27"
+  },
+  {
+   "nom": "Manolo Mlekuz",
+   "parti": "Trajectoire",
+   "famille": "div",
+   "fonction": "Candidat citoyen",
+   "declaration": "2026"
+  },
+  {
+   "nom": "Joël Chevé",
+   "parti": "La France adulte",
+   "famille": "div",
+   "fonction": "Candidat déclaré",
+   "declaration": ""
+  },
+  {
+   "nom": "Christian Collovati",
+   "parti": "Sans étiquette",
+   "famille": "div",
+   "fonction": "Candidat déclaré",
+   "declaration": ""
+  }
+ ]
+}

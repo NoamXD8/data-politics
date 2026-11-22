@@ -33,6 +33,7 @@ export default {
   style: "style.css",
   pages: [
     {name: "Accueil", path: "/"},
+    {name: "Candidats 2027", path: "/candidats-2027"},
     {name: "Méthodologie", path: "/methodologie"}
   ],
   dynamicPaths: [
