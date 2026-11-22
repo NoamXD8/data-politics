@@ -46,6 +46,22 @@ cd site && DATA_DIR=../tests/fixture/processed npm run dev
 Pour chaque territoire et scrutin : `[inscrits, votants, exprimes, blancs, nuls, voix_1, …, voix_n, voix_autres]`,
 dans l'ordre de `elections.json[i].candidats`. Voir la docstring de `pipeline/build.py`.
 
+## Tenir à jour les candidatures 2027
+
+Tout est dans `site/src/data/candidats-2027.json`. Champs d'une fiche :
+
+| Champ | Obligatoire | Contenu |
+|---|---|---|
+| `nom`, `parti`, `famille`, `fonction`, `declaration` | oui | identité ; `famille` = un code de `site/src/components/familles.js` ; date `AAAA-MM-JJ` (ou `AAAA-MM`, `AAAA`) |
+| `bio` | non | 2-3 phrases, mandats et fonctions publics uniquement |
+| `parcours` | non | `[{"periode": "2017-2020", "fonction": "Premier ministre"}]` |
+| `programme` | non | `[{"theme": "Retraites", "proposition": "…", "source": "https://…"}]` |
+| `site` | non | site de campagne |
+| `photo`, `credit` | non | image **libre de droits** (ex. Wikimedia Commons) et son crédit, affiché sous la photo |
+| `note` | non | statut particulier (candidature sous condition, etc.) |
+
+Les résultats aux présidentielles passées sont calculés automatiquement depuis les données officielles.
+
 ## Feuille de route
 
 - [x] Phase 1a : pipeline, accueil national, pages département + fiche commune

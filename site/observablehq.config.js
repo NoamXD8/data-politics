@@ -25,6 +25,12 @@ try {
   candidats = (derniere?.noms ?? []).filter((n) => n !== "Autres").map(slug);
 } catch {}
 
+// Une fiche par candidature 2027 (liste tenue à la main dans src/data/candidats-2027.json)
+let candidats2027 = [];
+try {
+  candidats2027 = JSON.parse(fs.readFileSync(path.join(ICI, "src", "data", "candidats-2027.json"), "utf-8")).candidats.map((c) => slug(c.nom));
+} catch {}
+
 export default {
   title: "Data Politics",
   root: "src",
@@ -38,7 +44,8 @@ export default {
   ],
   dynamicPaths: [
     ...departements.map((d) => `/departement/${d.code}`),
-    ...candidats.map((c) => `/candidat/${c}`)
+    ...candidats.map((c) => `/candidat/${c}`),
+    ...candidats2027.map((c) => `/candidat-2027/${c}`)
   ],
   interpreters: {".py": [process.platform === "win32" ? "python" : "python3"]},
   footer:

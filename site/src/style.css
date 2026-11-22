@@ -30,3 +30,6 @@
   .chiffres .card { flex: 1 1 90px; padding: 0.6rem; }
   .chiffres .valeur { font-size: 1.3rem; }
 }
+
+a.fiche { transition: border-color .15s, transform .15s; }
+a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foreground-focus); }
