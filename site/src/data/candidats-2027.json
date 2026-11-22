@@ -8,6 +8,10 @@
    "url": "https://republique2027.fr/candidats"
   },
   {
+   "titre": "France 24 — François Ruffin retire sa candidature (21 novembre 2026)",
+   "url": "https://www.france24.com/fr/france/20261121-pr%C3%A9sidentielle-prenant-acte-de-l-impasse-de-sa-campagne-fran%C3%A7ois-ruffin-retire-sa-candidature"
+  },
+  {
    "titre": "LCP — Présidentielle 2027 : la liste des candidats déclarés et potentiels (mis à jour le 20 novembre 2026)",
    "url": "https://lcp.fr/actualites/presidentielle-2027-la-liste-des-candidats-declares-et-potentiels-444932"
   },
@@ -58,14 +62,6 @@
    "fonction": "Secrétaire national du PCF, maire de Saint-Amand-les-Eaux",
    "declaration": "2026-09-06",
    "bio": "Secrétaire national du Parti communiste français depuis 2018, ancien député du Nord (2017-2024). Candidat à la présidentielle en 2022."
-  },
-  {
-   "nom": "François Ruffin",
-   "parti": "Debout !",
-   "famille": "dvg",
-   "fonction": "Député de la Somme, fondateur du mouvement",
-   "declaration": "2026-01-26",
-   "bio": "Journaliste, fondateur du journal Fakir et réalisateur du documentaire « Merci patron ! ». Député de la Somme depuis 2017, d'abord élu avec La France insoumise, qu'il a quittée en 2024."
   },
   {
    "nom": "Raphaël Glucksmann",
@@ -326,6 +322,56 @@
    "famille": "div",
    "fonction": "Candidat déclaré",
    "declaration": ""
+  }
+ ],
+ "retraits": [
+  {
+   "nom": "François Ruffin",
+   "parti": "Debout !",
+   "date": "2026-11-21",
+   "motif": "Retrait de candidature"
+  },
+  {
+   "nom": "Lydie Massard",
+   "parti": "Union démocratique bretonne",
+   "date": "2026-09-09",
+   "motif": "Retrait de candidature"
+  },
+  {
+   "nom": "Clémentine Autain",
+   "parti": "L'Après",
+   "date": "2026-07-11",
+   "motif": "Retrait de candidature"
+  },
+  {
+   "nom": "Benjamin Lucas-Lundy",
+   "parti": "Génération.s",
+   "date": "2026-07-07",
+   "motif": "Retrait de candidature"
+  },
+  {
+   "nom": "Olivier Faure",
+   "parti": "Parti socialiste",
+   "date": "2026-10-11",
+   "motif": "Non retenu à la primaire du pôle social-démocrate"
+  },
+  {
+   "nom": "Ségolène Royal",
+   "parti": "Parti socialiste",
+   "date": "2026-10-11",
+   "motif": "Non retenue à la primaire du pôle social-démocrate"
+  },
+  {
+   "nom": "Emmanuel Maurel",
+   "parti": "Gauche républicaine et socialiste",
+   "date": "2026-10-11",
+   "motif": "Non retenu à la primaire du pôle social-démocrate"
+  },
+  {
+   "nom": "Jérôme Guedj",
+   "parti": "Parti socialiste",
+   "date": "2026-10-11",
+   "motif": "Non retenu à la primaire du pôle social-démocrate"
   }
  ]
 }

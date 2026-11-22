@@ -55,6 +55,12 @@ display(visibles.length === 0 ? html`<p class="explication">Aucun résultat.</p>
 })}`);
 ```
 
+## Candidatures retirées ou non retenues
+
+```js
+display(html`<ul>${fiches.retraits.sort((a, b) => b.date.localeCompare(a.date)).map((r) => html`<li><strong>${r.nom}</strong> (${r.parti}) · ${r.motif}, ${dateFr(r.date)}</li>`)}</ul>`);
+```
+
 ## Sources
 
 <p class="explication">Les candidatures et fonctions viennent des sources ci-dessous. Les biographies se limitent aux mandats et fonctions publics. Les résultats aux présidentielles précédentes sont calculés à partir des données officielles du Ministère de l'Intérieur. Une erreur ? Elle sera corrigée et datée.</p>
