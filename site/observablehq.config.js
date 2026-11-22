@@ -14,6 +14,17 @@ try {
   console.warn(`⚠ ${DATA_DIR}/departements.json introuvable : lance d'abord le pipeline.`);
 }
 
+// Une page par candidat de la dernière présidentielle (1er tour), même gabarit pour tous
+export function slug(nom) {
+  return nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+let candidats = [];
+try {
+  const elections = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "elections.json"), "utf-8"));
+  const derniere = elections.filter((e) => e.type === "pres" && e.tour === 1).at(-1);
+  candidats = (derniere?.noms ?? []).filter((n) => n !== "Autres").map(slug);
+} catch {}
+
 export default {
   title: "Data Politics",
   root: "src",
@@ -24,7 +35,10 @@ export default {
     {name: "Accueil", path: "/"},
     {name: "Méthodologie", path: "/methodologie"}
   ],
-  dynamicPaths: departements.map((d) => `/departement/${d.code}`),
+  dynamicPaths: [
+    ...departements.map((d) => `/departement/${d.code}`),
+    ...candidats.map((c) => `/candidat/${c}`)
+  ],
   interpreters: {".py": [process.platform === "win32" ? "python" : "python3"]},
   footer:
     "Données : Ministère de l'Intérieur via data.gouv.fr (Licence Ouverte). Site indépendant et non partisan."

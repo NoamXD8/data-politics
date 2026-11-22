@@ -53,3 +53,22 @@ export function scrutinParDefaut(elections) {
 export function normaliser(s) {
   return s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[-'’]/g, " ").toLowerCase();
 }
+
+/** Identifiant d'URL d'un candidat : « Jean-Luc MÉLENCHON » → « jean-luc-melenchon ». */
+export function slug(nom) {
+  return nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+/** Part d'un candidat (par son slug) dans un vecteur de résultats, ou null s'il n'était pas candidat. */
+export function partDe(election, v, s) {
+  if (!v) return null;
+  const i = (election.noms ?? election.candidats).findIndex((n) => slug(n) === s);
+  return i < 0 || !v[2] ? null : v[5 + i] / v[2];
+}
+
+/** Rang (1 = premier) d'un candidat à un scrutin. */
+export function rangDe(election, v, s) {
+  const r = resultats(election, v).filter((d) => d.candidat !== "Autres");
+  const i = r.findIndex((d) => slug(d.candidat) === s);
+  return i < 0 ? null : i + 1;
+}

@@ -7,7 +7,7 @@ toc: false
 import {graphiqueParticipation} from "./components/participation.js";
 import {carteDepartements} from "./components/carte.js";
 import {couleur, FAMILLES} from "./components/familles.js";
-import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut, normaliser} from "./components/elections.js";
+import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut, normaliser, slug} from "./components/elections.js";
 
 const elections = FileAttachment("data/elections.json").json();
 const france = FileAttachment("data/france.json").json();
@@ -73,6 +73,19 @@ display(Plot.plot({
     Plot.ruleX([0])
   ]
 }));
+```
+
+## Les candidat·es de ${derniere.annee}
+
+<p class="explication">Une page par candidat·e, construite sur le même modèle pour tous : scores, carte, évolution.</p>
+
+```js
+const derniere = elections.filter((e) => e.type === "pres" && e.tour === 1).at(-1);
+const scoresDerniere = new Map(resultats(derniere, france.france[derniere.id]).map((d) => [d.candidat, d.part]));
+display(html`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem">${derniere.noms.map((n, i) => [n, derniere.familles[i]]).filter(([n]) => n !== "Autres").map(([n, f]) =>
+  html`<a href="./candidat/${slug(n)}" style="display:flex;align-items:center;gap:.6em;padding:.5rem .7rem;border:1px solid var(--theme-foreground-faintest);border-radius:8px;text-decoration:none;color:inherit">
+    <span style="width:.9em;height:2.2em;border-radius:3px;flex:none;background:${couleur(f, dark)}"></span>
+    <span><strong style="font-weight:600">${n}</strong><br><small style="color:var(--theme-foreground-muted)">${FAMILLES[f].nom} · ${fmtPct(scoresDerniere.get(n))}</small></span></a>`)}</div>`);
 ```
 
 ## La carte

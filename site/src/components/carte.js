@@ -67,3 +67,37 @@ export function carteDepartements({contours, departements, parDep, election, wid
 
   return html`<div>${legende}${carte}${tuiles}</div>`;
 }
+
+/**
+ * Carte des scores d'un candidat par département, en dégradé d'une seule teinte
+ * (sa couleur de famille), du plus faible au plus fort score.
+ * @param valeurs  Map code département → part des exprimés
+ */
+export function carteScore({contours, noms, valeurs, teinte, dark, width, base = "../"}) {
+  const parts = [...valeurs.values()].filter((d) => d != null);
+  const features = contours.features.map((f) => ({...f, part: valeurs.get(f.properties.code) ?? null}));
+  return Plot.plot({
+    width,
+    height: Math.min(width, 600),
+    projection: {type: "conic-conformal", parallels: [44, 49], rotate: [-3, 0], domain: contours, inset: 6},
+    color: {
+      type: "linear",
+      domain: [Math.min(...parts), Math.max(...parts)],
+      range: [dark ? "#2a2a2a" : "#f2f2f2", teinte],
+      legend: true,
+      label: "Score (% des exprimés)",
+      tickFormat: (d) => fmtPct(d)
+    },
+    marks: [
+      Plot.geo(features, {
+        fill: (f) => f.part,
+        stroke: "var(--theme-background)",
+        strokeWidth: 0.8,
+        href: (f) => `${base}departement/${f.properties.code}`
+      }),
+      Plot.tip(features, Plot.pointer(Plot.centroid({
+        title: (f) => `${noms.get(f.properties.code) ?? f.properties.nom}\n${f.part == null ? "Pas de données" : fmtPct(f.part)}`
+      })))
+    ]
+  });
+}
