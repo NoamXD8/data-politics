@@ -124,7 +124,8 @@
    "famille": "ens",
    "fonction": "Maire du Havre, président d'Horizons",
    "declaration": "2024-09-03",
-   "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021)."
+   "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021).",
+   "groupe": "Droite"
   },
   {
    "nom": "Olivier Becht",
@@ -237,7 +238,8 @@
    "parti": "Sans étiquette",
    "famille": "div",
    "fonction": "Judoka, cinq fois champion olympique",
-   "declaration": "2026-11-09"
+   "declaration": "2026-11-09",
+   "groupe": "Centre"
   },
   {
    "nom": "Juan Branco",
@@ -373,5 +375,6 @@
    "date": "2026-10-11",
    "motif": "Non retenu à la primaire du pôle social-démocrate"
   }
- ]
+ ],
+ "regroupement": "Regroupement repris de République 2027, avec deux ajustements de la rédaction : Édouard Philippe classé à droite (et non au centre), Teddy Riner classé au centre (et non en divers)."
 }

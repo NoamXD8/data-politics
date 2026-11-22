@@ -64,7 +64,7 @@ display(html`<ul>${fiches.retraits.sort((a, b) => b.date.localeCompare(a.date)).
 
 ## Sources
 
-<p class="explication">Les candidatures et fonctions viennent des sources ci-dessous. Les biographies se limitent aux mandats et fonctions publics. Les résultats aux présidentielles précédentes sont calculés à partir des données officielles du Ministère de l'Intérieur. Une erreur ? Elle sera corrigée et datée.</p>
+<p class="explication">${fiches.regroupement} Les candidatures et fonctions viennent des sources ci-dessous. Les biographies se limitent aux mandats et fonctions publics. Les résultats aux présidentielles précédentes sont calculés à partir des données officielles du Ministère de l'Intérieur. Une erreur ? Elle sera corrigée et datée.</p>
 
 ```js
 display(html`<ul>${fiches.sources.map((s) => html`<li><a href="${s.url}" target="_blank" rel="noopener">${s.titre}</a></li>`)}</ul>`);
