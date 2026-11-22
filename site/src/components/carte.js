@@ -101,3 +101,57 @@ export function carteScore({contours, noms, valeurs, teinte, dark, width, base =
     ]
   });
 }
+
+/**
+ * Carte des communes d'un département.
+ * mode "tete" : couleur de la famille du candidat en tête, teinte selon son score.
+ * mode "participation" : dégradé selon la participation.
+ * La commune sélectionnée est entourée ; un clic sélectionne une commune (?commune=CODE).
+ */
+export function carteCommunes({contours, communes, election, mode = "tete", selection, dark, width}) {
+  const infos = new Map(Object.entries(communes).map(([code, c]) => {
+    const v = c.r[election.id];
+    return [code, v ? {nom: c.nom, tete: enTete(election, v), participation: v[0] ? v[1] / v[0] : null} : null];
+  }));
+  const parts = [...infos.values()].filter((i) => i?.tete).map((i) => i.tete.part);
+  const [min, max] = [Math.min(...parts), Math.max(...parts)];
+  const opacite = (part) => (max > min ? 0.4 + (0.6 * (part - min)) / (max - min) : 1);
+  const features = contours.features.map((f) => ({...f, info: infos.get(f.properties.code) ?? null}));
+  const vide = "var(--theme-foreground-faintest)";
+  const titre = (f) => {
+    const i = f.info;
+    if (!i) return `${f.properties.nom}\nPas de résultats (commune fusionnée ou renommée ?)`;
+    return mode === "tete"
+      ? `${i.nom}\nEn tête : ${i.tete?.candidat ?? "–"} (${fmtPct(i.tete?.part)})\nParticipation : ${fmtPct(i.participation)}`
+      : `${i.nom}\nParticipation : ${fmtPct(i.participation)}${i.tete ? `\nEn tête : ${i.tete.candidat}` : ""}`;
+  };
+  const choisie = features.filter((f) => f.properties.code === selection);
+  const projection = {type: "mercator", domain: contours, inset: 8};
+  const height = Math.min(width, 560);
+  const base = {width, height, projection};
+
+  const marks = [
+    mode === "tete"
+      ? Plot.geo(features, {
+          fill: (f) => (f.info?.tete ? couleur(f.info.tete.famille, dark) : vide),
+          fillOpacity: (f) => (f.info?.tete ? opacite(f.info.tete.part) : 1),
+          stroke: "var(--theme-background)", strokeWidth: 0.4,
+          href: (f) => `?commune=${f.properties.code}`, target: "_self"
+        })
+      : Plot.geo(features, {
+          fill: (f) => f.info?.participation ?? NaN,
+          stroke: "var(--theme-background)", strokeWidth: 0.4,
+          href: (f) => `?commune=${f.properties.code}`, target: "_self"
+        }),
+    Plot.geo(choisie, {stroke: "currentColor", strokeWidth: 2.5, fill: "none"}),
+    Plot.tip(features, Plot.pointer(Plot.centroid({title: titre})))
+  ];
+  if (mode === "tete") return Plot.plot({...base, marks});
+  const ps = [...infos.values()].filter((i) => i?.participation != null).map((i) => i.participation);
+  return Plot.plot({
+    ...base,
+    color: {type: "linear", domain: [Math.min(...ps), Math.max(...ps)], range: [dark ? "#26313d" : "#e8f0fa", dark ? "#7fb2ee" : "#1c5aa6"],
+      legend: true, label: "Participation", tickFormat: (d) => fmtPct(d), unknown: vide},
+    marks
+  });
+}

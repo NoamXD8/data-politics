@@ -4,10 +4,12 @@ toc: false
 
 ```js
 import {graphiqueParticipation} from "../components/participation.js";
+import {carteCommunes} from "../components/carte.js";
 import {couleur, FAMILLES} from "../components/familles.js";
 import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut} from "../components/elections.js";
 
 const dep = FileAttachment(`../data/departements/${observable.params.dep}.json`).json();
+const contoursCommunes = FileAttachment(`../data/communes/${observable.params.dep}.json`).json().then((g) => (g.features.length ? g : null));
 const elections = FileAttachment("../data/elections.json").json();
 const france = FileAttachment("../data/france.json").json();
 ```
@@ -83,6 +85,19 @@ display(v ? Plot.plot({
     Plot.ruleX([0])
   ]
 }) : html``);
+```
+
+## La carte des communes
+
+```js
+const modeCarte = view(Inputs.radio(new Map([["Candidat en tête", "tete"], ["Participation", "participation"]]), {value: "tete"}));
+```
+
+```js
+display(contoursCommunes
+  ? html`<p class="explication">${election.libelle}. ${modeCarte === "tete" ? "Chaque commune prend la couleur du candidat arrivé en tête ; plus la teinte est soutenue, plus son score est élevé." : "Plus le bleu est foncé, plus la participation est forte."} Clique sur une commune pour afficher ses résultats.</p>
+    ${carteCommunes({contours: contoursCommunes, communes: dep.communes, election, mode: modeCarte, selection: commune.code, dark, width: Math.min(width, 760)})}`
+  : html`<p class="explication">Pas de carte des communes pour ce territoire.</p>`);
 ```
 
 ## La participation au fil des scrutins
