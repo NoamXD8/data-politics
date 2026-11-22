@@ -6,4 +6,5 @@ site/dist/
 site/src/.observablehq/cache/
 __pycache__/
 .venv/
+politics-env/
 *.part

@@ -10,8 +10,8 @@ Site grand public pour explorer les résultats électoraux français, de la Fran
 Prérequis : Python 3.10+ et Node.js 20+.
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows : .venv\Scripts\activate
+python -m venv politics-env
+source politics-env/bin/activate        # Windows : politics-env\Scripts\activate
 pip install -r requirements.txt
 cd site && npm install && cd ..
 ```
