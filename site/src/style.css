@@ -33,3 +33,12 @@
 
 a.fiche { transition: border-color .15s, transform .15s; }
 a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foreground-focus); }
+
+/* Fiche candidat : frise du parcours dans une colonne à droite (sous l'en-tête sur mobile) */
+.parcours { float: right; width: 300px; margin: 0 0 1.5rem 2.5rem; }
+.parcours h2 { margin-top: 0; }
+.frise { list-style: none; margin: 0; padding: 0 0 0 1.1rem; border-left: 2px solid var(--theme-foreground-faintest); }
+.frise li { position: relative; padding: 0 0 .9rem .2rem; font-size: .9rem; line-height: 1.35; }
+.frise li::before { content: ""; position: absolute; left: calc(-1.1rem - 6px); top: .3rem; width: 10px; height: 10px; border-radius: 50%; background: var(--teinte); border: 2px solid var(--theme-background); }
+.frise .annee { display: block; font-weight: 600; font-size: .85rem; color: var(--theme-foreground-muted); }
+@media (max-width: 900px) { .parcours { float: none; width: auto; margin: 0 0 1.5rem; } }
