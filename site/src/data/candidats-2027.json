@@ -48,6 +48,28 @@
      "type": "brochure de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2008",
+     "fonction": "Devient porte-parole de Lutte ouvrière"
+    },
+    {
+     "periode": "2012",
+     "fonction": "Candidate à la présidentielle, 9e"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Candidate à la présidentielle, 10e"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidate à la présidentielle, 12e"
+    },
+    {
+     "periode": "2025",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -231,6 +253,28 @@
      "type": "discours de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2017–2024",
+     "fonction": "Député du Nord"
+    },
+    {
+     "periode": "2018",
+     "fonction": "Secrétaire national du Parti communiste français"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidat à la présidentielle, 8e"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Maire de Saint-Amand-les-Eaux"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -277,6 +321,28 @@
      "type": "programme de Place publique",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2018",
+     "fonction": "Cofonde Place publique"
+    },
+    {
+     "periode": "2019",
+     "fonction": "Élu député européen"
+    },
+    {
+     "periode": "2024",
+     "fonction": "Tête de liste PS-Place publique aux européennes, réélu député européen"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Remporte la primaire du camp social-démocrate"
+    }
    ]
   },
   {
@@ -294,6 +360,16 @@
      "date": "2026-08-02",
      "type": "programme",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "2020",
+     "fonction": "Maire de Saint-Ouen-sur-Seine"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -319,6 +395,44 @@
      "date": "2026-07-15",
      "type": "propositions de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "1997–2002",
+     "fonction": "Député de la Manche"
+    },
+    {
+     "periode": "2001–2012",
+     "fonction": "Maire de Cherbourg-Octeville"
+    },
+    {
+     "periode": "2007–2012",
+     "fonction": "Député de la Manche"
+    },
+    {
+     "periode": "2012–2013",
+     "fonction": "Ministre délégué aux Affaires européennes"
+    },
+    {
+     "periode": "2013–2014",
+     "fonction": "Ministre délégué au Budget"
+    },
+    {
+     "periode": "2014–2016",
+     "fonction": "Ministre de l'Intérieur"
+    },
+    {
+     "periode": "2016–2017",
+     "fonction": "Premier ministre"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Quitte le Parti socialiste"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -359,6 +473,20 @@
      "type": "programme des Écologistes",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2014",
+     "fonction": "Conseillère municipale d'Hénin-Beaumont"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Secrétaire nationale d'EELV, devenu Les Écologistes"
+    },
+    {
+     "periode": "2025",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -375,6 +503,32 @@
      "date": "2026-06-22",
      "type": "discours de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "2007",
+     "fonction": "Élue députée des Deux-Sèvres"
+    },
+    {
+     "periode": "2012",
+     "fonction": "Ministre déléguée à la Justice"
+    },
+    {
+     "periode": "2012–2013",
+     "fonction": "Ministre de l'Écologie"
+    },
+    {
+     "periode": "2018",
+     "fonction": "Présidente de Génération écologie"
+    },
+    {
+     "periode": "2021",
+     "fonction": "Candidate à la primaire écologiste"
+    },
+    {
+     "periode": "2025",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -429,6 +583,40 @@
      "type": "programme de Renaissance",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2017",
+     "fonction": "Élu député des Hauts-de-Seine"
+    },
+    {
+     "periode": "2018–2020",
+     "fonction": "Secrétaire d'État auprès du ministre de l'Éducation nationale"
+    },
+    {
+     "periode": "2020–2022",
+     "fonction": "Porte-parole du gouvernement"
+    },
+    {
+     "periode": "2022–2023",
+     "fonction": "Ministre délégué aux Comptes publics"
+    },
+    {
+     "periode": "2023–2024",
+     "fonction": "Ministre de l'Éducation nationale"
+    },
+    {
+     "periode": "2024",
+     "fonction": "Premier ministre (janvier-septembre)"
+    },
+    {
+     "periode": "2024",
+     "fonction": "Président du groupe EPR à l'Assemblée et secrétaire général de Renaissance"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -476,6 +664,32 @@
      "type": "propositions de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2010",
+     "fonction": "Devient maire du Havre"
+    },
+    {
+     "periode": "2012–2017",
+     "fonction": "Député de Seine-Maritime"
+    },
+    {
+     "periode": "2017–2020",
+     "fonction": "Premier ministre"
+    },
+    {
+     "periode": "2020",
+     "fonction": "Réélu maire du Havre"
+    },
+    {
+     "periode": "2021",
+     "fonction": "Fonde Horizons"
+    },
+    {
+     "periode": "2024",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -484,7 +698,21 @@
    "famille": "ens",
    "fonction": "Député du Haut-Rhin",
    "declaration": "2026-09-24",
-   "bio": "Député du Haut-Rhin depuis 2017, ministre délégué au Commerce extérieur (2022-2024)."
+   "bio": "Député du Haut-Rhin depuis 2017, ministre délégué au Commerce extérieur (2022-2024).",
+   "parcours": [
+    {
+     "periode": "2017",
+     "fonction": "Élu député du Haut-Rhin"
+    },
+    {
+     "periode": "2022–2024",
+     "fonction": "Ministre délégué au Commerce extérieur"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
+   ]
   },
   {
    "nom": "Dominique de Villepin",
@@ -522,6 +750,32 @@
      "date": "2026-03-06",
      "type": "propositions de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "1995–2002",
+     "fonction": "Secrétaire général de l'Élysée"
+    },
+    {
+     "periode": "2002–2004",
+     "fonction": "Ministre des Affaires étrangères"
+    },
+    {
+     "periode": "2004–2005",
+     "fonction": "Ministre de l'Intérieur"
+    },
+    {
+     "periode": "2005–2007",
+     "fonction": "Premier ministre"
+    },
+    {
+     "periode": "2010",
+     "fonction": "Fonde République solidaire"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027 (La France humaniste)"
     }
    ]
   },
@@ -562,6 +816,36 @@
      "type": "programme des Républicains",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2004–2010",
+     "fonction": "Sénateur de la Vendée"
+    },
+    {
+     "periode": "2010–2015",
+     "fonction": "Président du conseil général de la Vendée"
+    },
+    {
+     "periode": "2014",
+     "fonction": "Redevient sénateur de la Vendée"
+    },
+    {
+     "periode": "2014–2024",
+     "fonction": "Président du groupe LR au Sénat"
+    },
+    {
+     "periode": "2024–2025",
+     "fonction": "Ministre de l'Intérieur"
+    },
+    {
+     "periode": "2025",
+     "fonction": "Président des Républicains"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -585,6 +869,36 @@
      "date": "2026-08-03",
      "type": "interview",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/environnement-energie"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "2004–2005",
+     "fonction": "Secrétaire d'État à l'Assurance maladie"
+    },
+    {
+     "periode": "2005–2007",
+     "fonction": "Ministre de la Santé"
+    },
+    {
+     "periode": "2007–2009",
+     "fonction": "Ministre du Travail"
+    },
+    {
+     "periode": "2010–2012",
+     "fonction": "Ministre du Travail, de l'Emploi et de la Santé"
+    },
+    {
+     "periode": "2010–2016",
+     "fonction": "Maire de Saint-Quentin"
+    },
+    {
+     "periode": "2016",
+     "fonction": "Président de la région Hauts-de-France"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -632,6 +946,20 @@
      "type": "propositions de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2014",
+     "fonction": "Maire de Cannes"
+    },
+    {
+     "periode": "2021",
+     "fonction": "Président de l'Association des maires de France"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -640,7 +968,17 @@
    "famille": "dvd",
    "fonction": "Maire de Chalon-sur-Saône",
    "declaration": "2026-10-08",
-   "bio": "Maire de Chalon-sur-Saône (Saône-et-Loire) depuis 2014."
+   "bio": "Maire de Chalon-sur-Saône (Saône-et-Loire) depuis 2014.",
+   "parcours": [
+    {
+     "periode": "2014",
+     "fonction": "Maire de Chalon-sur-Saône"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
+   ]
   },
   {
    "nom": "Nicolas Dupont-Aignan",
@@ -684,6 +1022,36 @@
      "date": "2026-10-06",
      "type": "discours de campagne",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "1995–2017",
+     "fonction": "Maire d'Yerres"
+    },
+    {
+     "periode": "1997–2024",
+     "fonction": "Député de l'Essonne"
+    },
+    {
+     "periode": "2008",
+     "fonction": "Fonde Debout la République, devenu Debout la France"
+    },
+    {
+     "periode": "2012",
+     "fonction": "Candidat à la présidentielle, 7e"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Candidat à la présidentielle, 6e"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidat à la présidentielle, 9e"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -732,6 +1100,40 @@
      "type": "programme",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2004–2017",
+     "fonction": "Députée européenne"
+    },
+    {
+     "periode": "2011–2022",
+     "fonction": "Présidente du Front national, devenu Rassemblement national"
+    },
+    {
+     "periode": "2012",
+     "fonction": "Candidate à la présidentielle, 3e"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Candidate à la présidentielle, qualifiée au second tour"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Élue députée du Pas-de-Calais"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidate à la présidentielle, qualifiée au second tour"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Présidente du groupe RN à l'Assemblée nationale"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -770,6 +1172,24 @@
      "type": "programme des Patriotes",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/immigration"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2012–2017",
+     "fonction": "Vice-président du Front national"
+    },
+    {
+     "periode": "2014–2019",
+     "fonction": "Député européen"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Quitte le FN et fonde Les Patriotes"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -787,6 +1207,20 @@
      "date": "2026-11-10",
      "type": "déclaration de candidature (TF1)",
      "source": "https://www.i24news.tv/fr/actu/france/artc-eric-zemmour-officialise-sa-candidature-a-l-election-presidentielle-2027"
+    }
+   ],
+   "parcours": [
+    {
+     "periode": "2021",
+     "fonction": "Fonde Reconquête"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidat à la présidentielle, 4e"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Annonce sa candidature pour 2027"
     }
    ]
   },
@@ -819,6 +1253,20 @@
      "type": "programme de l'UPR",
      "source": "https://poligraph.fr/elections/presidentielle-2027/themes/affaires-etrangeres-defense"
     }
+   ],
+   "parcours": [
+    {
+     "periode": "2007",
+     "fonction": "Fonde l'Union populaire républicaine"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Candidat à la présidentielle, 9e"
+    },
+    {
+     "periode": "2023",
+     "fonction": "Annonce sa candidature pour 2027"
+    }
    ]
   },
   {
@@ -828,7 +1276,29 @@
    "fonction": "Ancien député des Pyrénées-Atlantiques",
    "declaration": "",
    "bio": "Député des Pyrénées-Atlantiques de 2002 à 2022. Candidat à la présidentielle en 2017 et 2022.",
-   "note": "Candidature annoncée sous condition."
+   "note": "Candidature annoncée sous condition.",
+   "parcours": [
+    {
+     "periode": "1977–2017",
+     "fonction": "Maire de Lourdios-Ichère"
+    },
+    {
+     "periode": "2002–2022",
+     "fonction": "Député des Pyrénées-Atlantiques"
+    },
+    {
+     "periode": "2017",
+     "fonction": "Candidat à la présidentielle, 7e"
+    },
+    {
+     "periode": "2022",
+     "fonction": "Candidat à la présidentielle, 7e"
+    },
+    {
+     "periode": "2026",
+     "fonction": "Candidature annoncée sous condition"
+    }
+   ]
   },
   {
    "nom": "Natacha Polony",

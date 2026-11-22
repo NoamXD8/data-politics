@@ -41,11 +41,11 @@ ${c.note ? html`<div class="note">${c.note}</div>` : ""}`);
 // Parcours : frise dans une colonne à droite si elle est renseignée, sinon biographie en texte
 if (c.parcours?.length) {
   display(html`<aside class="parcours">
-    <h2>Parcours</h2>
+    <h2>Parcours politique</h2>
     <ol class="frise" style="--teinte:${teinte}">${c.parcours.map((p) => html`<li><span class="annee">${p.periode}</span>${p.fonction}</li>`)}</ol>
   </aside>`);
 } else {
-  display(html`<h2>Parcours</h2>${c.bio
+  display(html`<h2>Parcours politique</h2>${c.bio
     ? html`<p style="max-width:640px">${c.bio}</p>`
     : html`<p class="explication">Pas encore de biographie détaillée : seule la fonction déclarée par la source est indiquée.</p>`}`);
 }
