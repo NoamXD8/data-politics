@@ -10,6 +10,8 @@ Ce site est **indépendant et non partisan**. Cette page explique d'où viennent
 
 Tous les résultats viennent du **Ministère de l'Intérieur**, rassemblés par data.gouv.fr dans le jeu de données [« Données des élections agrégées »](https://www.data.gouv.fr/datasets/donnees-des-elections-agregees) (Licence Ouverte). Les résultats y sont publiés **par bureau de vote** ; ce site les additionne pour obtenir les résultats par commune, par département et pour la France entière.
 
+Les contours des départements viennent d'IGN Admin Express (via le projet open source france-geojson, Licence Ouverte), simplifiés pour un affichage rapide.
+
 Scrutins couverts : présidentielles, législatives et européennes depuis 2012.
 
 ## Comment lire les chiffres ?

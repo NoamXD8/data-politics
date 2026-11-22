@@ -31,8 +31,22 @@ ELECTIONS = {
 }
 
 
+def ajouter_tous_les_departements() -> None:
+    """Une commune fictive par département de métropole (+ un d'outre-mer) pour tester la carte."""
+    import json
+    contours = Path(__file__).parent.parent / "site" / "src" / "data" / "departements-contours.geojson"
+    if not contours.exists():
+        return
+    for f in json.loads(contours.read_text())["features"]:
+        code, nom = f["properties"]["code"], f["properties"]["nom"]
+        if not any(k[0] == code for k in COMMUNES):
+            COMMUNES[(code, nom)] = [("001", f"Commune test {code}")]
+    COMMUNES[("971", "Guadeloupe")] = [("101", "Commune test 971")]
+
+
 def main() -> None:
     random.seed(42)
+    ajouter_tous_les_departements()
     gen, cand = [], []
     for (dep, nom_dep), communes in COMMUNES.items():
         for code_com, nom_com in communes:

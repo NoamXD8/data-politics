@@ -5,6 +5,7 @@ toc: false
 
 ```js
 import {graphiqueParticipation} from "./components/participation.js";
+import {carteDepartements} from "./components/carte.js";
 import {couleur, FAMILLES} from "./components/familles.js";
 import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut, normaliser} from "./components/elections.js";
 
@@ -12,6 +13,7 @@ const elections = FileAttachment("data/elections.json").json();
 const france = FileAttachment("data/france.json").json();
 const communes = FileAttachment("data/communes.json").json();
 const departements = FileAttachment("data/departements.json").json();
+const contours = FileAttachment("data/departements-contours.geojson").json();
 ```
 
 # Les élections en France, en données
@@ -71,6 +73,14 @@ display(Plot.plot({
     Plot.ruleX([0])
   ]
 }));
+```
+
+## La carte
+
+<p class="explication">${election.libelle} : chaque département prend la couleur du candidat arrivé en tête. Plus la teinte est soutenue, plus son score est élevé. Clique sur un département pour voir le détail de ses communes.</p>
+
+```js
+display(carteDepartements({contours, departements, parDep: france.departements, election, width: Math.min(width, 760), dark}));
 ```
 
 ## La participation au fil des scrutins
