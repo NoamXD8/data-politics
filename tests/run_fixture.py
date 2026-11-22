@@ -27,7 +27,7 @@ def main() -> None:
         assert v[1] == v[2] + v[3] + v[4], f"{e['id']}: votants ≠ exprimés + blancs + nuls"
 
     euro = next(e for e in elections if e["type"] == "euro")
-    assert euro["candidats"][-1] == "Autres" and len(euro["candidats"]) <= 11
+    assert euro["candidats"][-1] == "Autres" and len(euro["candidats"]) <= 26
 
     ain = json.loads((OUT / "departements" / "01.json").read_text())
     assert "01053" in ain["communes"], "les codes commune doivent être au format INSEE"

@@ -32,6 +32,6 @@ LIBELLES_TYPES = {
 
 # Nombre maximum de candidats / listes / nuances affichés par scrutin.
 # Les autres sont regroupés dans « Autres » (utile pour les européennes : 38 listes en 2024).
-MAX_CANDIDATS = 10
-# Un candidat est gardé s'il fait au moins ce score national (en % des exprimés)...
-SEUIL_NATIONAL_PCT = 1.0
+MAX_CANDIDATS = 25
+# Un candidat est affiché s'il fait au moins ce score national (en % des exprimés)
+SEUIL_NATIONAL_PCT = 0.5

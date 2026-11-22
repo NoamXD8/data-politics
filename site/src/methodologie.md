@@ -16,7 +16,7 @@ Scrutins couverts : présidentielles, législatives et européennes depuis 2012.
 
 - **Participation** = votants ÷ inscrits.
 - **Score d'un candidat** = ses voix ÷ suffrages exprimés. Les exprimés excluent les votes blancs et nuls : c'est la règle officielle de calcul des résultats.
-- **« Autres »** regroupe les candidats ou listes qui font moins de 1 % au niveau national (et au-delà des 10 premiers). Cela concerne surtout les européennes, où il y a souvent plus de 30 listes.
+- **« Autres »** regroupe les candidats ou listes qui font moins de 0,5 % au niveau national. Cela concerne surtout les européennes, où il y a souvent plus de 30 listes.
 
 ## Choix et limites
 
