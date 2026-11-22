@@ -34,8 +34,9 @@ Si tu relances le pipeline, vide le cache du site : `cd site && npm run clean`.
 
 ### Données INSEE pour « Vote et sociologie »
 
-Télécharge la **Base du comparateur de territoires** (Parquet ou CSV) sur
-https://www.insee.fr/fr/statistiques/2521169 et place le fichier tel quel (zip accepté) dans `data/raw/insee/`.
+`python -m pipeline.sociologie` télécharge automatiquement la **Base du comparateur de territoires** (Parquet)
+de l'INSEE. Si ça échoue, télécharge-la sur https://www.insee.fr/fr/statistiques/2521169 et place le fichier tel quel
+(parquet, csv ou zip) dans `data/raw/insee/`.
 Le script reconnaît l'ancien et le nouveau format de l'INSEE ; s'il ne trouve pas les indicateurs,
 il affiche les codes disponibles : copie ce message pour adapter `pipeline/sociologie.py`.
 

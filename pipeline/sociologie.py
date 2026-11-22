@@ -1,10 +1,10 @@
 """Vote et sociologie : scores des candidats selon le profil des communes (données INSEE).
 
 Usage :
-  1. Télécharger la « Base du comparateur de territoires » (format Parquet ou CSV) sur
-     https://www.insee.fr/fr/statistiques/2521169 et la placer dans data/raw/insee/
-     (un .parquet, un .csv ou le .zip tel quel).
-  2. python -m pipeline.sociologie   (après python -m pipeline.build)
+  python -m pipeline.sociologie   (après python -m pipeline.build)
+  Le fichier INSEE (comparateur.parquet) est téléchargé automatiquement dans data/raw/insee/.
+  En cas d'échec, le télécharger sur https://www.insee.fr/fr/statistiques/2521169 et le placer
+  dans ce dossier (parquet, csv ou zip tel quel).
 
 Le lecteur accepte l'ancien format « large » (une colonne par indicateur : P21_POP, MED21…)
 et le format « long » (une ligne par indicateur et par territoire). Il retrouve les indicateurs
@@ -31,6 +31,7 @@ import pandas as pd
 from pipeline.config import PROCESSED_DIR, RAW_DIR
 
 DOSSIER_INSEE = RAW_DIR / "insee"
+URL_INSEE = "https://www.insee.fr/fr/statistiques/fichier/2521169/comparateur.parquet"
 ELECTIONS = ["2022_pres_t1", "2022_pres_t2", "2017_pres_t1", "2017_pres_t2"]
 
 # Indicateur → (motif du code INSEE, libellé)
@@ -57,6 +58,16 @@ INDICATEURS = {
 def trouver_fichier() -> Path:
     fichiers = sorted([*DOSSIER_INSEE.glob("*.parquet"), *DOSSIER_INSEE.glob("*.csv"), *DOSSIER_INSEE.glob("*.zip")])
     if not fichiers:
+        try:
+            import requests
+            print("↓ base du comparateur de territoires (INSEE) …")
+            r = requests.get(URL_INSEE, timeout=120)
+            r.raise_for_status()
+            DOSSIER_INSEE.mkdir(parents=True, exist_ok=True)
+            (DOSSIER_INSEE / "comparateur.parquet").write_bytes(r.content)
+            return DOSSIER_INSEE / "comparateur.parquet"
+        except Exception as e:  # pas de réseau, adresse changée…
+            print(f"⚠ téléchargement impossible ({e})")
         sys.exit(f"Aucun fichier INSEE dans {DOSSIER_INSEE}.\n"
                  "Télécharge la « Base du comparateur de territoires » sur https://www.insee.fr/fr/statistiques/2521169 "
                  "et place le fichier (parquet, csv ou zip) dans ce dossier.")
