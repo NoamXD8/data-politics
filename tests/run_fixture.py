@@ -36,6 +36,10 @@ def main() -> None:
     # La somme des communes doit retomber sur le total départemental
     e0 = ids[0]
     assert sum(c["r"][e0][0] for c in ain["communes"].values()) == ain["total"][e0][0]
+    legi = next(e for e in elections if e["id"] == "2024_legi_t1")
+    fam = dict(zip(legi["candidats"], legi["familles"]))
+    assert fam["UG"] == "ug" and fam["RN"] == "rn" and fam["ZZZ"] == "div"
+    assert len(legi["noms"]) == len(legi["candidats"])
     print("✓ tous les contrôles passent")
 
 

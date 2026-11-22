@@ -19,8 +19,9 @@ export function participation(v) {
 /** Résultats d'un scrutin : [{candidat, voix, part}] triés du plus fort au plus faible, « Autres » en dernier. */
 export function resultats(election, v) {
   if (!v) return [];
-  const lignes = election.candidats.map((candidat, i) => ({
-    candidat,
+  const lignes = election.candidats.map((cle, i) => ({
+    candidat: election.noms?.[i] ?? cle,
+    famille: election.familles?.[i] ?? "div",
     voix: v[5 + i],
     part: v[2] ? v[5 + i] / v[2] : 0
   }));
@@ -29,6 +30,11 @@ export function resultats(election, v) {
     .filter((d) => d.candidat !== "Autres" && d.voix > 0)
     .sort((a, b) => b.voix - a.voix)
     .concat(autres);
+}
+
+/** Raccourcit les noms de listes très longs pour l'axe (le nom complet reste dans l'infobulle). */
+export function raccourcir(nom, max = 30) {
+  return nom.length > max ? nom.slice(0, max - 1).trimEnd() + "…" : nom;
 }
 
 /** Libellé court d'un scrutin pour les axes : « Prés. 2022 T1 » */

@@ -10,6 +10,9 @@ Sorties : data/processed/
     communes.json           index de recherche [[code, nom, code_dep], ...]
     departements/XX.json    résultats par commune d'un département
 
+Chaque scrutin de elections.json porte aussi "familles" (famille politique de chaque candidat,
+voir pipeline/familles.py) et "noms" (libellé lisible), dans le même ordre que "candidats".
+
 Format compact des résultats : pour chaque territoire et chaque scrutin, une liste
 [inscrits, votants, exprimes, blancs, nuls, voix_cand_1, ..., voix_cand_n, voix_autres]
 dans l'ordre de elections[i].candidats.
@@ -22,6 +25,7 @@ from collections import defaultdict
 
 import duckdb
 
+from pipeline.familles import classer
 from pipeline.config import (
     ANNEE_MIN,
     LIBELLES_TYPES,
@@ -143,6 +147,19 @@ def choisir_candidats(con, elections: list[dict]) -> None:
             if 100 * voix / total >= SEUIL_NATIONAL_PCT
         ][:MAX_CANDIDATS]
         el["candidats"] = gardes + [AUTRES]
+        classes = [classer(el["type"], label) for label in el["candidats"]]
+        el["familles"] = [c[0] for c in classes]
+        el["noms"] = [c[1] for c in classes]
+        el["_non_reconnus"] = [label for label, c in zip(el["candidats"], classes) if not c[2]]
+
+
+def rapport_familles(elections: list[dict]) -> None:
+    """Affiche le classement de chaque candidat / liste / nuance, pour vérification humaine."""
+    print("\nClassement par famille politique (⚠ = non reconnu, classé « div ») :")
+    for el in elections:
+        nr = set(el.pop("_non_reconnus"))
+        items = [f"{'⚠ ' if c in nr else ''}{c} → {f}" for c, f in zip(el["candidats"], el["familles"]) if c != AUTRES]
+        print(f"  {el['id']}: " + " | ".join(items))
 
 
 def vecteurs(rows_gen, rows_cand, elections, cle) -> dict:
@@ -173,6 +190,7 @@ def main(raw_dir=RAW_DIR, out_dir=PROCESSED_DIR) -> None:
     elections = lister_elections(con)
     creer_vues_resultats(con, [e["id"] for e in elections])
     choisir_candidats(con, elections)
+    rapport_familles(elections)
     ecrire_json(out_dir / "elections.json", elections)
 
     # Noms : on prend le libellé le plus récent disponible.

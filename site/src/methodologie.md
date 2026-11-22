@@ -23,7 +23,7 @@ Scrutins couverts : présidentielles, législatives et européennes depuis 2012.
 - **Législatives :** les candidats sont différents dans chaque circonscription, donc les résultats sont regroupés par **nuance politique**, c'est-à-dire l'étiquette attribuée par le Ministère de l'Intérieur à chaque candidat. Les codes de nuance changent d'une élection à l'autre.
 - **Seconds tours de législatives :** il n'y a pas de second tour partout (élu dès le 1er tour, ou pas de candidat qualifié), d'où des communes sans résultats.
 - **Communes nouvelles et fusions :** une commune qui a fusionné peut apparaître sous un code différent selon l'année.
-- **Pas de couleurs de partis :** tous les candidats sont affichés de la même couleur, triés par score, pour ne favoriser personne visuellement.
+- **Couleurs politiques :** chaque candidat, liste ou nuance est rattaché à une **famille politique**, colorée selon les usages courants de la presse (rose pour le PS, bleu pour LR, etc.). Le nom est toujours écrit à côté de la couleur. Les souverainistes (Debout la France) sont en indigo plutôt qu'en bleu, pour rester distincts de LR. NUPES (2022) et NFP (2024) partagent la couleur « Union de la gauche ». Les candidats et listes non rattachés à une famille apparaissent en gris (« Divers et autres »). Le classement complet est consultable dans le code (`pipeline/familles.py`).
 
 ## Le code
 
