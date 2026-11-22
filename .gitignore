@@ -1,0 +1,9 @@
+data/raw/
+data/processed/
+tests/fixture/
+site/node_modules/
+site/dist/
+site/src/.observablehq/cache/
+__pycache__/
+.venv/
+*.part

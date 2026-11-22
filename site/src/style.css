@@ -1,0 +1,32 @@
+@import url("observablehq:default.css");
+@import url("observablehq:theme-air.css") (prefers-color-scheme: light);
+@import url("observablehq:theme-near-midnight.css") (prefers-color-scheme: dark);
+
+/* Palette catégorielle validée (clair / sombre) : commune, département, France */
+:root {
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+  }
+}
+
+.explication { color: var(--theme-foreground-muted); font-size: 0.9rem; max-width: 640px; }
+.resultats-recherche { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.resultats-recherche li { padding: 0.35rem 0; border-bottom: 1px solid var(--theme-foreground-faintest); }
+.resultats-recherche small { color: var(--theme-foreground-muted); }
+.chiffres { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+.chiffres .card { flex: 1 1 140px; margin: 0; }
+.chiffres .valeur { font-size: 1.8rem; font-weight: 600; }
+.chiffres .legende { color: var(--theme-foreground-muted); font-size: 0.85rem; }
+
+@media (max-width: 640px) {
+  .chiffres { gap: 0.5rem; }
+  .chiffres .card { flex: 1 1 90px; padding: 0.6rem; }
+  .chiffres .valeur { font-size: 1.3rem; }
+}

@@ -1,0 +1,31 @@
+import fs from "node:fs";
+import path from "node:path";
+import {fileURLToPath} from "node:url";
+
+// Dossier des fichiers produits par le pipeline (surchargeable : DATA_DIR=... npm run dev)
+const ICI = path.dirname(fileURLToPath(import.meta.url));
+const DATA_DIR = process.env.DATA_DIR ?? path.join(ICI, "..", "data", "processed");
+
+// Une page par département, générée à partir de la liste produite par le pipeline
+let departements = [];
+try {
+  departements = JSON.parse(fs.readFileSync(path.join(DATA_DIR, "departements.json"), "utf-8"));
+} catch {
+  console.warn(`⚠ ${DATA_DIR}/departements.json introuvable : lance d'abord le pipeline.`);
+}
+
+export default {
+  title: "Data Politics",
+  root: "src",
+  lang: "fr",
+  theme: ["air", "near-midnight"],
+  style: "style.css",
+  pages: [
+    {name: "Accueil", path: "/"},
+    {name: "Méthodologie", path: "/methodologie"}
+  ],
+  dynamicPaths: departements.map((d) => `/departement/${d.code}`),
+  interpreters: {".py": [process.platform === "win32" ? "python" : "python3"]},
+  footer:
+    "Données : Ministère de l'Intérieur via data.gouv.fr (Licence Ouverte). Site indépendant et non partisan."
+};

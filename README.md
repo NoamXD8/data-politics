@@ -1,0 +1,54 @@
+# Data Politics
+
+Site grand public pour explorer les résultats électoraux français, de la France entière jusqu'à la commune.
+
+- `pipeline/` : Python + DuckDB. Télécharge les résultats officiels (data.gouv.fr) et produit des JSON compacts.
+- `site/` : [Observable Framework](https://observablehq.com/framework/). Pages en Markdown + graphiques Observable Plot, site 100 % statique.
+
+## Installation (une seule fois)
+
+Prérequis : Python 3.10+ et Node.js 20+.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows : .venv\Scripts\activate
+pip install -r requirements.txt
+cd site && npm install && cd ..
+```
+
+## Lancer
+
+```bash
+python -m pipeline.download      # ~220 Mo, une seule fois
+python -m pipeline.build         # produit data/processed/ (affiche un rapport de contrôle)
+cd site && npm run dev           # http://127.0.0.1:3000
+```
+
+`pipeline.build` affiche la liste de **tous** les scrutins présents dans les données source.
+Le périmètre (types de scrutins, année minimum, nombre de candidats affichés) se règle dans `pipeline/config.py`.
+
+Si tu relances le pipeline, vide le cache du site : `cd site && npm run clean`.
+
+## Tester sans les vraies données
+
+```bash
+python -m tests.make_fixture     # fausses données au schéma exact de data.gouv
+python -m tests.run_fixture      # lance le pipeline dessus + contrôles de cohérence
+cd site && DATA_DIR=../tests/fixture/processed npm run dev
+```
+
+## Mettre en ligne
+
+`cd site && npm run build` produit `site/dist/`, à déposer sur GitHub Pages, Netlify ou Vercel.
+
+## Structure des données produites
+
+Pour chaque territoire et scrutin : `[inscrits, votants, exprimes, blancs, nuls, voix_1, …, voix_n, voix_autres]`,
+dans l'ordre de `elections.json[i].candidats`. Voir la docstring de `pipeline/build.py`.
+
+## Feuille de route
+
+- [x] Phase 1a : pipeline, accueil national, pages département + fiche commune
+- [ ] Phase 1b : carte (contours communes), circonscriptions, données INSEE
+- [ ] Phase 2 : page candidat (carrière Wikidata, résultats passés, actus), vote & sociologie
+- [ ] Phase 3 : tableau de bord 2027 (parrainages, sondages, soirée électorale)
