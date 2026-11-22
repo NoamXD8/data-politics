@@ -34,24 +34,30 @@ DOSSIER_INSEE = RAW_DIR / "insee"
 URL_INSEE = "https://www.insee.fr/fr/statistiques/fichier/2521169/comparateur.parquet"
 ELECTIONS = ["2022_pres_t1", "2022_pres_t2", "2017_pres_t1", "2017_pres_t2"]
 
-# Indicateur → (motif du code INSEE, libellé)
+# Indicateur → motifs des codes INSEE : ancien format (P21_POP, MED21…) puis nouveau format (juillet 2026)
 CODES = {
-    "pop": r"^P\d{2}_POP$",
-    "superf": r"^SUPERF$",
-    "med": r"^MED\d{2}$",
-    "tp60": r"^TP60\d{2}$",
-    "chom": r"^P\d{2}_CHOM1564$",
-    "act": r"^P\d{2}_ACT1564$",
-    "rsec": r"^P\d{2}_RSECOCC$",
-    "log": r"^P\d{2}_LOG$",
+    "pop": [r"^P\d{2}_POP$", r"^POP$"],
+    "superf": [r"^SUPERF$", r"^SUP$"],
+    "med": [r"^MED\d{2}$", r"^MED_SL$"],
+    "tp60": [r"^TP60\d{2}$", r"^PR_MD60$"],
+    "chom": [r"^P\d{2}_CHOM1564$"],
+    "act": [r"^P\d{2}_ACT1564$"],
+    "log": [r"^P\d{2}_LOG$", r"^DWELLINGS$"],
+    "rsec": [r"^P\d{2}_RSECOCC$", r"^DWELLINGS_OCS_DW_SEC_DW_OCC$"],
+    "vac": [r"^P\d{2}_LOGVAC$", r"^DWELLINGS_OCS_DW_VAC$"],
+    "rp": [r"^P\d{2}_RP$", r"^DWELLINGS_OCS_DW_MAIN$"],
+    "proprio": [r"^P\d{2}_RP_PROP$", r"^DWELLINGS_OCS_DW_MAIN_TSH_100$"],
 }
+TOUS_LES_MOTIFS = [m for motifs in CODES.values() for m in motifs]
 INDICATEURS = {
-    "med": {"libelle": "Revenu médian", "unite": "€ par an et par unité de consommation", "format": "euros"},
+    "med": {"libelle": "Niveau de vie médian", "unite": "€ par an et par unité de consommation", "format": "euros"},
     "tp60": {"libelle": "Taux de pauvreté", "unite": "% de la population", "format": "pct100"},
     "chom": {"libelle": "Taux de chômage", "unite": "% des actifs de 15 à 64 ans", "format": "pct"},
     "densite": {"libelle": "Densité de population", "unite": "habitants par km²", "format": "nombre"},
     "pop": {"libelle": "Taille de la commune", "unite": "habitants", "format": "nombre"},
     "rsec": {"libelle": "Résidences secondaires", "unite": "% des logements", "format": "pct"},
+    "proprio": {"libelle": "Part de propriétaires", "unite": "% des résidences principales", "format": "pct"},
+    "vac": {"libelle": "Logements vacants", "unite": "% des logements", "format": "pct"},
 }
 
 
@@ -108,7 +114,7 @@ def en_format_large(df: pd.DataFrame) -> pd.DataFrame:
         candidates = [c for c in df.columns if c not in (valeur, geo) and not pd.api.types.is_numeric_dtype(df[c])]
         def score(c):
             vals = df[c].dropna().astype(str).unique()[:5000]
-            return sum(any(re.match(m, v.upper()) for m in CODES.values()) for v in vals)
+            return sum(any(re.match(m, v.upper()) for m in TOUS_LES_MOTIFS) for v in vals)
         code = max(candidates, key=score)
         if score(code) == 0:
             raise ValueError("codes d'indicateurs introuvables", candidates)
@@ -128,8 +134,8 @@ def en_format_large(df: pd.DataFrame) -> pd.DataFrame:
 
 def indicateurs(large: pd.DataFrame) -> pd.DataFrame:
     choisis = {}
-    for nom, motif in CODES.items():
-        trouves = sorted(c for c in large.columns if re.match(motif, c))
+    for nom, motifs in CODES.items():
+        trouves = sorted(c for c in large.columns if any(re.match(m, c) for m in motifs))
         if trouves:
             choisis[nom] = trouves[-1]  # millésime le plus récent
     manquants = [n for n in ("pop", "med") if n not in choisis]
@@ -145,6 +151,12 @@ def indicateurs(large: pd.DataFrame) -> pd.DataFrame:
         out["chom"] = 100 * out["chom"] / out["act"].where(out["act"] > 0)
     if {"rsec", "log"} <= set(out):
         out["rsec"] = 100 * out["rsec"] / out["log"].where(out["log"] > 0)
+    if {"vac", "log"} <= set(out):
+        out["vac"] = 100 * out["vac"] / out["log"].where(out["log"] > 0)
+    if {"proprio", "rp"} <= set(out):
+        out["proprio"] = 100 * out["proprio"] / out["rp"].where(out["rp"] > 0)
+    if "act" not in out:
+        out = out.drop(columns=["chom"], errors="ignore")
     return out[[k for k in INDICATEURS if k in out]]
 
 
