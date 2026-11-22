@@ -131,7 +131,7 @@
   {
    "nom": "Édouard Philippe",
    "parti": "Horizons",
-   "famille": "ens",
+   "famille": "lr",
    "fonction": "Maire du Havre, président d'Horizons",
    "declaration": "2024-09-03",
    "bio": "Maire du Havre, Premier ministre de 2017 à 2020. Fondateur du parti Horizons (2021).",
@@ -252,7 +252,7 @@
   {
    "nom": "Teddy Riner",
    "parti": "Sans étiquette",
-   "famille": "div",
+   "famille": "ens",
    "fonction": "Judoka, cinq fois champion olympique",
    "declaration": "2026-11-09",
    "groupe": "Centre"
@@ -392,5 +392,5 @@
    "motif": "Non retenu à la primaire du pôle social-démocrate"
   }
  ],
- "regroupement": "Regroupement repris de République 2027, avec deux ajustements de la rédaction : Édouard Philippe classé à droite (et non au centre), Teddy Riner classé au centre (et non en divers)."
+ "regroupement": "Regroupement repris de République 2027, avec deux ajustements de la rédaction : Édouard Philippe classé à droite (et non au centre), Teddy Riner classé au centre (et non en divers) ; leur couleur suit ce classement."
 }
