@@ -57,7 +57,7 @@ Tout est dans `site/src/data/candidats-2027.json`. Champs d'une fiche :
 | `parcours` | non | `[{"periode": "2017-2020", "fonction": "Premier ministre"}]` |
 | `programme` | non | `[{"theme": "Retraites", "proposition": "…", "source": "https://…"}]` |
 | `site` | non | site de campagne |
-| `photo`, `credit` | non | image **libre de droits** (ex. Wikimedia Commons) et son crédit, affiché sous la photo |
+| `photo` | non | photo **libre de droits** : colle simplement le lien de la page Wikimedia Commons (`https://commons.wikimedia.org/wiki/File:…`). L'image, l'auteur et la licence sont récupérés automatiquement à la construction du site (`site/src/data/photos.json.py`) et le crédit s'affiche sous la photo. Pour une autre source, mets l'adresse directe de l'image et renseigne `credit`. |
 | `note` | non | statut particulier (candidature sous condition, etc.) |
 
 Les résultats aux présidentielles passées sont calculés automatiquement depuis les données officielles.

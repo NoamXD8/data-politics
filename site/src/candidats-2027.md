@@ -9,6 +9,7 @@ import {couleur, FAMILLES} from "./components/familles.js";
 import {GROUPES, groupeDe, dateFr, nomDeFamille, portrait, historique} from "./components/candidats.js";
 
 const fiches = FileAttachment("data/candidats-2027.json").json();
+const photos = FileAttachment("data/photos.json").json();
 const elections = FileAttachment("data/elections.json").json();
 const france = FileAttachment("data/france.json").json();
 ```
@@ -34,7 +35,7 @@ function fiche(c) {
   const lien = `./candidat-2027/${slug(c.nom)}`;
   return html`<a href="${lien}" class="card fiche" style="margin:0;display:flex;flex-direction:column;text-decoration:none;color:inherit;border-left:5px solid ${couleur(c.famille, dark)}">
     <div style="display:flex;gap:.8rem;align-items:center">
-      ${portrait(c, dark, 56)}
+      ${portrait(c, dark, 56, photos[c.nom])}
       <div>
         <h3 style="margin:0;font-size:1.15rem;font-weight:600;color:var(--theme-foreground)">${c.nom}</h3>
         <div style="color:var(--theme-foreground-muted);font-size:.9rem">${c.parti}</div>

@@ -8,6 +8,7 @@ import {couleur, FAMILLES} from "../components/familles.js";
 import {dateFr, groupeDe, portrait, historique, graphiqueHistorique} from "../components/candidats.js";
 
 const fiches = FileAttachment("../data/candidats-2027.json").json();
+const photos = FileAttachment("../data/photos.json").json();
 const elections = FileAttachment("../data/elections.json").json();
 const france = FileAttachment("../data/france.json").json();
 ```
@@ -25,7 +26,7 @@ const aUnePage = derniere.noms.some((n) => slug(n) === slug(c.nom));
 
 ```js
 display(html`<div style="display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;margin:1rem 0">
-  ${portrait(c, dark, 110)}
+  ${portrait(c, dark, 110, photos[c.nom])}
   <div style="min-width:220px;flex:1">
     <h1 style="margin:0">${c.nom}</h1>
     <div style="color:var(--theme-foreground-muted)">${c.parti} · ${groupeDe(c)}</div>

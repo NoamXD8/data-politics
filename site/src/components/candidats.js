@@ -25,14 +25,17 @@ export function dateFr(d) {
 
 export const nomDeFamille = (nom) => nom.split(" ").slice(1).join(" ");
 
-/** Portrait si une photo libre de droits a été renseignée (champ photo + credit), sinon initiales. */
-export function portrait(c, dark, taille = 56) {
+/**
+ * Portrait : photo libre de droits si elle a été renseignée (voir data/photos.json.py), sinon initiales.
+ * @param photo  {url, credit, page} résolu par le data loader, ou undefined
+ */
+export function portrait(c, dark, taille = 56, photo) {
   const bord = couleur(c.famille, dark);
-  if (c.photo) {
+  if (photo?.url) {
     return html`<figure style="margin:0;flex:none;width:${taille}px">
-      <img src="${c.photo}" alt="Portrait de ${c.nom}" loading="lazy"
-        style="width:${taille}px;height:${taille}px;border-radius:50%;object-fit:cover;border:3px solid ${bord}">
-      ${c.credit && taille > 80 ? html`<figcaption style="font-size:.7rem;color:var(--theme-foreground-muted);margin-top:.2rem">${c.credit}</figcaption>` : ""}
+      <img src="${photo.url}" alt="Portrait de ${c.nom}" loading="lazy"
+        style="width:${taille}px;height:${taille}px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:3px solid ${bord}">
+      ${photo.credit && taille > 80 ? html`<figcaption style="font-size:.65rem;line-height:1.2;color:var(--theme-foreground-muted);margin-top:.3rem">${photo.page ? html`<a href="${photo.page}" target="_blank" rel="noopener" style="color:inherit">${photo.credit}</a>` : photo.credit}</figcaption>` : ""}
     </figure>`;
   }
   const initiales = c.nom.split(/[\s-]+/).filter((m) => /^[A-ZÀ-Ý]/.test(m)).map((m) => m[0]).slice(0, 2).join("");
