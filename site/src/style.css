@@ -69,7 +69,7 @@ a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foregroun
   border: 1px solid var(--theme-foreground-faint); background: transparent; color: var(--theme-foreground-muted); }
 .choix-candidats .raccourcis button:hover { color: var(--theme-foreground); border-color: var(--theme-foreground-muted); }
 .choix-candidats .puces { display: flex; flex-wrap: wrap; gap: .45rem; }
-.choix-candidats .puce { font: inherit; display: inline-flex; align-items: center; gap: .45rem; padding: .22rem .75rem .22rem .25rem;
+.choix-candidats .puce { font: inherit; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .8rem;
   border-radius: 999px; border: 1.5px solid var(--theme-foreground-faintest); background: transparent; color: var(--theme-foreground-muted);
   cursor: pointer; transition: background .15s, border-color .15s, color .15s, transform .1s; }
 .choix-candidats .puce:hover { border-color: var(--c); transform: translateY(-1px); }

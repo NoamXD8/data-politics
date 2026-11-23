@@ -65,7 +65,6 @@ function choixCandidats(tour, cles, depart) {
     <div class="puces">${cles.map((k) => {
       const c = couleur(tour.candidats[k].famille, dark);
       return html`<button type="button" class="puce" data-k="${k}" style="--c:${c};--t:${clair(c) ? "#1b1b1b" : "#fff"}">
-        <span class="ini">${nom(k).split(/\s+/).map((m) => m[0]).join("").slice(0, 2)}</span>
         <span class="n">${nom(k)}</span><span class="s">${tour.candidats[k].pct.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %</span>
       </button>`;
     })}</div>
