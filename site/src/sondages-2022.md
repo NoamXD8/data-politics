@@ -38,34 +38,76 @@ const ordre = (tour) => Object.entries(tour.candidats).sort((a, b) => b[1].pct -
 ```js
 const t1 = s.t1;
 const cles1 = ordre(t1);
-const choisis = view(Inputs.checkbox(cles1, {
-  label: "Candidats",
-  value: cles1.slice(0, 6),
-  format: (k) => t1.candidats[k].nom.replace(/ [A-ZÀ-Ý-]+( [A-ZÀ-Ý-]+)*$/, (m) => m.charAt(0) + m.slice(1).toLowerCase().replace(/(^|[ -])\p{L}/gu, (x) => x.toUpperCase()))
-}));
+// « Emmanuel MACRON » → « Macron », « Marine LE PEN » → « Le Pen »
+const nomDeFamille = (nom) => (nom.match(/(?:\s[A-ZÀ-Ý'-]{2,})+$/)?.[0] ?? nom).trim().toLowerCase()
+  .replace(/(^|[\s-])(\p{L})/gu, (m, sep, l) => sep + l.toUpperCase());
+const choisis = view(Inputs.checkbox(cles1, {label: "Candidats", value: cles1.slice(0, 5), format: (k) => nomDeFamille(t1.candidats[k].nom)}));
 ```
 
 ```js
-const l1 = lignesDe(t1).filter((d) => choisis.includes(d.cle));
-const res1 = choisis.map((cle) => ({cle, ...t1.candidats[cle], date: jour(t1.vote)}));
-const domaine = choisis.map((k) => t1.candidats[k].nom);
-display(Plot.plot({
-  subtitle: "Intentions de vote au 1er tour (%). Chaque point est un sondage, la courbe est la moyenne mobile. Les losanges sont les résultats du 10 avril.",
-  width,
-  height: 460,
-  marginRight: 20,
-  x: {label: null, type: "time", tickFormat: axeDate},
-  y: {label: null, grid: true, tickFormat: (d) => `${d} %`},
-  color: {domain: domaine, range: choisis.map((k) => couleur(t1.candidats[k].famille, dark)), legend: true},
-  marks: [
-    Plot.ruleX([jour(t1.vote)], {stroke: "currentColor", strokeOpacity: 0.3, strokeDasharray: "4 3"}),
-    Plot.text([jour(t1.vote)], {x: (d) => d, frameAnchor: "top", text: () => "1er tour", dy: -4, textAnchor: "end", dx: -4, fill: "currentColor", fillOpacity: 0.6}),
-    Plot.dot(l1, {x: "date", y: "pct", fill: "nom", r: 1.8, fillOpacity: 0.25}),
-    Plot.line(l1, Plot.windowY({k: 25, reduce: "mean"}, {x: "date", y: "pct", stroke: "nom", strokeWidth: 2.2, sort: "date"})),
-    Plot.dot(res1, {x: "date", y: "pct", fill: "nom", symbol: "diamond2", r: 6, stroke: "var(--theme-background)", strokeWidth: 1.5}),
-    Plot.tip(l1, Plot.pointer({x: "date", y: "pct", title: (d) => `${d.nom} · ${d.pct.toLocaleString("fr-FR")} %\n${d.institut}, ${d.date.toLocaleDateString("fr-FR")} (${d.echantillon} personnes)`}))
-  ]
-}));
+display(graphiqueSondages(t1, choisis, {titre: "Sondages de l'élection présidentielle 2022 — 1er tour", sousTitre: "Moyenne lissée des sondages, tous instituts confondus. Les losanges sont les résultats officiels."}));
+```
+
+```js
+// Graphique façon « moyenne de sondages » : courbes lissées + bande d'incertitude, sondages en points,
+// résultats en losanges, étiquettes à droite décalées pour ne pas se chevaucher.
+function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
+  const vote = jour(tour.vote);
+  const coul = (k) => couleur(tour.candidats[k].famille, dark);
+  const nom = (k) => nomDeFamille(tour.candidats[k].nom);
+  const T = cles.flatMap((k) => (tour.tendances[k] ?? []).map((p) => ({...p, d: jour(p.date), k, nom: nom(k)})));
+  const P = lignesDe(tour).filter((d) => cles.includes(d.cle)).map((d) => ({...d, nom: nom(d.cle)}));
+  const R = cles.map((k) => ({k, nom: nom(k), d: vote, pct: tour.candidats[k].pct}));
+  const fins = cles.map((k) => {const t = tour.tendances[k]; const f = t?.at(-1); return f && {k, nom: nom(k), d: jour(f.date), v: f.moy};}).filter(Boolean);
+
+  const etroit = width < 640;
+  const largeur = width - 42; // marge intérieure de la carte
+  const hauteur = etroit ? 430 : 520, haut = 36, bas = 34;
+  const yMax = Math.ceil((Math.max(...T.map((d) => d.haut), ...R.map((d) => d.pct)) + 2) / 5) * 5;
+  // Étiquettes : on part de la valeur finale et on écarte les voisines d'au moins 26 px
+  const ecart = ((etroit ? 30 : 26) / (hauteur - haut - bas)) * (yMax - yMin);
+  const etiquettes = [...fins].sort((a, b) => b.v - a.v);
+  etiquettes.forEach((e, i) => (e.y = i === 0 ? Math.min(e.v, yMax - ecart / 2) : Math.min(e.v, etiquettes[i - 1].y - ecart)));
+  for (let i = etiquettes.length - 1; i >= 0; i--) if (etiquettes[i].y < yMin + ecart / 2) etiquettes[i].y = i === etiquettes.length - 1 ? yMin + ecart / 2 : etiquettes[i + 1].y + ecart;
+  const xEtiquette = new Date(+vote + (etroit ? 12 : 6) * 864e5);
+  const initiales = (n) => n.split(/\s+/).map((m) => m[0]).join("").slice(0, 2);
+  const pctTxt = (v) => `${v.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`;
+
+  const plot = Plot.plot({
+    width: largeur,
+    height: hauteur,
+    marginTop: haut,
+    marginBottom: bas,
+    marginRight: etroit ? 128 : 190,
+    marginLeft: 30,
+    style: {background: "transparent"},
+    x: {type: "time", label: null, ticks: etroit ? 3 : 6,
+      tickFormat: (d) => d.toLocaleDateString("fr-FR", etroit ? {month: "short", year: "2-digit"} : {day: "numeric", month: "short", year: "numeric"})},
+    y: {domain: [yMin, yMax], grid: true, label: "Score (%)", labelAnchor: "top", labelArrow: "none", ticks: 7},
+    color: {domain: cles.map(nom), range: cles.map(coul)},
+    marks: [
+      Plot.ruleX([vote], {stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
+      Plot.text([vote], {x: (d) => d, frameAnchor: "top", dy: -14, text: () => `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long"})}`, fontWeight: 600, textAnchor: "end", fill: "currentColor"}),
+      Plot.areaY(T, {x: "d", y1: "bas", y2: "haut", z: "nom", fill: "nom", fillOpacity: 0.16, curve: "basis"}),
+      Plot.dot(P, {x: "date", y: "pct", fill: "nom", r: 1.6, fillOpacity: 0.35}),
+      Plot.line(T, {x: "d", y: "moy", z: "nom", stroke: "nom", strokeWidth: 3.2, curve: "basis"}),
+      Plot.dot(R, {x: "d", y: "pct", fill: "nom", symbol: "diamond2", r: 6, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
+      Plot.dot(fins, {x: "d", y: "v", fill: "nom", r: 4.5, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
+      Plot.link(etiquettes, {x1: "d", y1: "v", x2: () => xEtiquette, y2: "y", stroke: "nom", strokeWidth: 1.2, strokeOpacity: 0.8}),
+      Plot.dot(etiquettes, {x: () => xEtiquette, y: "y", fill: "nom", r: 10, dx: 14}),
+      Plot.text(etiquettes, {x: () => xEtiquette, y: "y", text: (d) => initiales(d.nom), dx: 14, fill: "white", fontWeight: 700, fontSize: 9}),
+      Plot.text(etiquettes, {x: () => xEtiquette, y: "y", text: (d) => (etroit ? `${pctTxt(d.v)}\n${d.nom}` : `${pctTxt(d.v)}  ${d.nom}`), dx: 30, textAnchor: "start", fill: "nom", fontWeight: 700, fontSize: etroit ? 11 : 13, lineHeight: 1.1}),
+      Plot.tip(T, Plot.pointer({x: "d", y: "moy", title: (d) => `${d.nom} · moyenne au ${d.d.toLocaleDateString("fr-FR")} : ${pctTxt(d.moy)}\n(entre ${pctTxt(d.bas)} et ${pctTxt(d.haut)})`})),
+      Plot.tip(R, Plot.pointer({x: "d", y: "pct", title: (d) => `${d.nom} · résultat : ${pctTxt(d.pct)}`}))
+    ]
+  });
+  return html`<div class="carte-sondages">
+    <div class="titre">${titre}</div>
+    <div class="sous-titre">${sousTitre}</div>
+    ${plot}
+    <div class="pied">Sources : sondages publiés (compilation NSPPolls), résultats du Ministère de l'Intérieur · Data Politics</div>
+  </div>`;
+}
 ```
 
 ## L'écart entre les derniers sondages et le résultat
@@ -133,22 +175,11 @@ display(Inputs.table(inst1.map((d, i) => ({rang: i + 1, institut: d.institut, fi
 ```js
 const t2 = s.t2;
 const cles2 = ordre(t2);
-const l2 = lignesDe(t2).filter((d) => d.cle === cles2[0]);
+display(graphiqueSondages(t2, cles2, {titre: "Sondages de l'élection présidentielle 2022 — 2nd tour", sousTitre: "Intentions de vote en duel, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30}));
+```
+
+```js
 const gagnant = t2.candidats[cles2[0]];
-display(Plot.plot({
-  subtitle: `Intentions de vote pour ${gagnant.nom} au 2nd tour (%). La ligne horizontale est son résultat du ${dateCourte(t2.vote)} (${fmtPct(gagnant.pct / 100)}).`,
-  width,
-  height: 320,
-  x: {label: null, type: "time", tickFormat: axeDate},
-  y: {label: null, grid: true, domain: [45, 70], tickFormat: (d) => `${d} %`},
-  marks: [
-    Plot.ruleY([50], {stroke: "currentColor", strokeOpacity: 0.4}),
-    Plot.ruleY([gagnant.pct], {stroke: couleur(gagnant.famille, dark), strokeDasharray: "5 3"}),
-    Plot.dot(l2, {x: "date", y: "pct", fill: couleur(gagnant.famille, dark), r: 2, fillOpacity: 0.35}),
-    Plot.line(l2, Plot.windowY({k: 15, reduce: "mean"}, {x: "date", y: "pct", stroke: couleur(gagnant.famille, dark), strokeWidth: 2.2, sort: "date"})),
-    Plot.tip(l2, Plot.pointer({x: "date", y: "pct", title: (d) => `${d.nom} · ${d.pct.toLocaleString("fr-FR")} %\n${d.institut}, ${d.date.toLocaleDateString("fr-FR")}`}))
-  ]
-}));
 ```
 
 ```js

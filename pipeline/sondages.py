@@ -15,6 +15,7 @@ import sys
 import unicodedata
 from datetime import date
 
+import numpy as np
 import pandas as pd
 import requests
 
@@ -23,7 +24,7 @@ from pipeline.config import PROCESSED_DIR, RAW_DIR
 URL = "https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv"
 FICHIER = RAW_DIR / "nsppolls-presidentielle.csv"
 ELECTION_T1, ELECTION_T2 = "2022_pres_t1", "2022_pres_t2"
-DEBUT = "2022-01-01"  # avant, trop d'hypothèses de candidatures différentes
+DEBUT = "2021-09-01"  # un scénario par sondage : celui des candidats réellement présents
 # Interdiction de publication la veille et le jour du vote : derniers sondages publiables
 DERNIER_T1, DERNIER_T2 = "2022-04-08", "2022-04-22"
 
@@ -84,6 +85,35 @@ def precision(derniers: pd.DataFrame, res: dict) -> list:
     return sorted(lignes, key=lambda x: x["erreur_moyenne"])
 
 
+def tendance(d: pd.DataFrame, fin: str, h: float = 8.0) -> list:
+    """Moyenne lissée des sondages, jour par jour : régression locale linéaire (noyau gaussien de
+    largeur h jours, pondéré par la racine de l'échantillon), qui suit les tendances jusqu'au
+    dernier jour sans être tirée vers le passé, avec une bande d'incertitude à 95 %."""
+    t = (pd.to_datetime(d["fin_enquete"]) - pd.Timestamp("2000-01-01")).dt.days.to_numpy(float)
+    y = d["intentions"].to_numpy(float)
+    n = (d["echantillon"].fillna(1000).clip(lower=300).to_numpy(float) / 1000) ** 0.5
+    jours = np.arange(t.min(), (pd.Timestamp(fin) - pd.Timestamp("2000-01-01")).days + 1)
+    sortie = []
+    for j in jours:
+        noyau = np.exp(-0.5 * ((j - t) / h) ** 2)
+        w = noyau * n
+        if noyau.sum() < 1.5:  # trop peu de sondages autour de cette date
+            continue
+        x = t - j
+        X = np.column_stack([np.ones_like(x), x])
+        XtW = X.T * w
+        try:
+            a, b = np.linalg.solve(XtW @ X + np.diag([1e-9, 1e-3]), XtW @ y)
+        except np.linalg.LinAlgError:
+            a, b = (w * y).sum() / w.sum(), 0.0
+        m = a
+        n_eff = w.sum() ** 2 / (w ** 2).sum()
+        se = np.sqrt(max((w * (y - (a + b * x)) ** 2).sum() / w.sum(), 0.25) / n_eff)
+        sortie.append({"date": (pd.Timestamp("2000-01-01") + pd.Timedelta(days=int(j))).date().isoformat(),
+                       "moy": round(m, 2), "bas": round(m - 1.96 * se, 2), "haut": round(m + 1.96 * se, 2)})
+    return sortie
+
+
 def main(processed_dir=PROCESSED_DIR, force=False) -> None:
     df = telecharger(force)
     df["cle"] = df["candidat"].map(cle)
@@ -118,9 +148,11 @@ def main(processed_dir=PROCESSED_DIR, force=False) -> None:
                    "reference": "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2022"},
         "genere_le": date.today().isoformat(),
         "t1": {"candidats": res1, "sondages": sondages(t1), "dernier_jour": DERNIER_T1, "vote": "2022-04-10",
+               "tendances": {k: tendance(g, DERNIER_T1) for k, g in t1.groupby("cle")},
                "instituts": instituts,
                "moyenne_finale": {k: round(v, 2) for k, v in moyenne.items()}},
         "t2": {"candidats": res2, "sondages": sondages(t2), "dernier_jour": DERNIER_T2, "vote": "2022-04-24",
+               "tendances": {k: tendance(g, DERNIER_T2) for k, g in t2.groupby("cle")},
                "instituts": instituts_t2},
     }
     out = processed_dir / "sondages-2022.json"

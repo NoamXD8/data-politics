@@ -42,3 +42,11 @@ a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foregroun
 .frise li::before { content: ""; position: absolute; left: calc(-1.1rem - 6px); top: .3rem; width: 10px; height: 10px; border-radius: 50%; background: var(--teinte); border: 2px solid var(--theme-background); }
 .frise .annee { display: block; font-weight: 600; font-size: .85rem; color: var(--theme-foreground-muted); }
 @media (max-width: 900px) { .parcours { float: none; width: auto; margin: 0 0 1.5rem; } }
+
+/* Graphiques de sondages façon « carte » */
+.carte-sondages { background: var(--theme-background-alt); border: 1px solid var(--theme-foreground-faintest); border-radius: 14px; padding: 1.1rem 1.2rem .8rem; margin: 1rem 0; }
+.carte-sondages .titre { font-family: var(--sans-serif); font-size: 1.25rem; font-weight: 700; line-height: 1.25; }
+.carte-sondages .sous-titre, .carte-sondages .pied { font-family: var(--sans-serif); }
+@media (max-width: 640px) { .carte-sondages { padding: .8rem .6rem .6rem; } .carte-sondages .titre { font-size: 1.05rem; } }
+.carte-sondages .sous-titre { color: var(--theme-foreground-muted); font-size: .9rem; margin-bottom: .4rem; }
+.carte-sondages .pied { color: var(--theme-foreground-muted); font-size: .72rem; margin-top: .3rem; }
