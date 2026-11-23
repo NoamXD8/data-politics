@@ -61,3 +61,21 @@ a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foregroun
 .bulle-sondage .pastille { width: 20px; height: 20px; border-radius: 50%; color: white; font-size: .58rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 .bulle-sondage .valeur { font-weight: 800; font-variant-numeric: tabular-nums; }
 .bulle-sondage .detail { grid-column: 2 / 4; color: var(--theme-foreground-muted); font-size: .7rem; margin-top: -.15rem; }
+
+/* Sélecteur de candidats en pastilles */
+.choix-candidats { margin: .5rem 0 .2rem; font-family: var(--sans-serif); }
+.choix-candidats .raccourcis { display: flex; gap: .4rem; margin-bottom: .5rem; }
+.choix-candidats .raccourcis button { font: inherit; font-size: .78rem; padding: .2rem .65rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--theme-foreground-faint); background: transparent; color: var(--theme-foreground-muted); }
+.choix-candidats .raccourcis button:hover { color: var(--theme-foreground); border-color: var(--theme-foreground-muted); }
+.choix-candidats .puces { display: flex; flex-wrap: wrap; gap: .45rem; }
+.choix-candidats .puce { font: inherit; display: inline-flex; align-items: center; gap: .45rem; padding: .22rem .75rem .22rem .25rem;
+  border-radius: 999px; border: 1.5px solid var(--theme-foreground-faintest); background: transparent; color: var(--theme-foreground-muted);
+  cursor: pointer; transition: background .15s, border-color .15s, color .15s, transform .1s; }
+.choix-candidats .puce:hover { border-color: var(--c); transform: translateY(-1px); }
+.choix-candidats .puce .ini { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: .6rem; font-weight: 800; background: var(--theme-foreground-faintest); color: var(--theme-foreground-muted); transition: inherit; }
+.choix-candidats .puce .n { font-weight: 600; font-size: .88rem; }
+.choix-candidats .puce .s { font-size: .75rem; opacity: .75; font-variant-numeric: tabular-nums; }
+.choix-candidats .puce.on { background: var(--c); border-color: var(--c); color: var(--t); }
+.choix-candidats .puce.on .ini { background: var(--t); color: var(--c); }
