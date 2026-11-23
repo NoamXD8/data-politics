@@ -49,6 +49,67 @@ display(graphiqueSondages(t1, choisis, {titre: "Sondages de l'élection préside
 ```
 
 ```js
+// Infobulle maison : trait vertical, un point par courbe et une carte avec tous les candidats du jour
+function infobulle(svg, {T, R, fins, vote, coul, initiales, pctTxt}) {
+  const x = svg.scale("x"), y = svg.scale("y");
+  const parDate = d3.group(T, (d) => +d.d);
+  const dates = [...parDate.keys()].sort(d3.ascending);
+  const derniers = new Map(fins.map((f) => [f.nom, f.v]));
+  const calque = d3.select(svg).append("g").attr("pointer-events", "none").style("display", "none");
+  const trait = calque.append("line").attr("stroke", "currentColor").attr("stroke-opacity", 0.35).attr("stroke-dasharray", "2 3")
+    .attr("y1", y.apply(y.domain[1])).attr("y2", y.apply(y.domain[0]));
+  const bulle = html`<div class="bulle-sondage" hidden></div>`;
+  const jourFr = (d) => {
+    const t = d.toLocaleDateString("fr-FR", {weekday: "long", day: "numeric", month: "long", year: "numeric"});
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  };
+  const ligne = (n, valeur, detail) => `<div class="ligne"><span class="pastille" style="background:${coul(n)}">${initiales(n)}</span>
+    <span class="nom">${n}</span><span class="valeur" style="color:${coul(n)}">${valeur}</span>${detail ? `<span class="detail">${detail}</span>` : ""}</div>`;
+  const xMin = x.apply(dates[0]), xVote = x.apply(+vote);
+  function montrer(event) {
+    const [mx, my] = d3.pointer(event, svg);
+    if (mx < xMin - 10 || mx > xVote + 24) return cacher();
+    let px, lignes, titre;
+    if (mx > xVote - 10) {
+      // Sur les résultats
+      px = xVote;
+      lignes = [...R].sort((a, b) => b.pct - a.pct);
+      titre = `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long", year: "numeric"})}`;
+      bulle.innerHTML = `<div class="titre">${titre}</div>` + lignes.map((r) => ligne(r.nom, pctTxt(r.pct),
+        derniers.has(r.nom) ? `sondages : ${pctTxt(derniers.get(r.nom))}` : "")).join("");
+      calque.selectAll("circle").data(lignes).join("circle").attr("cx", px).attr("cy", (r) => y.apply(r.pct)).attr("r", 5)
+        .attr("fill", (r) => coul(r.nom)).attr("stroke", "var(--theme-background-alt)").attr("stroke-width", 2);
+    } else {
+      const t = x.invert(mx);
+      const i = d3.bisectCenter(dates, +t);
+      const d = dates[i];
+      px = x.apply(d);
+      lignes = [...parDate.get(d)].sort((a, b) => b.moy - a.moy);
+      bulle.innerHTML = `<div class="titre">${jourFr(new Date(d))}</div><div class="sous">moyenne des sondages</div>` +
+        lignes.map((l) => ligne(l.nom, pctTxt(l.moy), `${l.bas.toLocaleString("fr-FR", {maximumFractionDigits: 1})} – ${l.haut.toLocaleString("fr-FR", {maximumFractionDigits: 1})}`)).join("");
+      calque.selectAll("circle").data(lignes).join("circle").attr("cx", px).attr("cy", (l) => y.apply(l.moy)).attr("r", 5)
+        .attr("fill", (l) => coul(l.nom)).attr("stroke", "var(--theme-background-alt)").attr("stroke-width", 2);
+    }
+    calque.style("display", null);
+    trait.attr("x1", px).attr("x2", px);
+    bulle.hidden = false;
+    const largeur = svg.clientWidth || +svg.getAttribute("width");
+    const bw = bulle.offsetWidth, bh = bulle.offsetHeight;
+    const gauche = px + 18 + bw > largeur ? px - 18 - bw : px + 18;
+    bulle.style.left = `${Math.max(0, gauche)}px`;
+    bulle.style.top = `${Math.max(0, Math.min(my - bh / 2, (svg.clientHeight || 500) - bh))}px`;
+  }
+  function cacher() {
+    calque.style("display", "none");
+    bulle.hidden = true;
+  }
+  svg.addEventListener("pointermove", montrer);
+  svg.addEventListener("pointerleave", cacher);
+  return bulle;
+}
+```
+
+```js
 // Graphique façon « moyenne de sondages » : courbes lissées + bande d'incertitude, sondages en points,
 // résultats en losanges, étiquettes à droite décalées pour ne pas se chevaucher.
 function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
@@ -66,7 +127,7 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
   const yMax = Math.ceil((Math.max(...T.map((d) => d.haut), ...R.map((d) => d.pct)) + 2) / 5) * 5;
   // Étiquettes : on part de la valeur finale et on écarte les voisines d'au moins 26 px
   const ecart = ((etroit ? 30 : 26) / (hauteur - haut - bas)) * (yMax - yMin);
-  const etiquettes = [...fins].sort((a, b) => b.v - a.v);
+  const etiquettes = R.map((r) => ({...r, v: r.pct})).sort((a, b) => b.v - a.v);
   etiquettes.forEach((e, i) => (e.y = i === 0 ? Math.min(e.v, yMax - ecart / 2) : Math.min(e.v, etiquettes[i - 1].y - ecart)));
   for (let i = etiquettes.length - 1; i >= 0; i--) if (etiquettes[i].y < yMin + ecart / 2) etiquettes[i].y = i === etiquettes.length - 1 ? yMin + ecart / 2 : etiquettes[i + 1].y + ecart;
   const xEtiquette = new Date(+vote + (etroit ? 12 : 6) * 864e5);
@@ -93,18 +154,17 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
       Plot.line(T, {x: "d", y: "moy", z: "nom", stroke: "nom", strokeWidth: 3.2, curve: "basis"}),
       Plot.dot(R, {x: "d", y: "pct", fill: "nom", symbol: "diamond2", r: 6, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
       Plot.dot(fins, {x: "d", y: "v", fill: "nom", r: 4.5, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
-      Plot.link(etiquettes, {x1: "d", y1: "v", x2: () => xEtiquette, y2: "y", stroke: "nom", strokeWidth: 1.2, strokeOpacity: 0.8}),
+      Plot.link(etiquettes, {x1: "d", y1: "v", x2: () => xEtiquette, y2: "y", stroke: "nom", strokeWidth: 1.2, strokeOpacity: 0.8, insetLeft: 0}),
       Plot.dot(etiquettes, {x: () => xEtiquette, y: "y", fill: "nom", r: 10, dx: 14}),
       Plot.text(etiquettes, {x: () => xEtiquette, y: "y", text: (d) => initiales(d.nom), dx: 14, fill: "white", fontWeight: 700, fontSize: 9}),
       Plot.text(etiquettes, {x: () => xEtiquette, y: "y", text: (d) => (etroit ? `${pctTxt(d.v)}\n${d.nom}` : `${pctTxt(d.v)}  ${d.nom}`), dx: 30, textAnchor: "start", fill: "nom", fontWeight: 700, fontSize: etroit ? 11 : 13, lineHeight: 1.1}),
-      Plot.tip(T, Plot.pointer({x: "d", y: "moy", title: (d) => `${d.nom} · moyenne au ${d.d.toLocaleDateString("fr-FR")} : ${pctTxt(d.moy)}\n(entre ${pctTxt(d.bas)} et ${pctTxt(d.haut)})`})),
-      Plot.tip(R, Plot.pointer({x: "d", y: "pct", title: (d) => `${d.nom} · résultat : ${pctTxt(d.pct)}`}))
     ]
   });
+  const bulle = infobulle(plot, {T, R, fins, vote, coul: (n) => coul(cles.find((k) => nom(k) === n)), initiales, pctTxt});
   return html`<div class="carte-sondages">
     <div class="titre">${titre}</div>
     <div class="sous-titre">${sousTitre}</div>
-    ${plot}
+    <div style="position:relative">${plot}${bulle}</div>
     <div class="pied">Sources : sondages publiés (compilation NSPPolls), résultats du Ministère de l'Intérieur · Data Politics</div>
   </div>`;
 }

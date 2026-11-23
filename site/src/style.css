@@ -50,3 +50,14 @@ a.fiche:hover { transform: translateY(-2px); border-color: var(--theme-foregroun
 @media (max-width: 640px) { .carte-sondages { padding: .8rem .6rem .6rem; } .carte-sondages .titre { font-size: 1.05rem; } }
 .carte-sondages .sous-titre { color: var(--theme-foreground-muted); font-size: .9rem; margin-bottom: .4rem; }
 .carte-sondages .pied { color: var(--theme-foreground-muted); font-size: .72rem; margin-top: .3rem; }
+
+/* Infobulle des sondages */
+.bulle-sondage { position: absolute; z-index: 5; pointer-events: none; min-width: 210px; max-width: 280px; padding: .65rem .8rem .55rem;
+  background: var(--theme-background); border: 1px solid var(--theme-foreground-faintest); border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18); font-family: var(--sans-serif); font-size: .85rem; }
+.bulle-sondage .titre { font-weight: 700; font-size: .9rem; margin-bottom: .1rem; }
+.bulle-sondage .sous { color: var(--theme-foreground-muted); font-size: .72rem; margin-bottom: .35rem; }
+.bulle-sondage .ligne { display: grid; grid-template-columns: 22px 1fr auto; column-gap: .45rem; align-items: center; padding: .18rem 0; }
+.bulle-sondage .pastille { width: 20px; height: 20px; border-radius: 50%; color: white; font-size: .58rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.bulle-sondage .valeur { font-weight: 800; font-variant-numeric: tabular-nums; }
+.bulle-sondage .detail { grid-column: 2 / 4; color: var(--theme-foreground-muted); font-size: .7rem; margin-top: -.15rem; }
