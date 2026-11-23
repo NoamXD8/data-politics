@@ -153,12 +153,23 @@ function infobulle(svg, {T, R, fins, vote, coul, initiales, pctTxt}) {
 ```js
 // Graphique façon « moyenne de sondages » : courbes lissées + bande d'incertitude, sondages en points,
 // résultats en losanges, étiquettes à droite décalées pour ne pas se chevaucher.
-function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
+function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = [], debut = null}) {
   const vote = jour(tour.vote);
   const coul = (k) => couleur(tour.candidats[k].famille, dark);
   const nom = (k) => nomDeFamille(tour.candidats[k].nom);
-  const T = cles.flatMap((k) => (tour.tendances[k] ?? []).map((p) => ({...p, d: jour(p.date), k, nom: nom(k)})));
-  const P = lignesDe(tour).filter((d) => cles.includes(d.cle)).map((d) => ({...d, nom: nom(d.cle)}));
+  // Une courbe est coupée en segments là où il manque des jours (trop peu de sondages autour)
+  const T = cles.flatMap((k) => {
+    let seg = 0, prec = null;
+    return (tour.tendances[k] ?? []).map((p) => {
+      const d = jour(p.date);
+      if (prec && d - prec > 3 * 864e5) seg++;
+      prec = d;
+      return {...p, d, k, nom: nom(k), seg: `${k}-${seg}`};
+    });
+  });
+  const depuis = debut ? jour(debut) : null;
+  if (depuis) T.splice(0, T.length, ...T.filter((d) => d.d >= depuis));
+  const P = lignesDe(tour).filter((d) => cles.includes(d.cle) && (!depuis || d.date >= depuis)).map((d) => ({...d, nom: nom(d.cle)}));
   const R = cles.map((k) => ({k, nom: nom(k), d: vote, pct: tour.candidats[k].pct}));
   const fins = cles.map((k) => {const t = tour.tendances[k]; const f = t?.at(-1); return f && {k, nom: nom(k), d: jour(f.date), v: f.moy};}).filter(Boolean);
 
@@ -172,6 +183,7 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
   etiquettes.forEach((e, i) => (e.y = i === 0 ? Math.min(e.v, yMax - ecart / 2) : Math.min(e.v, etiquettes[i - 1].y - ecart)));
   for (let i = etiquettes.length - 1; i >= 0; i--) if (etiquettes[i].y < yMin + ecart / 2) etiquettes[i].y = i === etiquettes.length - 1 ? yMin + ecart / 2 : etiquettes[i + 1].y + ecart;
   const xEtiquette = new Date(+vote + (etroit ? 12 : 6) * 864e5);
+  const periodeCourte = vote - d3.min(T, (d) => d.d) < 150 * 864e5;
   const initiales = (n) => n.split(/\s+/).map((m) => m[0]).join("").slice(0, 2);
   const pctTxt = (v) => `${v.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`;
 
@@ -183,16 +195,19 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0}) {
     marginRight: etroit ? 128 : 190,
     marginLeft: 30,
     style: {background: "transparent"},
-    x: {type: "time", label: null, ticks: etroit ? 3 : 6,
-      tickFormat: (d) => d.toLocaleDateString("fr-FR", etroit ? {month: "short", year: "2-digit"} : {day: "numeric", month: "short", year: "numeric"})},
+    x: {type: "time", label: null, ticks: etroit ? 3 : periodeCourte ? 5 : 6,
+      tickFormat: (d) => d.toLocaleDateString("fr-FR", periodeCourte ? {day: "numeric", month: "short"} : etroit ? {month: "short", year: "2-digit"} : {day: "numeric", month: "short", year: "numeric"})},
     y: {domain: [yMin, yMax], grid: true, label: "Score (%)", labelAnchor: "top", labelArrow: "none", ticks: 7},
     color: {domain: cles.map(nom), range: cles.map(coul)},
     marks: [
       Plot.ruleX([vote], {stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
-      Plot.text([vote], {x: (d) => d, frameAnchor: "top", dy: -14, text: () => `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long"})}`, fontWeight: 600, textAnchor: "end", fill: "currentColor"}),
-      Plot.areaY(T, {x: "d", y1: "bas", y2: "haut", z: "nom", fill: "nom", fillOpacity: 0.16, curve: "basis"}),
+      // Repères supplémentaires (ex. date du 1er tour sur le graphique du 2nd tour)
+      Plot.ruleX(reperes, {x: (r) => jour(r.date), stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
+      Plot.text(reperes, {x: (r) => jour(r.date), frameAnchor: "top", dy: -14, dx: -4, text: "texte", fontWeight: 600, textAnchor: "end", fill: "currentColor"}),
+      Plot.text([vote], {x: (d) => d, frameAnchor: "top", dy: -14, dx: reperes.length ? 4 : 0, text: () => `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long"})}`, fontWeight: 600, textAnchor: reperes.length ? "start" : "end", fill: "currentColor"}),
+      Plot.areaY(T, {x: "d", y1: "bas", y2: "haut", z: "seg", fill: "nom", fillOpacity: 0.16, curve: "basis"}),
       Plot.dot(P, {x: "date", y: "pct", fill: "nom", r: 1.6, fillOpacity: 0.35}),
-      Plot.line(T, {x: "d", y: "moy", z: "nom", stroke: "nom", strokeWidth: 3.2, curve: "basis"}),
+      Plot.line(T, {x: "d", y: "moy", z: "seg", stroke: "nom", strokeWidth: 3.2, curve: "basis"}),
       Plot.dot(R, {x: "d", y: "pct", fill: "nom", symbol: "diamond2", r: 6, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
       Plot.dot(fins, {x: "d", y: "v", fill: "nom", r: 4.5, stroke: "var(--theme-background-alt)", strokeWidth: 1.5}),
       Plot.link(etiquettes, {x1: "d", y1: "v", x2: () => xEtiquette, y2: "y", stroke: "nom", strokeWidth: 1.2, strokeOpacity: 0.8, insetLeft: 0}),
@@ -276,7 +291,8 @@ display(Inputs.table(inst1.map((d, i) => ({rang: i + 1, institut: d.institut, fi
 ```js
 const t2 = s.t2;
 const cles2 = ordre(t2);
-display(graphiqueSondages(t2, cles2, {titre: "Sondages de l'élection présidentielle 2022 — 2nd tour", sousTitre: "Intentions de vote en duel, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30}));
+display(graphiqueSondages(t2, cles2, {titre: "Sondages de l'élection présidentielle 2022 — 2nd tour", sousTitre: "Intentions de vote en duel depuis février 2022, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30,
+  reperes: [{date: s.t1.vote, texte: "1er tour"}], debut: "2022-02-01"}));
 ```
 
 ```js
