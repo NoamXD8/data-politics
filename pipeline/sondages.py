@@ -194,9 +194,10 @@ def wikipedia(nom_fichier: str, res: dict, dernier: str) -> pd.DataFrame:
     large["id"] = large["institut"] + " " + large["fin"] + " #" + large.index.astype(str)
     long = large.melt(id_vars=["id", "fin", "institut", "echantillon"], var_name="candidat", value_name="intentions").dropna(subset=["intentions"])
     long["cle"] = long["candidat"].map(cle)
-    inconnus = set(long["cle"]) - set(res)
-    if inconnus:
-        raise LookupError(f"{nom_fichier} : candidats absents des résultats officiels {sorted(inconnus)}")
+    # Candidats sous le seuil d'affichage (rangés dans « Autres », ex. Cheminade en 2012) : ignorés
+    long = long[long["cle"].isin(res)]
+    if long["cle"].nunique() < 2:
+        raise LookupError(f"{nom_fichier} : les noms ne correspondent pas aux résultats officiels")
     long = long.rename(columns={"institut": "nom_institut", "fin": "fin_enquete"})
     long["nom_institut"] = long["nom_institut"].replace(INSTITUTS)
     long["echantillon"] = long["echantillon"].fillna(0)
