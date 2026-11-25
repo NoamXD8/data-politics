@@ -1,5 +1,5 @@
 ---
-title: Sondages 2022
+title: Sondages
 toc: false
 ---
 
@@ -8,15 +8,41 @@ import {fmtPct} from "./components/elections.js";
 import {couleur} from "./components/familles.js";
 import {puces} from "./components/choix.js";
 
-const s = FileAttachment("data/sondages-2022.json").json();
+const s = FileAttachment("data/sondages.json").json();
 ```
 
-# Les sondages de la présidentielle 2022
-
-<p class="explication">Tous les sondages d'intentions de vote publiés de janvier 2022 au dernier jour autorisé avant chaque tour, comparés aux résultats officiels. Un sondage n'est pas une prédiction : c'est une photographie de l'opinion à un moment donné, avec une marge d'erreur de l'ordre de 2 à 3 points pour les principaux candidats.</p>
+# Les sondages de la présidentielle
 
 ```js
 if (!s) display(html`<div class="note">Les sondages ne sont pas encore préparés : lance <code>python -m pipeline.sondages</code> à la racine du projet, puis relance le site.</div>`);
+```
+
+```js
+// Élection affichée : mémorisée dans l'URL (?annee=2017) pour pouvoir partager le lien
+const depuisUrl = new URLSearchParams(location.search).get("annee");
+const annees = s.annees;
+const statut = (a) => (s[a].statut === "en_cours" ? "en cours" : `${s[a].t1.sondages.length} sondages`);
+```
+
+```js
+const annee = view(puces(annees, {value: annees.includes(depuisUrl) ? depuisUrl : annees[0], label: "Élection",
+  format: (a) => `Présidentielle ${a}`, detail: statut}));
+```
+
+```js
+{
+  const url = new URL(location.href);
+  url.searchParams.set("annee", annee);
+  history.replaceState(null, "", url);
+}
+const e = s[annee];
+const enCours = e.statut === "en_cours";
+```
+
+```js
+display(html`<p class="explication">${enCours
+  ? html`Tous les sondages d'intentions de vote pour le 1er tour du ${jour(e.t1.vote).toLocaleDateString("fr-FR", {day: "numeric", month: "long", year: "numeric"})}, depuis ${jour(e.t1.sondages[0].fin).toLocaleDateString("fr-FR", {month: "long", year: "numeric"})}. Les candidatures ne sont pas encore officielles : les instituts testent plusieurs hypothèses. Un sondage n'est pas une prédiction : c'est une photographie de l'opinion à un moment donné, avec une marge d'erreur de l'ordre de 2 à 3 points pour les principaux candidats.`
+  : html`Tous les sondages d'intentions de vote publiés jusqu'au dernier jour autorisé avant ${e.t2 ? "chaque tour" : "le 1er tour"}, comparés aux résultats officiels. Un sondage n'est pas une prédiction : c'est une photographie de l'opinion à un moment donné, avec une marge d'erreur de l'ordre de 2 à 3 points pour les principaux candidats.`}</p>`);
 ```
 
 ```js
@@ -31,13 +57,15 @@ function lignesDe(tour) {
     nom: tour.candidats[cle].nom, famille: tour.candidats[cle].famille
   })));
 }
-const ordre = (tour) => Object.entries(tour.candidats).sort((a, b) => b[1].pct - a[1].pct).map(([cle]) => cle);
+const derniereMoy = (tour, k) => tour.tendances[k]?.at(-1)?.moy;
+const ordre = (tour) => Object.keys(tour.candidats)
+  .filter((k) => tour.candidats[k].pct != null || tour.tendances[k]?.length)
+  .sort((a, b) => (tour.candidats[b].pct ?? derniereMoy(tour, b)) - (tour.candidats[a].pct ?? derniereMoy(tour, a)));
 ```
 
-## Le premier tour, sondage après sondage
-
 ```js
-const t1 = s.t1;
+display(html`<h2>Le premier tour, sondage après sondage</h2>`);
+const t1 = e.t1;
 const cles1 = ordre(t1);
 // « Emmanuel MACRON » → « Macron », « Marine LE PEN » → « Le Pen »
 const nomDeFamille = (nom) => (nom.match(/(?:\s[A-ZÀ-Ý'-]{2,})+$/)?.[0] ?? nom).trim().toLowerCase()
@@ -47,18 +75,20 @@ const nomDeFamille = (nom) => (nom.match(/(?:\s[A-ZÀ-Ý'-]{2,})+$/)?.[0] ?? nom
 ```js
 const choisis = view(puces(cles1, {multiple: true, value: cles1.slice(0, 5),
   format: (k) => nomDeFamille(t1.candidats[k].nom),
-  detail: (k) => `${t1.candidats[k].pct.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`,
+  detail: (k) => `${(t1.candidats[k].pct ?? derniereMoy(t1, k)).toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`,
   couleur: (k) => couleur(t1.candidats[k].famille, dark),
   raccourcis: [{label: "Top 5", valeur: cles1.slice(0, 5)}, {label: "Tous", valeur: cles1}]}));
 ```
 
 ```js
-display(graphiqueSondages(t1, choisis, {titre: "Sondages de l'élection présidentielle 2022 — 1er tour", sousTitre: "Moyenne lissée des sondages, tous instituts confondus. Les losanges sont les résultats officiels."}));
+display(graphiqueSondages(t1, choisis, {titre: `Sondages de l'élection présidentielle ${annee} — 1er tour`,
+  sousTitre: enCours ? `Moyenne lissée des sondages, tous instituts confondus. Dernier sondage : ${dateCourte(t1.dernier_jour)}.` : "Moyenne lissée des sondages, tous instituts confondus. Les losanges sont les résultats officiels.",
+  source: e.source.nom}));
 ```
 
 ```js
 // Infobulle maison : trait vertical, un point par courbe et une carte avec tous les candidats du jour
-function infobulle(svg, {T, R, fins, vote, coul, initiales, pctTxt}) {
+function infobulle(svg, {T, R, fins, vote, aVenir = false, coul, initiales, pctTxt}) {
   const x = svg.scale("x"), y = svg.scale("y");
   const parDate = d3.group(T, (d) => +d.d);
   const dates = [...parDate.keys()].sort(d3.ascending);
@@ -76,9 +106,9 @@ function infobulle(svg, {T, R, fins, vote, coul, initiales, pctTxt}) {
   const xMin = x.apply(dates[0]), xVote = x.apply(+vote);
   function montrer(event) {
     const [mx, my] = d3.pointer(event, svg);
-    if (mx < xMin - 10 || mx > xVote + 24) return cacher();
+    if (mx < xMin - 10 || mx > xVote + (aVenir ? 6 : 24)) return cacher();
     let px, lignes, titre;
-    if (mx > xVote - 10) {
+    if (!aVenir && mx > xVote - 10) {
       // Sur les résultats
       px = xVote;
       lignes = [...R].sort((a, b) => b.pct - a.pct);
@@ -120,8 +150,10 @@ function infobulle(svg, {T, R, fins, vote, coul, initiales, pctTxt}) {
 ```js
 // Graphique façon « moyenne de sondages » : courbes lissées + bande d'incertitude, sondages en points,
 // résultats en losanges, étiquettes à droite décalées pour ne pas se chevaucher.
-function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = [], debut = null}) {
-  const vote = jour(tour.vote);
+function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = [], debut = null, source}) {
+  // Élection à venir : pas de résultat, les étiquettes se placent au bout des courbes
+  const aVenir = cles.every((k) => tour.candidats[k].pct == null);
+  const vote = jour(aVenir ? tour.dernier_jour : tour.vote);
   const coul = (k) => couleur(tour.candidats[k].famille, dark);
   const nom = (k) => nomDeFamille(tour.candidats[k].nom);
   // Une courbe est coupée en segments là où il manque des jours (trop peu de sondages autour)
@@ -137,7 +169,7 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = []
   const depuis = debut ? jour(debut) : null;
   if (depuis) T.splice(0, T.length, ...T.filter((d) => d.d >= depuis));
   const P = lignesDe(tour).filter((d) => cles.includes(d.cle) && (!depuis || d.date >= depuis)).map((d) => ({...d, nom: nom(d.cle)}));
-  const R = cles.map((k) => ({k, nom: nom(k), d: vote, pct: tour.candidats[k].pct}));
+  const R = aVenir ? [] : cles.map((k) => ({k, nom: nom(k), d: vote, pct: tour.candidats[k].pct}));
   const fins = cles.map((k) => {const t = tour.tendances[k]; const f = t?.at(-1); return f && {k, nom: nom(k), d: jour(f.date), v: f.moy};}).filter(Boolean);
 
   const etroit = width < 640;
@@ -146,7 +178,7 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = []
   const yMax = Math.ceil((Math.max(...T.map((d) => d.haut), ...R.map((d) => d.pct)) + 2) / 5) * 5;
   // Étiquettes : on part de la valeur finale et on écarte les voisines d'au moins 26 px
   const ecart = ((etroit ? 30 : 26) / (hauteur - haut - bas)) * (yMax - yMin);
-  const etiquettes = R.map((r) => ({...r, v: r.pct})).sort((a, b) => b.v - a.v);
+  const etiquettes = (aVenir ? fins : R.map((r) => ({...r, v: r.pct}))).map((r) => ({...r})).sort((a, b) => b.v - a.v);
   etiquettes.forEach((e, i) => (e.y = i === 0 ? Math.min(e.v, yMax - ecart / 2) : Math.min(e.v, etiquettes[i - 1].y - ecart)));
   for (let i = etiquettes.length - 1; i >= 0; i--) if (etiquettes[i].y < yMin + ecart / 2) etiquettes[i].y = i === etiquettes.length - 1 ? yMin + ecart / 2 : etiquettes[i + 1].y + ecart;
   const xEtiquette = new Date(+vote + (etroit ? 12 : 6) * 864e5);
@@ -167,11 +199,11 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = []
     y: {domain: [yMin, yMax], grid: true, label: "Score (%)", labelAnchor: "top", labelArrow: "none", ticks: 7},
     color: {domain: cles.map(nom), range: cles.map(coul)},
     marks: [
-      Plot.ruleX([vote], {stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
+      aVenir ? null : Plot.ruleX([vote], {stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
       // Repères supplémentaires (ex. date du 1er tour sur le graphique du 2nd tour)
       Plot.ruleX(reperes, {x: (r) => jour(r.date), stroke: "currentColor", strokeOpacity: 0.35, strokeDasharray: "3 4"}),
       Plot.text(reperes, {x: (r) => jour(r.date), frameAnchor: "top", dy: -14, dx: -4, text: "texte", fontWeight: 600, textAnchor: "end", fill: "currentColor"}),
-      Plot.text([vote], {x: (d) => d, frameAnchor: "top", dy: -14, dx: reperes.length ? 4 : 0, text: () => `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long"})}`, fontWeight: 600, textAnchor: reperes.length ? "start" : "end", fill: "currentColor"}),
+      aVenir ? null : Plot.text([vote], {x: (d) => d, frameAnchor: "top", dy: -14, dx: reperes.length ? 4 : 0, text: () => `Résultat du ${vote.toLocaleDateString("fr-FR", {day: "numeric", month: "long"})}`, fontWeight: 600, textAnchor: reperes.length ? "start" : "end", fill: "currentColor"}),
       Plot.areaY(T, {x: "d", y1: "bas", y2: "haut", z: "seg", fill: "nom", fillOpacity: 0.16, curve: "basis"}),
       Plot.dot(P, {x: "date", y: "pct", fill: "nom", r: 1.6, fillOpacity: 0.35}),
       Plot.line(T, {x: "d", y: "moy", z: "seg", stroke: "nom", strokeWidth: 3.2, curve: "basis"}),
@@ -183,20 +215,18 @@ function graphiqueSondages(tour, cles, {titre, sousTitre, yMin = 0, reperes = []
       Plot.text(etiquettes, {x: () => xEtiquette, y: "y", text: (d) => (etroit ? `${pctTxt(d.v)}\n${d.nom}` : `${pctTxt(d.v)}  ${d.nom}`), dx: 30, textAnchor: "start", fill: "nom", fontWeight: 700, fontSize: etroit ? 11 : 13, lineHeight: 1.1}),
     ]
   });
-  const bulle = infobulle(plot, {T, R, fins, vote, coul: (n) => coul(cles.find((k) => nom(k) === n)), initiales, pctTxt});
+  const bulle = infobulle(plot, {T, R, fins, vote, aVenir, coul: (n) => coul(cles.find((k) => nom(k) === n)), initiales, pctTxt});
   return html`<div class="carte-sondages">
     <div class="titre">${titre}</div>
     <div class="sous-titre">${sousTitre}</div>
     <div style="position:relative">${plot}${bulle}</div>
-    <div class="pied">Sources : sondages publiés (compilation NSPPolls), résultats du Ministère de l'Intérieur · Data Politics</div>
+    <div class="pied">Sources : sondages publiés (compilation ${source})${aVenir ? "" : ", résultats du Ministère de l'Intérieur"} · Data Politics</div>
   </div>`;
 }
 ```
 
-## L'écart entre les derniers sondages et le résultat
-
 ```js
-const ecarts = cles1.map((cle) => {
+const ecarts = enCours ? [] : cles1.map((cle) => {
   const c = t1.candidats[cle];
   const sondage = t1.moyenne_finale[cle];
   return {cle, nom: c.nom, famille: c.famille, resultat: c.pct, sondage, ecart: c.pct - sondage};
@@ -204,9 +234,10 @@ const ecarts = cles1.map((cle) => {
 const plusSurpris = [...ecarts].sort((a, b) => Math.abs(b.ecart) - Math.abs(a.ecart))[0];
 ```
 
-<p class="explication">Moyenne du dernier sondage publié par chaque institut avant l'interdiction de publication (${dateCourte(t1.dernier_jour)}), comparée au résultat. Le plus grand écart concerne <strong>${plusSurpris.nom}</strong> : ${fmtPct(plusSurpris.sondage / 100)} dans les derniers sondages, ${fmtPct(plusSurpris.resultat / 100)} dans les urnes (${pts(plusSurpris.ecart)}).</p>
-
 ```js
+if (ecarts.length) {
+display(html`<h2>L'écart entre les derniers sondages et le résultat</h2>
+<p class="explication">Moyenne du dernier sondage publié par chaque institut avant l'interdiction de publication (${dateCourte(t1.dernier_jour)}), comparée au résultat. Le plus grand écart concerne <strong>${plusSurpris.nom}</strong> : ${fmtPct(plusSurpris.sondage / 100)} dans les derniers sondages, ${fmtPct(plusSurpris.resultat / 100)} dans les urnes (${pts(plusSurpris.ecart)}).</p>`);
 display(Plot.plot({
   subtitle: "La flèche va du dernier sondage (moyenne des instituts) au résultat réel",
   width,
@@ -222,14 +253,14 @@ display(Plot.plot({
     Plot.tip(ecarts, Plot.pointerY({y: "nom", x: "resultat", title: (d) => `${d.nom}\nDerniers sondages : ${fmtPct(d.sondage / 100)}\nRésultat : ${fmtPct(d.resultat / 100)}\nÉcart : ${pts(d.ecart)}`}))
   ]
 }));
+} else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
 ```
-
-## Quel institut a le mieux prédit le 1er tour ?
-
-<p class="explication">Pour chaque institut, on prend son dernier sondage publié et on calcule l'erreur moyenne : l'écart moyen, en points, entre ses intentions de vote et le résultat, sur les ${cles1.length} candidats. Plus le chiffre est bas, plus le sondage était proche du résultat. Attention : un institut dont le dernier sondage est plus ancien est comparé à une opinion qui a eu plus de temps pour bouger.</p>
 
 ```js
 const inst1 = t1.instituts;
+if (inst1.length) {
+display(html`<h2>Quel institut a le mieux prédit le 1er tour ?</h2>
+<p class="explication">Pour chaque institut, on prend son dernier sondage publié et on calcule l'erreur moyenne : l'écart moyen, en points, entre ses intentions de vote et le résultat, sur les ${cles1.length} candidats. Plus le chiffre est bas, plus le sondage était proche du résultat. Attention : un institut dont le dernier sondage est plus ancien est comparé à une opinion qui a eu plus de temps pour bouger.</p>`);
 display(Plot.plot({
   width: Math.min(width, 720),
   height: 40 + inst1.length * 28,
@@ -243,39 +274,54 @@ display(Plot.plot({
     Plot.tip(inst1, Plot.pointerY({y: "institut", x: "erreur_moyenne", title: (d) => `${d.institut}, sondage terminé le ${dateCourte(d.fin)} (${d.echantillon} personnes)\nErreur moyenne : ${d.erreur_moyenne.toLocaleString("fr-FR")} pt\nPlus gros écart : ${d.pire.nom} (${pts(-d.pire.ecart)} dans les urnes)`}))
   ]
 }));
-```
-
-```js
 display(Inputs.table(inst1.map((d, i) => ({rang: i + 1, institut: d.institut, fin: d.fin, echantillon: d.echantillon, erreur: d.erreur_moyenne, pire: `${d.pire.nom} (${pts(-d.pire.ecart)})`})), {
   header: {rang: "Rang", institut: "Institut", fin: "Dernier sondage", echantillon: "Échantillon", erreur: "Erreur moyenne (pt)", pire: "Plus gros écart (résultat − sondage)"},
   format: {fin: dateCourte, echantillon: (x) => x.toLocaleString("fr-FR"), erreur: (x) => x.toLocaleString("fr-FR", {minimumFractionDigits: 2})},
   layout: "auto"
 }));
-```
-
-## Le second tour
-
-```js
-const t2 = s.t2;
-const cles2 = ordre(t2);
-display(graphiqueSondages(t2, cles2, {titre: "Sondages de l'élection présidentielle 2022 — 2nd tour", sousTitre: "Intentions de vote en duel depuis février 2022, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30,
-  reperes: [{date: s.t1.vote, texte: "1er tour"}], debut: "2022-02-01"}));
+} else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
 ```
 
 ```js
-const gagnant = t2.candidats[cles2[0]];
+// Élection à venir : liste des derniers sondages avec un lien vers leur notice officielle
+if (enCours) {
+  display(html`<h2>Les derniers sondages</h2><p class="explication">Chaque sondage publié doit être déposé auprès de la Commission des sondages, avec sa notice technique (échantillon, méthode, questions posées). Score moyen de chaque personnalité sur les hypothèses testées par le sondage.</p>`);
+  const derniers = [...t1.sondages].reverse();
+  const principaux = cles1.slice(0, 6);
+  display(Inputs.table(derniers.map((p) => ({fin: p.fin, institut: p.institut, echantillon: p.echantillon, ...Object.fromEntries(principaux.map((k) => [k, p.scores[k]])), source: p.source})), {
+    columns: ["fin", "institut", "echantillon", ...principaux, "source"],
+    header: {fin: "Fin du terrain", institut: "Institut", echantillon: "Échantillon", source: "Notice", ...Object.fromEntries(principaux.map((k) => [k, nomDeFamille(t1.candidats[k].nom)]))},
+    format: {fin: dateCourte, echantillon: (x) => x.toLocaleString("fr-FR"), source: (u) => (u ? html`<a href="${u}" target="_blank" rel="noopener">voir</a>` : ""),
+      ...Object.fromEntries(principaux.map((k) => [k, (x) => (x == null ? "–" : `${x.toLocaleString("fr-FR", {maximumFractionDigits: 1})} %`)]))},
+    layout: "auto", rows: 12
+  }));
+} else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
 ```
 
 ```js
-display(t2.instituts.length ? Inputs.table(t2.instituts.map((d, i) => ({rang: i + 1, institut: d.institut, fin: d.fin, sondage: d.ecarts[cles2[0]] + gagnant.pct, erreur: d.erreur_moyenne})), {
+const t2 = e.t2;
+const cles2 = t2 ? ordre(t2) : [];
+if (t2) {
+  display(html`<h2>Le second tour</h2>`);
+  display(graphiqueSondages(t2, cles2, {titre: `Sondages de l'élection présidentielle ${annee} — 2nd tour`, sousTitre: "Intentions de vote en duel, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30,
+    reperes: [{date: t1.vote, texte: "1er tour"}], debut: t2.debut_graphique, source: e.source.nom}));
+} else if (!enCours) {
+  display(html`<p class="note">Pas de série ouverte de sondages du 2nd tour pour ${annee} : seul le 1er tour est présenté.</p>`);
+} else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
+const gagnant = t2?.candidats[cles2[0]];
+```
+
+```js
+if (t2?.instituts.length) display(Inputs.table(t2.instituts.map((d, i) => ({rang: i + 1, institut: d.institut, fin: d.fin, sondage: d.ecarts[cles2[0]] + gagnant.pct, erreur: d.erreur_moyenne})), {
   header: {rang: "Rang", institut: "Institut", fin: "Dernier sondage", sondage: `${gagnant.nom} dans le sondage (%)`, erreur: "Erreur (pt)"},
   format: {fin: dateCourte, sondage: (x) => x.toLocaleString("fr-FR", {maximumFractionDigits: 1}), erreur: (x) => x.toLocaleString("fr-FR", {minimumFractionDigits: 2})},
   layout: "auto"
-}) : html``);
+}));
+else display(document.createComment(""));
 ```
 
 ## Sources
 
 ```js
-display(html`<p class="explication">Sondages : compilation <a href="${s.source.url}" target="_blank" rel="noopener">NSPPolls</a> (licence ${s.source.licence}), qui recense les sondages publiés et leurs notices. Liste de référence : <a href="${s.source.reference}" target="_blank" rel="noopener">Wikipédia, Liste de sondages sur l'élection présidentielle française de 2022</a>. Résultats : Ministère de l'Intérieur. Pour un même sondage testant plusieurs hypothèses de candidatures, on garde celle qui correspond aux candidats réellement présents.</p>`);
+display(html`<p class="explication">Sondages ${annee} : compilation <a href="${e.source.url}" target="_blank" rel="noopener">${e.source.nom}</a> (${e.source.licence}), qui recense les sondages publiés et leurs notices.${e.source.reference ? html` Liste de référence : <a href="${e.source.reference}" target="_blank" rel="noopener">Wikipédia, Liste de sondages sur l'élection présidentielle française de ${annee}</a>.` : ""}${enCours ? "" : " Résultats : Ministère de l'Intérieur."} ${e.methode}</p>`);
 ```

@@ -40,7 +40,7 @@ export default {
   pages: [
     {name: "Accueil", path: "/"},
     {name: "Candidats 2027", path: "/candidats-2027"},
-    {name: "Sondages 2022", path: "/sondages-2022"},
+    {name: "Sondages", path: "/sondages"},
     {name: "Vote et sociologie", path: "/vote-et-sociologie"},
     {name: "Méthodologie", path: "/methodologie"}
   ],

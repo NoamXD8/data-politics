@@ -1,12 +1,15 @@
-"""Sondages de la présidentielle 2022 : évolution, écart avec les résultats, précision des instituts.
+"""Sondages des présidentielles : évolution, écart avec les résultats, précision des instituts.
 
-Usage : python -m pipeline.sondages   (après python -m pipeline.build)
+Usage : python -m pipeline.sondages   (après python -m pipeline.build ; --force pour retélécharger)
 
-Source des sondages : NSPPolls (https://github.com/nsppolls/nsppolls), licence MIT,
-compilation des sondages publiés (notices de la Commission des sondages).
+Sources (téléchargées dans data/raw) :
+- 2022 : NSPPolls (https://github.com/nsppolls/nsppolls), licence MIT, 1er et 2nd tours.
+- 2017 : Léopold Mebazaa (https://github.com/lemeb/presidentielle), licence MIT, 1er tour seulement.
+- 2027 : « 2027 et moi » (https://github.com/2027etmoi/2027etmoi), Licence Ouverte 2.0, 1er tour,
+  chaque sondage vérifié sur sa notice à la Commission des sondages.
 Les résultats officiels viennent de data/processed (pipeline.build).
 
-Sortie : data/processed/sondages-2022.json
+Sortie : data/processed/sondages.json  ({"annees": [...], "2027": {...}, "2022": {...}, "2017": {...}})
 """
 
 import json
@@ -14,6 +17,7 @@ import re
 import sys
 import unicodedata
 from datetime import date
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -23,7 +27,10 @@ from pipeline.config import PROCESSED_DIR, RAW_DIR
 
 URL = "https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv"
 FICHIER = RAW_DIR / "nsppolls-presidentielle.csv"
-ELECTION_T1, ELECTION_T2 = "2022_pres_t1", "2022_pres_t2"
+URL_2017 = "https://raw.githubusercontent.com/lemeb/presidentielle/master/data/sondages_17.csv"
+FICHIER_2017 = RAW_DIR / "sondages-2017-lemeb.csv"
+URL_2027 = "https://raw.githubusercontent.com/2027etmoi/2027etmoi/main/data/"
+DOSSIER_2027 = RAW_DIR / "2027etmoi"
 DEBUT = "2021-09-01"  # un scénario par sondage : celui des candidats réellement présents
 # Interdiction de publication la veille et le jour du vote : derniers sondages publiables
 DERNIER_T1, DERNIER_T2 = "2022-04-08", "2022-04-22"
@@ -36,14 +43,18 @@ def cle(nom: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 
-def telecharger(force=False) -> pd.DataFrame:
-    if force or not FICHIER.exists():
-        print("↓ sondages NSPPolls …")
-        r = requests.get(URL, timeout=60)
+def telecharger_fichier(url, fichier, force=False):
+    if force or not fichier.exists():
+        print(f"↓ {url}")
+        r = requests.get(url, timeout=60)
         r.raise_for_status()
-        FICHIER.parent.mkdir(parents=True, exist_ok=True)
-        FICHIER.write_bytes(r.content)
-    return pd.read_csv(FICHIER)
+        fichier.parent.mkdir(parents=True, exist_ok=True)
+        fichier.write_bytes(r.content)
+    return fichier
+
+
+def telecharger(force=False) -> pd.DataFrame:
+    return pd.read_csv(telecharger_fichier(URL, FICHIER, force))
 
 
 def resultats(processed_dir, election_id) -> dict:
@@ -52,7 +63,7 @@ def resultats(processed_dir, election_id) -> dict:
     france = json.loads((processed_dir / "france.json").read_text(encoding="utf-8"))["france"]
     el = next((e for e in elections if e["id"] == election_id), None)
     if el is None or election_id not in france:
-        sys.exit(f"{election_id} absent des données : lance d'abord python -m pipeline.build")
+        raise LookupError(f"{election_id} absent des données : lance d'abord python -m pipeline.build")
     v = france[election_id]
     noms = el.get("noms", el["candidats"])
     return {cle(n): {"nom": n, "famille": f, "pct": round(100 * v[5 + i] / v[2], 2)}
@@ -114,54 +125,159 @@ def tendance(d: pd.DataFrame, fin: str, h: float = 8.0) -> list:
     return sortie
 
 
-def main(processed_dir=PROCESSED_DIR, force=False) -> None:
+
+
+def sondages(d: pd.DataFrame) -> list:
+    """Un objet par sondage : institut, fin du terrain, échantillon, scores par candidat."""
+    return [{"id": str(sid), "institut": g["nom_institut"].iloc[0], "fin": g["fin_enquete"].iloc[0],
+             "echantillon": int(g["echantillon"].fillna(0).iloc[0]), "rolling": bool(g["rolling"].iloc[0]),
+             "scores": {r.cle: round(float(r.intentions), 2) for r in g.itertuples()}}
+            for sid, g in d.sort_values("fin_enquete").groupby("id", sort=False)]
+
+
+def tour_avec_resultats(d: pd.DataFrame, res: dict, dernier: str, vote: str, h: float = 8.0, finale: bool = True) -> dict:
+    """Bloc d'un tour déjà joué : sondages, tendances, précision des instituts, moyenne finale."""
+    dernier_id = d.sort_values("fin_enquete").groupby("nom_institut")["id"].last()
+    derniers = d[d["id"].isin(dernier_id)]
+    bloc = {"candidats": res, "sondages": sondages(d), "dernier_jour": dernier, "vote": vote,
+            "tendances": {k: tendance(g, dernier, h) for k, g in d.groupby("cle")},
+            "instituts": precision(derniers, res)}
+    if finale:
+        bloc["moyenne_finale"] = {k: round(v, 2) for k, v in derniers.groupby("cle")["intentions"].mean().items()}
+    return bloc
+
+
+# ---------------------------------------------------------------- 2022 (NSPPolls)
+
+def annee_2022(processed_dir, force=False) -> dict:
     df = telecharger(force)
     df["cle"] = df["candidat"].map(cle)
-    res1, res2 = resultats(processed_dir, ELECTION_T1), resultats(processed_dir, ELECTION_T2)
+    res1, res2 = resultats(processed_dir, "2022_pres_t1"), resultats(processed_dir, "2022_pres_t2")
 
-    # 1er tour : un scénario par sondage, depuis janvier 2022, candidats du 1er tour seulement
+    # 1er tour : un scénario par sondage, candidats du 1er tour seulement
     t1 = df[(df["tour"] == "Premier tour") & (df["fin_enquete"] >= DEBUT) & (df["fin_enquete"] <= DERNIER_T1)]
     t1 = un_scenario_par_sondage(t1, set(res1))
     t1 = t1[t1["cle"].isin(res1)]
 
-    # Dernier sondage publiable de chaque institut
-    dernier_id = t1.sort_values("fin_enquete").groupby("nom_institut")["id"].last()
-    derniers = t1[t1["id"].isin(dernier_id)]
-    instituts = precision(derniers, res1)
-    moyenne = derniers.groupby("cle")["intentions"].mean()
-
-    # 2nd tour : duel Macron - Le Pen
-    finalistes = set(res2)
+    # 2nd tour : duel des deux finalistes
     t2 = df[(df["tour"] == "Deuxième tour") & (df["fin_enquete"] >= DEBUT) & (df["fin_enquete"] <= DERNIER_T2)]
-    t2 = t2[t2.groupby("id")["cle"].transform(lambda s: set(s) == finalistes)]
-    t2_dernier_id = t2.sort_values("fin_enquete").groupby("nom_institut")["id"].last()
-    instituts_t2 = precision(t2[t2["id"].isin(t2_dernier_id)], res2)
+    t2 = t2[t2.groupby("id")["cle"].transform(lambda s: set(s) == set(res2))]
 
-    def sondages(d):
-        return [{"id": sid, "institut": g["nom_institut"].iloc[0], "fin": g["fin_enquete"].iloc[0],
-                 "echantillon": int(g["echantillon"].iloc[0]), "rolling": bool(g["rolling"].iloc[0]),
-                 "scores": {r.cle: float(r.intentions) for r in g.itertuples()}}
-                for sid, g in d.sort_values("fin_enquete").groupby("id", sort=False)]
-
-    sortie = {
+    return {
+        "annee": 2022, "statut": "termine",
         "source": {"nom": "NSPPolls", "url": "https://github.com/nsppolls/nsppolls", "licence": "MIT",
                    "reference": "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2022"},
-        "genere_le": date.today().isoformat(),
-        "t1": {"candidats": res1, "sondages": sondages(t1), "dernier_jour": DERNIER_T1, "vote": "2022-04-10",
-               "tendances": {k: tendance(g, DERNIER_T1) for k, g in t1.groupby("cle")},
-               "instituts": instituts,
-               "moyenne_finale": {k: round(v, 2) for k, v in moyenne.items()}},
-        "t2": {"candidats": res2, "sondages": sondages(t2), "dernier_jour": DERNIER_T2, "vote": "2022-04-24",
-               "tendances": {k: tendance(g, DERNIER_T2) for k, g in t2.groupby("cle")},
-               "instituts": instituts_t2},
+        "methode": "Pour un même sondage testant plusieurs hypothèses de candidatures, on garde celle qui correspond aux candidats réellement présents.",
+        "t1": tour_avec_resultats(t1, res1, DERNIER_T1, "2022-04-10"),
+        "t2": {**tour_avec_resultats(t2, res2, DERNIER_T2, "2022-04-24", finale=False), "debut_graphique": "2022-02-01"},
     }
-    out = processed_dir / "sondages-2022.json"
-    out.write_text(json.dumps(sortie, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
-    print(f"✓ {len(sortie['t1']['sondages'])} sondages de 1er tour, {len(sortie['t2']['sondages'])} de 2nd tour depuis {DEBUT}")
-    print("  Précision des instituts (1er tour, dernier sondage publiable, erreur moyenne en points) :")
-    for i in instituts:
-        print(f"   {i['institut']:<20} {i['fin']}  {i['erreur_moyenne']:.2f} pt  (plus gros écart : {i['pire']['nom']} {i['pire']['ecart']:+.1f})")
+
+# ---------------------------------------------------------------- 2017 (lemeb/presidentielle)
+
+COLONNES_2017 = {"Arthaud": "arthaud", "Poutou": "poutou", "Melenchon": "melenchon", "Hamon": "hamon", "Macron": "macron",
+                 "Fillon": "fillon", "DupontAignan": "dupont-aignan", "Asselineau": "asselineau", "LePen": "le-pen",
+                 "Cheminade": "cheminade", "Lassalle": "lassalle"}  # Jadot et Bayrou se sont retirés avant le vote
+
+
+def annee_2017(processed_dir, force=False) -> dict:
+    brut = pd.read_csv(telecharger_fichier(URL_2017, FICHIER_2017, force)).drop_duplicates()
+    res1 = resultats(processed_dir, "2017_pres_t1")
+    # Colonne « LePen » → clé officielle « marine-le-pen »
+    vers_cle = {col: next((k for k in res1 if k == nom or k.endswith("-" + nom)), None) for col, nom in COLONNES_2017.items()}
+    vers_cle = {c: k for c, k in vers_cle.items() if k}
+    brut["id"] = brut["Institut"] + " " + brut["DateFin"]
+    long = brut.melt(id_vars=["id", "Institut", "DateFin", "N"], value_vars=list(vers_cle), var_name="col", value_name="intentions").dropna()
+    # Un même sondage peut apparaître en plusieurs hypothèses : moyenne par candidat
+    long = long.groupby(["id", "Institut", "DateFin", "col"], as_index=False).agg(intentions=("intentions", "mean"), N=("N", "max"))
+    long = long.rename(columns={"Institut": "nom_institut", "DateFin": "fin_enquete", "N": "echantillon"})
+    long["cle"] = long["col"].map(vers_cle)
+    long["rolling"] = False
+    long = long[long["fin_enquete"] <= "2017-04-21"]
+    return {
+        "annee": 2017, "statut": "termine",
+        "source": {"nom": "Léopold Mebazaa", "url": "https://github.com/lemeb/presidentielle", "licence": "MIT",
+                   "reference": "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2017"},
+        "methode": "Sondages publiés de décembre 2016 au 1er tour. Quand un même sondage figure plusieurs fois, on fait la moyenne. Pas de série ouverte pour le 2nd tour.",
+        "t1": tour_avec_resultats(long, res1, "2017-04-21", "2017-04-23", h=10),
+    }
+
+
+# ---------------------------------------------------------------- 2027 (2027 et moi)
+
+# Personnalités testées dans les sondages mais absentes de notre liste de candidats 2027
+HORS_LISTE_2027 = {"hollande": ("François Hollande", "ps"), "faure": ("Olivier Faure", "ps"), "guedj": ("Jérôme Guedj", "ps"),
+                   "royal": ("Ségolène Royal", "ps"), "maurel": ("Emmanuel Maurel", "dvg"), "ruffin": ("François Ruffin", "dvg"),
+                   "le-maire": ("Bruno Le Maire", "ens"), "lagarde": ("Christine Lagarde", "ens"), "bonnal": ("Sébastien Bonnal", "div")}
+LISTE_2027 = Path(__file__).resolve().parent.parent / "site" / "src" / "data" / "candidats-2027.json"
+
+
+def nom_majuscules(nom: str) -> str:
+    """« Marine Le Pen » → « Marine LE PEN » (même écriture que les résultats officiels)."""
+    prenom, _, reste = nom.partition(" ")
+    particule = ""
+    for p in ("de ", "d'"):
+        if reste.startswith(p):
+            particule, reste = p, reste[len(p):]
+    return f"{prenom} {particule}{reste.upper()}"
+
+
+def annee_2027(force=False) -> dict:
+    brut = json.loads(telecharger_fichier(URL_2027 + "sondages.json", DOSSIER_2027 / "sondages.json", force).read_text(encoding="utf-8"))
+    fiches = json.loads(telecharger_fichier(URL_2027 + "candidats.json", DOSSIER_2027 / "candidats.json", force).read_text(encoding="utf-8"))
+    noms = {c["id"]: c["nom"] for c in fiches["candidats"]} | {k: v for k, v in brut.get("noms_hors_liste", {}).items()}
+    familles = {cle(c["nom"]): c["famille"] for c in json.loads(LISTE_2027.read_text(encoding="utf-8"))["candidats"]}
+
+    lignes = []
+    for i, p in enumerate(brut["sondages"]):
+        # Plusieurs hypothèses de candidatures par sondage : moyenne de chaque personnalité sur celles où elle figure
+        scores = pd.DataFrame([h["scores"] for h in p["hypotheses"]]).mean()
+        for k, v in scores.items():
+            lignes.append({"id": f"{p['institut']} {p['terrain_fin']} {i}", "nom_institut": p["institut"], "fin_enquete": p["terrain_fin"],
+                           "echantillon": p.get("echantillon") or 1000, "rolling": False, "cle": k, "intentions": float(v),
+                           "source": p["source"]["url"]})
+    d = pd.DataFrame(lignes)
+    candidats = {}
+    for k in d["cle"].unique():
+        nom = noms.get(k) or HORS_LISTE_2027.get(k, (k.title(), "div"))[0]
+        famille = familles.get(cle(nom)) or HORS_LISTE_2027.get(k, (None, "div"))[1]
+        candidats[k] = {"nom": nom_majuscules(nom), "famille": famille, "pct": None, "nb_sondages": int((d["cle"] == k).sum())}
+    fin = d["fin_enquete"].max()
+    blocs = sondages(d)
+    sources = d.drop_duplicates("id").set_index("id")["source"].to_dict()
+    for b in blocs:
+        b["source"] = sources[b["id"]]
+    return {
+        "annee": 2027, "statut": "en_cours",
+        "source": {"nom": "2027 et moi", "url": "https://github.com/2027etmoi/2027etmoi", "licence": "Licence Ouverte 2.0",
+                   "mise_a_jour": brut.get("mise_a_jour")},
+        "methode": "Chaque sondage teste plusieurs hypothèses de candidatures : on prend la moyenne de chaque personnalité sur les hypothèses où elle figure.",
+        "t1": {"candidats": candidats, "sondages": blocs, "dernier_jour": fin, "vote": "2027-04-18",
+               "tendances": {k: tendance(g, fin, 14.0) for k, g in d.groupby("cle") if len(g) >= 3},
+               "instituts": []},
+    }
+
+
+def main(processed_dir=PROCESSED_DIR, force=False) -> None:
+    sortie = {"annees": [], "genere_le": date.today().isoformat()}
+    for annee, fabrique in (("2027", lambda: annee_2027(force)), ("2022", lambda: annee_2022(processed_dir, force)),
+                            ("2017", lambda: annee_2017(processed_dir, force))):
+        try:
+            bloc = fabrique()
+        except (LookupError, requests.RequestException, FileNotFoundError) as e:
+            print(f"✗ {annee} ignorée : {e}")
+            continue
+        sortie[annee] = bloc
+        sortie["annees"].append(annee)
+        t1, t2 = bloc["t1"], bloc.get("t2")
+        print(f"✓ {annee} : {len(t1['sondages'])} sondages de 1er tour" + (f", {len(t2['sondages'])} de 2nd tour" if t2 else ""))
+        for i in t1["instituts"][:3]:
+            print(f"   {i['institut']:<22} {i['fin']}  erreur moyenne {i['erreur_moyenne']:.2f} pt")
+    out = processed_dir / "sondages.json"
+    out.write_text(json.dumps(sortie, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    ancien = processed_dir / "sondages-2022.json"
+    if ancien.exists():
+        ancien.unlink()
     print(f"→ {out}")
 
 
