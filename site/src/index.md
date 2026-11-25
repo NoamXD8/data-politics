@@ -6,6 +6,7 @@ toc: false
 ```js
 import {graphiqueParticipation} from "./components/participation.js";
 import {carteDepartements} from "./components/carte.js";
+import {champ, choixScrutin, choixTour} from "./components/choix.js";
 import {couleur, FAMILLES} from "./components/familles.js";
 import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut, normaliser, slug} from "./components/elections.js";
 
@@ -23,7 +24,7 @@ const contours = FileAttachment("data/departements-contours.geojson").json();
 ## Trouve ta commune
 
 ```js
-const requete = view(Inputs.text({placeholder: "Ex. : Lyon, Bourg-en-Bresse, 69123…", autocomplete: "off"}));
+const requete = view(champ({placeholder: "Ex. : Lyon, Bourg-en-Bresse, 69123…"}));
 ```
 
 ```js
@@ -42,7 +43,7 @@ if (q.length >= 2) display(trouves.length === 0 ? html`<p class="explication">Au
 ## Résultats nationaux
 
 ```js
-const election = view(Inputs.select(elections, {label: "Scrutin", format: (e) => e.libelle, value: scrutinParDefaut(elections)}));
+const election = view(choixScrutin(elections, {value: scrutinParDefaut(elections)}));
 ```
 
 ```js
@@ -101,7 +102,7 @@ display(carteDepartements({contours, departements, parDep: france.departements, 
 <p class="explication">Chaque type d'élection est comparé avec lui-même : on vote toujours beaucoup plus à la présidentielle qu'aux européennes.</p>
 
 ```js
-const tour = view(Inputs.radio(new Map([["1er tour", 1], ["2nd tour", 2]]), {value: 1}));
+const tour = view(choixTour());
 ```
 
 ```js

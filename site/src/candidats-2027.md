@@ -7,6 +7,7 @@ toc: false
 import {fmtPct, slug, partDe, rangDe, normaliser} from "./components/elections.js";
 import {couleur, FAMILLES} from "./components/familles.js";
 import {GROUPES, groupeDe, dateFr, nomDeFamille, portrait, historique} from "./components/candidats.js";
+import {champ} from "./components/choix.js";
 
 const fiches = FileAttachment("data/candidats-2027.json").json();
 const photos = FileAttachment("data/photos.json").json();
@@ -23,7 +24,7 @@ const derniere = elections.filter((e) => e.type === "pres" && e.tour === 1).at(-
 <p class="explication">${fiches.regle} Liste arrêtée au ${dateFr(fiches.maj)} : <strong>${fiches.candidats.length} candidatures annoncées</strong>. Publication de la liste officielle le ${dateFr(fiches.liste_officielle)}, premier tour le 18 avril 2027.</p>
 
 ```js
-const requete = view(Inputs.text({placeholder: "Chercher un nom ou un parti…", autocomplete: "off"}));
+const requete = view(champ({placeholder: "Chercher un nom ou un parti…"}));
 ```
 
 ```js

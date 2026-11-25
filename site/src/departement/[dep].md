@@ -5,6 +5,7 @@ toc: false
 ```js
 import {graphiqueParticipation} from "../components/participation.js";
 import {carteCommunes} from "../components/carte.js";
+import {puces, recherche, choixScrutin, choixTour} from "../components/choix.js";
 import {couleur, FAMILLES} from "../components/familles.js";
 import {COULEURS, fmtPct, fmtNombre, participation, resultats, raccourcir, scrutinParDefaut} from "../components/elections.js";
 
@@ -25,15 +26,17 @@ const choixCommunes = [TOUT, ...Object.entries(dep.communes)
   .map(([code, c]) => ({code, nom: c.nom}))
   .sort((a, b) => a.nom.localeCompare(b.nom, "fr"))];
 const depuisUrl = new URLSearchParams(location.search).get("commune");
-const commune = view(Inputs.select(choixCommunes, {
+const commune = view(recherche(choixCommunes.slice(1), {
   label: "Commune",
+  tous: TOUT,
   format: (c) => c.nom,
+  placeholder: "Chercher une commune du département…",
   value: choixCommunes.find((c) => c.code === depuisUrl) ?? TOUT
 }));
 ```
 
 ```js
-const election = view(Inputs.select(elections, {label: "Scrutin", format: (e) => e.libelle, value: scrutinParDefaut(elections)}));
+const election = view(choixScrutin(elections, {value: scrutinParDefaut(elections)}));
 ```
 
 ```js
@@ -90,7 +93,7 @@ display(v ? Plot.plot({
 ## La carte des communes
 
 ```js
-const modeCarte = view(Inputs.radio(new Map([["Candidat en tête", "tete"], ["Participation", "participation"]]), {value: "tete"}));
+const modeCarte = view(puces(["tete", "participation"], {value: "tete", format: (m) => (m === "tete" ? "Candidat en tête" : "Participation")}));
 ```
 
 ```js
@@ -105,7 +108,7 @@ display(contoursCommunes
 <p class="explication">Chaque type d'élection est comparé avec lui-même : on vote toujours beaucoup plus à la présidentielle qu'aux européennes.</p>
 
 ```js
-const tour = view(Inputs.radio(new Map([["1er tour", 1], ["2nd tour", 2]]), {value: 1}));
+const tour = view(choixTour());
 ```
 
 ```js

@@ -5,6 +5,7 @@ toc: false
 
 ```js
 import {couleur} from "./components/familles.js";
+import {puces} from "./components/choix.js";
 
 const socio = FileAttachment("data/sociologie.json").json();
 ```
@@ -19,11 +20,11 @@ if (!socio) display(html`<div class="note">Les données INSEE ne sont pas encore
 
 ```js
 const ids = Object.keys(socio.elections);
-const eid = view(Inputs.select(ids, {label: "Scrutin", format: (i) => socio.elections[i].libelle, value: ids[0]}));
+const eid = view(puces(ids, {label: "Scrutin", format: (i) => socio.elections[i].libelle, value: ids[0]}));
 ```
 
 ```js
-const ind = view(Inputs.select(Object.keys(socio.indicateurs), {label: "Indicateur", format: (k) => socio.indicateurs[k].libelle, value: "med"}));
+const ind = view(puces(Object.keys(socio.indicateurs), {label: "Indicateur", format: (k) => socio.indicateurs[k].libelle, value: "med"}));
 ```
 
 ```js
@@ -32,7 +33,10 @@ const info = socio.indicateurs[ind];
 const tranchesInd = bloc.indicateurs[ind];
 const parScore = [...bloc.candidats].sort((a, b) =>
   tranchesInd.reduce((s, t) => s + t.scores[b.nom], 0) - tranchesInd.reduce((s, t) => s + t.scores[a.nom], 0));
-const choisis = view(Inputs.checkbox(parScore.map((c) => c.nom), {label: "Candidats", value: parScore.slice(0, 5).map((c) => c.nom)}));
+const nomsCand = parScore.map((c) => c.nom);
+const choisis = view(puces(nomsCand, {multiple: true, label: "Candidats", value: nomsCand.slice(0, 5),
+  couleur: (n) => couleur(parScore.find((c) => c.nom === n).famille, dark),
+  raccourcis: [{label: "Top 5", valeur: nomsCand.slice(0, 5)}, {label: "Tous", valeur: nomsCand}]}));
 ```
 
 ```js

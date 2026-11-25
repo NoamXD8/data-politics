@@ -6,6 +6,7 @@ toc: false
 import {fmtPct, fmtNombre, court, slug, partDe, rangDe, raccourcir} from "../components/elections.js";
 import {couleur, FAMILLES} from "../components/familles.js";
 import {carteScore} from "../components/carte.js";
+import {puces} from "../components/choix.js";
 
 const elections = FileAttachment("../data/elections.json").json();
 const france = FileAttachment("../data/france.json").json();
@@ -66,7 +67,7 @@ display(Plot.plot({
 
 ```js
 const tours = presences.filter((d) => d.e.annee === anneeRef);
-const choix = view(Inputs.radio(tours, {format: (d) => (d.e.tour === 1 ? "1er tour" : "2nd tour"), value: tours[0]}));
+const choix = view(puces(tours, {format: (d) => (d.e.tour === 1 ? "1er tour" : "2nd tour"), value: tours[0]}));
 ```
 
 ```js

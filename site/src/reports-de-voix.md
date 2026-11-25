@@ -5,6 +5,7 @@ toc: false
 
 ```js
 import {couleur} from "./components/familles.js";
+import {puces} from "./components/choix.js";
 
 const tous = FileAttachment("data/reports.json").json();
 ```
@@ -19,7 +20,7 @@ if (!annees.length) display(html`<div class="note">Les reports ne sont pas encor
 ```
 
 ```js
-const annee = view(Inputs.radio(annees, {label: "Présidentielle", value: annees.at(-1)}));
+const annee = view(puces(annees, {label: "Présidentielle", value: annees.at(-1)}));
 ```
 
 ```js

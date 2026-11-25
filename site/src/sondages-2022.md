@@ -6,6 +6,7 @@ toc: false
 ```js
 import {fmtPct} from "./components/elections.js";
 import {couleur} from "./components/familles.js";
+import {puces} from "./components/choix.js";
 
 const s = FileAttachment("data/sondages-2022.json").json();
 ```
@@ -44,49 +45,15 @@ const nomDeFamille = (nom) => (nom.match(/(?:\s[A-ZÀ-Ý'-]{2,})+$/)?.[0] ?? nom
 ```
 
 ```js
-const choisis = view(choixCandidats(t1, cles1, cles1.slice(0, 5)));
+const choisis = view(puces(cles1, {multiple: true, value: cles1.slice(0, 5),
+  format: (k) => nomDeFamille(t1.candidats[k].nom),
+  detail: (k) => `${t1.candidats[k].pct.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`,
+  couleur: (k) => couleur(t1.candidats[k].famille, dark),
+  raccourcis: [{label: "Top 5", valeur: cles1.slice(0, 5)}, {label: "Tous", valeur: cles1}]}));
 ```
 
 ```js
 display(graphiqueSondages(t1, choisis, {titre: "Sondages de l'élection présidentielle 2022 — 1er tour", sousTitre: "Moyenne lissée des sondages, tous instituts confondus. Les losanges sont les résultats officiels."}));
-```
-
-```js
-// Sélecteur de candidats en pastilles cliquables (compatible avec view() : propriété value + événement input)
-function choixCandidats(tour, cles, depart) {
-  const nom = (k) => nomDeFamille(tour.candidats[k].nom);
-  const clair = (hex) => {
-    const [r, g, b] = hex.match(/\w\w/g).map((h) => parseInt(h, 16) / 255);
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.55;
-  };
-  const actifs = new Set(depart);
-  const racine = html`<div class="choix-candidats">
-    <div class="raccourcis"><button type="button" data-r="top">Top 5</button><button type="button" data-r="tous">Tous</button></div>
-    <div class="puces">${cles.map((k) => {
-      const c = couleur(tour.candidats[k].famille, dark);
-      return html`<button type="button" class="puce" data-k="${k}" style="--c:${c};--t:${clair(c) ? "#1b1b1b" : "#fff"}">
-        <span class="n">${nom(k)}</span><span class="s">${tour.candidats[k].pct.toLocaleString("fr-FR", {minimumFractionDigits: 1, maximumFractionDigits: 1})} %</span>
-      </button>`;
-    })}</div>
-  </div>`;
-  const maj = () => {
-    for (const b of racine.querySelectorAll(".puce")) b.classList.toggle("on", actifs.has(b.dataset.k));
-    racine.value = cles.filter((k) => actifs.has(k));
-    racine.dispatchEvent(new Event("input", {bubbles: true}));
-  };
-  racine.addEventListener("click", (e) => {
-    const b = e.target.closest("button");
-    if (!b) return;
-    if (b.dataset.r === "top") { actifs.clear(); cles.slice(0, 5).forEach((k) => actifs.add(k)); }
-    else if (b.dataset.r === "tous") cles.forEach((k) => actifs.add(k));
-    else if (actifs.has(b.dataset.k)) { if (actifs.size > 1) actifs.delete(b.dataset.k); }
-    else actifs.add(b.dataset.k);
-    maj();
-  });
-  for (const b of racine.querySelectorAll(".puce")) b.classList.toggle("on", actifs.has(b.dataset.k));
-  racine.value = cles.filter((k) => actifs.has(k));
-  return racine;
-}
 ```
 
 ```js
