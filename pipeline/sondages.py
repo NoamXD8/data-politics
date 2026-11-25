@@ -4,7 +4,11 @@ Usage : python -m pipeline.sondages   (après python -m pipeline.build ; --force
 
 Sources (téléchargées dans data/raw) :
 - 2022 : NSPPolls (https://github.com/nsppolls/nsppolls), licence MIT, 1er et 2nd tours.
-- 2017 : Léopold Mebazaa (https://github.com/lemeb/presidentielle), licence MIT, 1er tour seulement.
+- 2017 : Léopold Mebazaa (https://github.com/lemeb/presidentielle), licence MIT, pour le 1er tour ;
+  Wikipédia pour le 2nd tour.
+- 2012 : Wikipédia, 1er et 2nd tours.
+  Les tableaux Wikipédia (CC BY-SA 4.0) sont extraits une fois pour toutes dans data/sondages/*.csv
+  (versionnés) : la mise en page de Wikipédia change trop souvent pour un téléchargement automatique.
 - 2027 : « 2027 et moi » (https://github.com/2027etmoi/2027etmoi), Licence Ouverte 2.0, 1er tour,
   chaque sondage vérifié sur sa notice à la Commission des sondages.
 Les résultats officiels viennent de data/processed (pipeline.build).
@@ -31,6 +35,10 @@ URL_2017 = "https://raw.githubusercontent.com/lemeb/presidentielle/master/data/s
 FICHIER_2017 = RAW_DIR / "sondages-2017-lemeb.csv"
 URL_2027 = "https://raw.githubusercontent.com/2027etmoi/2027etmoi/main/data/"
 DOSSIER_2027 = RAW_DIR / "2027etmoi"
+WIKI = Path(__file__).resolve().parent.parent / "data" / "sondages"
+WIKI_URL = "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_{}"
+INSTITUTS = {"Ispos": "Ipsos", "Cevipof Ipsos-Sopra Steria": "Cevipof Ipsos Sopra Steria",
+             "Kantar Sofres - OnePoint": "Kantar Sofres-OnePoint"}  # coquilles et graphies variables de la source
 DEBUT = "2021-09-01"  # un scénario par sondage : celui des candidats réellement présents
 # Interdiction de publication la veille et le jour du vote : derniers sondages publiables
 DERNIER_T1, DERNIER_T2 = "2022-04-08", "2022-04-22"
@@ -135,9 +143,14 @@ def sondages(d: pd.DataFrame) -> list:
             for sid, g in d.sort_values("fin_enquete").groupby("id", sort=False)]
 
 
-def tour_avec_resultats(d: pd.DataFrame, res: dict, dernier: str, vote: str, h: float = 8.0, finale: bool = True) -> dict:
-    """Bloc d'un tour déjà joué : sondages, tendances, précision des instituts, moyenne finale."""
-    dernier_id = d.sort_values("fin_enquete").groupby("nom_institut")["id"].last()
+def tour_avec_resultats(d: pd.DataFrame, res: dict, dernier: str, vote: str, h: float = 8.0, finale: bool = True,
+                        classement_depuis: str | None = None) -> dict:
+    """Bloc d'un tour déjà joué : sondages, tendances, précision des instituts, moyenne finale.
+
+    classement_depuis : pour le 2nd tour, seuls les instituts ayant sondé après le 1er tour sont classés
+    (un duel testé des semaines avant ne se compare pas au résultat)."""
+    recents = d if classement_depuis is None else d[d["fin_enquete"] >= classement_depuis]
+    dernier_id = recents.sort_values("fin_enquete").groupby("nom_institut")["id"].last()
     derniers = d[d["id"].isin(dernier_id)]
     bloc = {"candidats": res, "sondages": sondages(d), "dernier_jour": dernier, "vote": vote,
             "tendances": {k: tendance(g, dernier, h) for k, g in d.groupby("cle")},
@@ -169,11 +182,47 @@ def annee_2022(processed_dir, force=False) -> dict:
                    "reference": "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2022"},
         "methode": "Pour un même sondage testant plusieurs hypothèses de candidatures, on garde celle qui correspond aux candidats réellement présents.",
         "t1": tour_avec_resultats(t1, res1, DERNIER_T1, "2022-04-10"),
-        "t2": {**tour_avec_resultats(t2, res2, DERNIER_T2, "2022-04-24", finale=False), "debut_graphique": "2022-02-01"},
+        "t2": {**tour_avec_resultats(t2, res2, DERNIER_T2, "2022-04-24", finale=False, classement_depuis="2022-04-10"), "debut_graphique": "2022-02-01"},
     }
 
 
-# ---------------------------------------------------------------- 2017 (lemeb/presidentielle)
+# ---------------------------------------------------------------- Tableaux extraits de Wikipédia
+
+def wikipedia(nom_fichier: str, res: dict, dernier: str) -> pd.DataFrame:
+    """CSV large (fin;institut;echantillon;candidat…) → format long, une ligne par sondage et candidat."""
+    large = pd.read_csv(WIKI / nom_fichier, sep=";").drop_duplicates().reset_index(drop=True)
+    large["id"] = large["institut"] + " " + large["fin"] + " #" + large.index.astype(str)
+    long = large.melt(id_vars=["id", "fin", "institut", "echantillon"], var_name="candidat", value_name="intentions").dropna(subset=["intentions"])
+    long["cle"] = long["candidat"].map(cle)
+    inconnus = set(long["cle"]) - set(res)
+    if inconnus:
+        raise LookupError(f"{nom_fichier} : candidats absents des résultats officiels {sorted(inconnus)}")
+    long = long.rename(columns={"institut": "nom_institut", "fin": "fin_enquete"})
+    long["nom_institut"] = long["nom_institut"].replace(INSTITUTS)
+    long["echantillon"] = long["echantillon"].fillna(0)
+    long["rolling"] = False
+    return long[long["fin_enquete"] <= dernier]
+
+
+def source_wikipedia(annee) -> dict:
+    return {"nom": "Wikipédia", "url": WIKI_URL.format(annee), "licence": "CC BY-SA 4.0"}
+
+
+# ---------------------------------------------------------------- 2012 (Wikipédia)
+
+def annee_2012(processed_dir) -> dict:
+    res1, res2 = resultats(processed_dir, "2012_pres_t1"), resultats(processed_dir, "2012_pres_t2")
+    t1 = wikipedia("wikipedia-2012-t1.csv", res1, "2012-04-20")
+    t2 = wikipedia("wikipedia-2012-t2.csv", res2, "2012-05-04")
+    return {
+        "annee": 2012, "statut": "termine", "source": source_wikipedia(2012),
+        "methode": "Sondages de janvier 2012 au 1er tour, et d'intentions de vote en duel Hollande–Sarkozy depuis janvier 2011. La taille des échantillons n'est pas indiquée par la source. « < 0,5 % » est compté 0,25 %.",
+        "t1": tour_avec_resultats(t1, res1, "2012-04-20", "2012-04-22"),
+        "t2": {**tour_avec_resultats(t2, res2, "2012-05-04", "2012-05-06", h=10, finale=False, classement_depuis="2012-04-22"), "debut_graphique": "2012-01-01"},
+    }
+
+
+# ---------------------------------------------------------------- 2017 (lemeb/presidentielle + Wikipédia)
 
 COLONNES_2017 = {"Arthaud": "arthaud", "Poutou": "poutou", "Melenchon": "melenchon", "Hamon": "hamon", "Macron": "macron",
                  "Fillon": "fillon", "DupontAignan": "dupont-aignan", "Asselineau": "asselineau", "LePen": "le-pen",
@@ -194,12 +243,16 @@ def annee_2017(processed_dir, force=False) -> dict:
     long["cle"] = long["col"].map(vers_cle)
     long["rolling"] = False
     long = long[long["fin_enquete"] <= "2017-04-21"]
+    res2 = resultats(processed_dir, "2017_pres_t2")
+    t2 = wikipedia("wikipedia-2017-t2.csv", res2, "2017-05-05")
     return {
         "annee": 2017, "statut": "termine",
         "source": {"nom": "Léopold Mebazaa", "url": "https://github.com/lemeb/presidentielle", "licence": "MIT",
                    "reference": "https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2017"},
-        "methode": "Sondages publiés de décembre 2016 au 1er tour. Quand un même sondage figure plusieurs fois, on fait la moyenne. Pas de série ouverte pour le 2nd tour.",
+        "methode": "1er tour : sondages publiés de décembre 2016 au vote ; quand un même sondage figure plusieurs fois, on fait la moyenne. 2nd tour : duels Macron–Le Pen relevés sur Wikipédia, avant et après le 1er tour.",
+        "source_t2": source_wikipedia(2017),
         "t1": tour_avec_resultats(long, res1, "2017-04-21", "2017-04-23", h=10),
+        "t2": {**tour_avec_resultats(t2, res2, "2017-05-05", "2017-05-07", h=10, finale=False, classement_depuis="2017-04-23"), "debut_graphique": "2017-02-01"},
     }
 
 
@@ -261,7 +314,7 @@ def annee_2027(force=False) -> dict:
 def main(processed_dir=PROCESSED_DIR, force=False) -> None:
     sortie = {"annees": [], "genere_le": date.today().isoformat()}
     for annee, fabrique in (("2027", lambda: annee_2027(force)), ("2022", lambda: annee_2022(processed_dir, force)),
-                            ("2017", lambda: annee_2017(processed_dir, force))):
+                            ("2017", lambda: annee_2017(processed_dir, force)), ("2012", lambda: annee_2012(processed_dir))):
         try:
             bloc = fabrique()
         except (LookupError, requests.RequestException, FileNotFoundError) as e:

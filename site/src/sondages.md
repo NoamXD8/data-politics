@@ -271,12 +271,12 @@ display(Plot.plot({
   marks: [
     Plot.barX(inst1, {y: "institut", x: "erreur_moyenne", fill: (d, i) => (i === 0 ? "var(--series-1)" : "var(--theme-foreground-faint)"), rx2: 4, insetTop: 4, insetBottom: 4}),
     Plot.text(inst1, {y: "institut", x: "erreur_moyenne", text: (d) => `${d.erreur_moyenne.toLocaleString("fr-FR", {minimumFractionDigits: 2})} pt`, dx: 6, textAnchor: "start", fill: "currentColor"}),
-    Plot.tip(inst1, Plot.pointerY({y: "institut", x: "erreur_moyenne", title: (d) => `${d.institut}, sondage terminé le ${dateCourte(d.fin)} (${d.echantillon} personnes)\nErreur moyenne : ${d.erreur_moyenne.toLocaleString("fr-FR")} pt\nPlus gros écart : ${d.pire.nom} (${pts(-d.pire.ecart)} dans les urnes)`}))
+    Plot.tip(inst1, Plot.pointerY({y: "institut", x: "erreur_moyenne", title: (d) => `${d.institut}, sondage terminé le ${dateCourte(d.fin)}${d.echantillon ? ` (${d.echantillon} personnes)` : ""}\nErreur moyenne : ${d.erreur_moyenne.toLocaleString("fr-FR")} pt\nPlus gros écart : ${d.pire.nom} (${pts(-d.pire.ecart)} dans les urnes)`}))
   ]
 }));
 display(Inputs.table(inst1.map((d, i) => ({rang: i + 1, institut: d.institut, fin: d.fin, echantillon: d.echantillon, erreur: d.erreur_moyenne, pire: `${d.pire.nom} (${pts(-d.pire.ecart)})`})), {
   header: {rang: "Rang", institut: "Institut", fin: "Dernier sondage", echantillon: "Échantillon", erreur: "Erreur moyenne (pt)", pire: "Plus gros écart (résultat − sondage)"},
-  format: {fin: dateCourte, echantillon: (x) => x.toLocaleString("fr-FR"), erreur: (x) => x.toLocaleString("fr-FR", {minimumFractionDigits: 2})},
+  format: {fin: dateCourte, echantillon: (x) => (x ? x.toLocaleString("fr-FR") : "–"), erreur: (x) => x.toLocaleString("fr-FR", {minimumFractionDigits: 2})},
   layout: "auto"
 }));
 } else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
@@ -304,7 +304,7 @@ const cles2 = t2 ? ordre(t2) : [];
 if (t2) {
   display(html`<h2>Le second tour</h2>`);
   display(graphiqueSondages(t2, cles2, {titre: `Sondages de l'élection présidentielle ${annee} — 2nd tour`, sousTitre: "Intentions de vote en duel, moyenne lissée. Les losanges sont les résultats officiels.", yMin: 30,
-    reperes: [{date: t1.vote, texte: "1er tour"}], debut: t2.debut_graphique, source: e.source.nom}));
+    reperes: [{date: t1.vote, texte: "1er tour"}], debut: t2.debut_graphique, source: (e.source_t2 ?? e.source).nom}));
 } else if (!enCours) {
   display(html`<p class="note">Pas de série ouverte de sondages du 2nd tour pour ${annee} : seul le 1er tour est présenté.</p>`);
 } else display(document.createComment("")); // sans display, Framework laisse l'ancien contenu
@@ -323,5 +323,6 @@ else display(document.createComment(""));
 ## Sources
 
 ```js
-display(html`<p class="explication">Sondages ${annee} : compilation <a href="${e.source.url}" target="_blank" rel="noopener">${e.source.nom}</a> (${e.source.licence}), qui recense les sondages publiés et leurs notices.${e.source.reference ? html` Liste de référence : <a href="${e.source.reference}" target="_blank" rel="noopener">Wikipédia, Liste de sondages sur l'élection présidentielle française de ${annee}</a>.` : ""}${enCours ? "" : " Résultats : Ministère de l'Intérieur."} ${e.methode}</p>`);
+const lien = (src) => html`<a href="${src.url}" target="_blank" rel="noopener">${src.nom}</a> (${src.licence})`;
+display(html`<p class="explication">Sondages ${annee} : compilation ${lien(e.source)}${e.source_t2 ? html` pour le 1er tour, ${lien(e.source_t2)} pour le 2nd` : ""}, qui recense les sondages publiés et leurs notices.${e.source.reference ? html` Liste de référence : <a href="${e.source.reference}" target="_blank" rel="noopener">Wikipédia, Liste de sondages sur l'élection présidentielle française de ${annee}</a>.` : ""}${enCours ? "" : " Résultats : Ministère de l'Intérieur."} ${e.methode}</p>`);
 ```
